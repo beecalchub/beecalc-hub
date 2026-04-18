@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply font-body text-smoke-800 bg-comb-50;
+  }
+
+  ::selection {
+    @apply bg-honey-200 text-honey-900;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+
+  /* Hide number input spinners */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .honeycomb-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66Z' fill='none' stroke='%23F5A623' stroke-width='0.5' opacity='0.07'/%3E%3Cpath d='M28 100L0 84L0 50L28 34L56 50L56 84L28 100Z' fill='none' stroke='%23F5A623' stroke-width='0.5' opacity='0.07'/%3E%3C/svg%3E");
+    background-size: 56px 100px;
+  }
+
+  .container-page {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .card-base {
+    @apply bg-white rounded-xl border border-smoke-100 shadow-card;
+  }
+
+  .card-interactive {
+    @apply card-base transition-all duration-200 hover:shadow-card-hover hover:border-honey-200;
+  }
+
+  /* Fix #8: All buttons meet 44px minimum touch target */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-3 rounded-lg
+           bg-honey-500 text-white font-medium text-sm
+           hover:bg-honey-600 active:bg-honey-700
+           transition-colors duration-150
+           focus:outline-none focus:ring-2 focus:ring-honey-400 focus:ring-offset-2;
+    min-height: 44px;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-5 py-3 rounded-lg
+           bg-white text-honey-700 font-medium text-sm
+           border border-honey-300
+           hover:bg-honey-50 active:bg-honey-100
+           transition-colors duration-150
+           focus:outline-none focus:ring-2 focus:ring-honey-400 focus:ring-offset-2;
+    min-height: 44px;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2.5 rounded-lg
+           text-smoke-600 font-medium text-sm
+           hover:bg-smoke-50 active:bg-smoke-100
+           transition-colors duration-150
+           focus:outline-none focus:ring-2 focus:ring-smoke-300 focus:ring-offset-1;
+    min-height: 44px;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2.5 rounded-lg
+           bg-white border border-smoke-200
+           text-smoke-800 text-sm
+           placeholder:text-smoke-400
+           focus:outline-none focus:ring-2 focus:ring-honey-400 focus:border-honey-400
+           transition-colors duration-150;
+    min-height: 44px;
+  }
+
+  .label-field {
+    @apply block text-sm font-medium text-smoke-700 mb-1;
+  }
+
+  .result-value {
+    @apply text-2xl sm:text-3xl font-display text-honey-700;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
