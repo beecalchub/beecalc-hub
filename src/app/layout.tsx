@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Providers } from './providers';
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="flex-1">{children}</main>
           <Footer />
         </Providers>
+        <Analytics />
       </body>
       <GoogleAnalytics gaId="G-2CPGZ55BT9" />
     </html>
