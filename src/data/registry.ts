@@ -1,5 +1,1081 @@
 import type { CalculatorMeta } from '@/types/calculator';
 
+const SPREAD_META: Record<string, { description: string; shortDescription: string; keywords: string[]; relatedSlugs: string[] }> = {
+  "egg-to-emergence-timeline": {
+    "description": "Track the development timeline from egg to emergence for workers, drones, and queens with exact dates for each stage.",
+    "shortDescription": "Egg-to-emergence dates by caste.",
+    "keywords": [
+      "egg",
+      "emergence",
+      "timeline",
+      "development",
+      "brood",
+      "caste"
+    ],
+    "relatedSlugs": [
+      "queen-rearing-timeline",
+      "brood-area",
+      "colony-growth-projection"
+    ]
+  },
+  "swarm-risk": {
+    "description": "Score your colony swarm risk from queen cells, congestion, season, and queen age, with prioritized actions to prevent swarming.",
+    "shortDescription": "Assess swarm risk and prevent it.",
+    "keywords": [
+      "swarm",
+      "risk",
+      "queen cells",
+      "congestion",
+      "prevention"
+    ],
+    "relatedSlugs": [
+      "can-i-split-this-hive",
+      "split-planning",
+      "super-requirement"
+    ]
+  },
+  "hive-balancing": {
+    "description": "Equalize weak and strong colonies by calculating how many brood frames to transfer between them.",
+    "shortDescription": "Balance strong and weak hives.",
+    "keywords": [
+      "balance",
+      "equalize",
+      "brood",
+      "frames",
+      "transfer"
+    ],
+    "relatedSlugs": [
+      "split-planning",
+      "hive-strength-grading",
+      "colony-growth-projection"
+    ]
+  },
+  "colony-growth-projection": {
+    "description": "Project colony population growth week by week from your current bees and brood, with a configurable growth rate.",
+    "shortDescription": "Project colony population growth.",
+    "keywords": [
+      "growth",
+      "projection",
+      "population",
+      "buildup",
+      "forecast"
+    ],
+    "relatedSlugs": [
+      "hive-population-estimator",
+      "spring-buildup",
+      "nuc-build-up"
+    ]
+  },
+  "apiary-carrying-capacity": {
+    "description": "Estimate how many hives your forage area can support based on acreage, flora quality, and nearby competing colonies.",
+    "shortDescription": "How many hives your land supports.",
+    "keywords": [
+      "carrying capacity",
+      "forage",
+      "stocking",
+      "density",
+      "apiary"
+    ],
+    "relatedSlugs": [
+      "nectar-potential",
+      "land-area-coverage",
+      "bee-forage-radius"
+    ]
+  },
+  "queen-replacement-timing": {
+    "description": "Decide whether and when to replace your queen based on age, brood pattern, temperament, and honey production.",
+    "shortDescription": "When to requeen your colony.",
+    "keywords": [
+      "queen",
+      "replace",
+      "requeen",
+      "timing",
+      "brood pattern"
+    ],
+    "relatedSlugs": [
+      "queen-rearing-timeline",
+      "can-i-split-this-hive",
+      "breeder-selection-scorecard"
+    ]
+  },
+  "nuc-build-up": {
+    "description": "Project how a nucleus colony builds up week by week to fill a full box, adjusted for feeding intensity.",
+    "shortDescription": "Project nuc growth to full hive.",
+    "keywords": [
+      "nuc",
+      "buildup",
+      "growth",
+      "frames",
+      "feeding"
+    ],
+    "relatedSlugs": [
+      "split-planning",
+      "colony-growth-projection",
+      "spring-buildup"
+    ]
+  },
+  "wax-rendering-yield": {
+    "description": "Estimate clean wax yield from raw comb by rendering method and cleanliness, plus slumgum waste and value.",
+    "shortDescription": "Estimate wax rendering yield.",
+    "keywords": [
+      "wax",
+      "rendering",
+      "yield",
+      "cappings",
+      "slumgum"
+    ],
+    "relatedSlugs": [
+      "cappings-wax-yield",
+      "candle-yield",
+      "foundation-sheet-requirement"
+    ]
+  },
+  "foundation-sheet-requirement": {
+    "description": "Calculate how many foundation sheets you need across all hives, boxes, and frame sizes, with cost estimate.",
+    "shortDescription": "Foundation sheets needed and cost.",
+    "keywords": [
+      "foundation",
+      "sheets",
+      "frames",
+      "wax",
+      "requirement"
+    ],
+    "relatedSlugs": [
+      "frame-count-by-config",
+      "foundationless-frame-spacing",
+      "apiary-equipment-planner"
+    ]
+  },
+  "candle-yield": {
+    "description": "Calculate how many candles you can make from your beeswax by candle type, with wick, cost, and profit estimates.",
+    "shortDescription": "Candles from your beeswax.",
+    "keywords": [
+      "candle",
+      "wax",
+      "yield",
+      "wick",
+      "profit"
+    ],
+    "relatedSlugs": [
+      "wax-rendering-yield",
+      "lip-balm-soap-batch",
+      "cappings-wax-yield"
+    ]
+  },
+  "lip-balm-soap-batch": {
+    "description": "Scale beeswax product batches (lip balm, lotion bars, soap) with oils, essentials, cost, and profit.",
+    "shortDescription": "Scale wax product batches.",
+    "keywords": [
+      "lip balm",
+      "soap",
+      "lotion",
+      "batch",
+      "beeswax"
+    ],
+    "relatedSlugs": [
+      "candle-yield",
+      "wax-rendering-yield",
+      "batch-scaling"
+    ]
+  },
+  "propolis-yield-value": {
+    "description": "Estimate propolis harvest and value across your hives by collection method and season length.",
+    "shortDescription": "Estimate propolis yield and value.",
+    "keywords": [
+      "propolis",
+      "yield",
+      "value",
+      "trap",
+      "harvest"
+    ],
+    "relatedSlugs": [
+      "pollen-harvest",
+      "royal-jelly-production",
+      "wax-rendering-yield"
+    ]
+  },
+  "royal-jelly-production": {
+    "description": "Estimate royal jelly production from cell bars, graft counts, and acceptance rate, with seasonal value.",
+    "shortDescription": "Estimate royal jelly output.",
+    "keywords": [
+      "royal jelly",
+      "production",
+      "grafting",
+      "cells",
+      "value"
+    ],
+    "relatedSlugs": [
+      "graft-acceptance-rate",
+      "queen-rearing-timeline",
+      "pollen-harvest"
+    ]
+  },
+  "pollen-harvest": {
+    "description": "Estimate pollen trap yield across hives and season, with a warning to protect colony brood needs.",
+    "shortDescription": "Estimate pollen trap yield.",
+    "keywords": [
+      "pollen",
+      "trap",
+      "harvest",
+      "yield",
+      "protein"
+    ],
+    "relatedSlugs": [
+      "protein-need-estimator",
+      "propolis-yield-value",
+      "royal-jelly-production"
+    ]
+  },
+  "inspection-interval": {
+    "description": "Get a recommended inspection interval based on season, experience level, and whether the colony has issues.",
+    "shortDescription": "How often to inspect.",
+    "keywords": [
+      "inspection",
+      "interval",
+      "schedule",
+      "frequency",
+      "season"
+    ],
+    "relatedSlugs": [
+      "apiary-checklist-generator",
+      "inspection-note-to-score",
+      "inspection-recommendation-engine"
+    ]
+  },
+  "disease-symptom-scoring": {
+    "description": "Score observed symptoms to flag possible diseases like AFB, EFB, chalkbrood, or DWV, with recommended actions.",
+    "shortDescription": "Score disease symptoms.",
+    "keywords": [
+      "disease",
+      "symptoms",
+      "AFB",
+      "EFB",
+      "diagnosis"
+    ],
+    "relatedSlugs": [
+      "colony-health-index",
+      "deadout-analysis",
+      "queenrightness-checker"
+    ]
+  },
+  "queenrightness-checker": {
+    "description": "Determine whether your colony is queenright from eggs, larvae, queen sightings, and laying workers.",
+    "shortDescription": "Is your colony queenright?",
+    "keywords": [
+      "queenright",
+      "queenless",
+      "eggs",
+      "laying workers",
+      "diagnosis"
+    ],
+    "relatedSlugs": [
+      "queen-replacement-timing",
+      "brood-pattern-scoring",
+      "do-i-need-to-feed"
+    ]
+  },
+  "brood-pattern-scoring": {
+    "description": "Grade brood pattern quality from empty cells, capped ratio, and visual solidity to gauge queen performance.",
+    "shortDescription": "Grade brood pattern quality.",
+    "keywords": [
+      "brood",
+      "pattern",
+      "scoring",
+      "queen",
+      "solid"
+    ],
+    "relatedSlugs": [
+      "inspection-note-to-score",
+      "colony-health-index",
+      "queenrightness-checker"
+    ]
+  },
+  "colony-health-index": {
+    "description": "Combine population, brood, stores, mites, and disease into a single colony health index and grade.",
+    "shortDescription": "Overall colony health score.",
+    "keywords": [
+      "health",
+      "index",
+      "score",
+      "colony",
+      "assessment"
+    ],
+    "relatedSlugs": [
+      "inspection-note-to-score",
+      "hive-strength-grading",
+      "disease-symptom-scoring"
+    ]
+  },
+  "deadout-analysis": {
+    "description": "Diagnose the likely cause of a dead colony from cluster size, stores, mites, and other clues, with prevention tips.",
+    "shortDescription": "Diagnose why a colony died.",
+    "keywords": [
+      "deadout",
+      "dead",
+      "winter loss",
+      "diagnosis",
+      "prevention"
+    ],
+    "relatedSlugs": [
+      "colony-health-index",
+      "replacement-cost-winter-losses",
+      "overwintering-readiness"
+    ]
+  },
+  "langstroth-box-volume": {
+    "description": "Calculate the internal volume and honey capacity of Langstroth boxes by depth and frame count.",
+    "shortDescription": "Langstroth box volume and capacity.",
+    "keywords": [
+      "langstroth",
+      "box",
+      "volume",
+      "capacity",
+      "deep"
+    ],
+    "relatedSlugs": [
+      "frame-count-by-config",
+      "super-requirement",
+      "honey-settling-tank-size"
+    ]
+  },
+  "frame-count-by-config": {
+    "description": "Total the frames needed across your hives by box configuration and frame width, with cost estimate.",
+    "shortDescription": "Frames needed for your setup.",
+    "keywords": [
+      "frames",
+      "count",
+      "configuration",
+      "boxes",
+      "cost"
+    ],
+    "relatedSlugs": [
+      "foundation-sheet-requirement",
+      "apiary-equipment-planner",
+      "langstroth-box-volume"
+    ]
+  },
+  "apiary-equipment-planner": {
+    "description": "Build a complete equipment shopping list and budget scaled to your hive count and setup level.",
+    "shortDescription": "Plan and budget your equipment.",
+    "keywords": [
+      "equipment",
+      "planner",
+      "budget",
+      "shopping",
+      "setup"
+    ],
+    "relatedSlugs": [
+      "beginner-hive-setup",
+      "beekeeping-budget",
+      "frame-count-by-config"
+    ]
+  },
+  "foundationless-frame-spacing": {
+    "description": "Calculate how many foundationless frames fit a box and the ideal gap for natural comb building.",
+    "shortDescription": "Foundationless frame spacing.",
+    "keywords": [
+      "foundationless",
+      "frames",
+      "spacing",
+      "natural comb",
+      "gap"
+    ],
+    "relatedSlugs": [
+      "frame-count-by-config",
+      "foundation-sheet-requirement",
+      "langstroth-box-volume"
+    ]
+  },
+  "pallet-loading": {
+    "description": "Plan hive pallet loading and truck loads for moving colonies at commercial scale.",
+    "shortDescription": "Plan pallet and truck loads.",
+    "keywords": [
+      "pallet",
+      "loading",
+      "truck",
+      "migratory",
+      "transport"
+    ],
+    "relatedSlugs": [
+      "trailer-capacity",
+      "transport-load-pollination",
+      "pollination-deployment-planner"
+    ]
+  },
+  "trailer-capacity": {
+    "description": "Calculate how many hives fit on a trailer by dimensions and stack height, with loaded weight.",
+    "shortDescription": "Hives per trailer load.",
+    "keywords": [
+      "trailer",
+      "capacity",
+      "hives",
+      "weight",
+      "transport"
+    ],
+    "relatedSlugs": [
+      "pallet-loading",
+      "transport-load-pollination",
+      "storage-space"
+    ]
+  },
+  "storage-space": {
+    "description": "Estimate storage space needed for your beekeeping equipment by operation size.",
+    "shortDescription": "Equipment storage space needed.",
+    "keywords": [
+      "storage",
+      "space",
+      "equipment",
+      "warehouse",
+      "shed"
+    ],
+    "relatedSlugs": [
+      "apiary-equipment-planner",
+      "frame-count-by-config",
+      "inventory-value"
+    ]
+  },
+  "paint-stain-quantity": {
+    "description": "Calculate paint or stain needed to protect your hive boxes, with coats and cost.",
+    "shortDescription": "Paint or stain for your hives.",
+    "keywords": [
+      "paint",
+      "stain",
+      "protection",
+      "boxes",
+      "quantity"
+    ],
+    "relatedSlugs": [
+      "apiary-equipment-planner",
+      "nail-screw-material",
+      "frame-count-by-config"
+    ]
+  },
+  "nail-screw-material": {
+    "description": "Estimate fasteners needed to assemble your boxes and frames, with packages and cost.",
+    "shortDescription": "Fasteners for assembly.",
+    "keywords": [
+      "nails",
+      "screws",
+      "fasteners",
+      "assembly",
+      "material"
+    ],
+    "relatedSlugs": [
+      "frame-count-by-config",
+      "apiary-equipment-planner",
+      "paint-stain-quantity"
+    ]
+  },
+  "hive-stand-height-footprint": {
+    "description": "Recommend hive stand height and footprint for accessibility and spacing.",
+    "shortDescription": "Hive stand height and spacing.",
+    "keywords": [
+      "hive stand",
+      "height",
+      "footprint",
+      "ergonomics",
+      "spacing"
+    ],
+    "relatedSlugs": [
+      "apiary-layout",
+      "beginner-hive-setup",
+      "apiary-equipment-planner"
+    ]
+  },
+  "apiary-layout": {
+    "description": "Plan your apiary layout (row, pairs, horseshoe, or cluster) with space and area needed.",
+    "shortDescription": "Plan your apiary layout.",
+    "keywords": [
+      "apiary",
+      "layout",
+      "arrangement",
+      "spacing",
+      "placement"
+    ],
+    "relatedSlugs": [
+      "hive-stand-height-footprint",
+      "shade-sun-exposure",
+      "windbreak"
+    ]
+  },
+  "electric-fence-requirement": {
+    "description": "Size an electric fence for bear protection with wire strands, energizer output, and cost.",
+    "shortDescription": "Electric fence for bear protection.",
+    "keywords": [
+      "electric fence",
+      "bear",
+      "protection",
+      "wire",
+      "energizer"
+    ],
+    "relatedSlugs": [
+      "apiary-layout",
+      "windbreak",
+      "apiary-equipment-planner"
+    ]
+  },
+  "spring-buildup": {
+    "description": "Plan spring buildup feeding to reach target strength before the main flow.",
+    "shortDescription": "Plan spring buildup to flow.",
+    "keywords": [
+      "spring",
+      "buildup",
+      "feeding",
+      "flow",
+      "growth"
+    ],
+    "relatedSlugs": [
+      "do-i-need-to-feed",
+      "colony-growth-projection",
+      "main-flow-countdown"
+    ]
+  },
+  "main-flow-countdown": {
+    "description": "Count down to your main nectar flow and know when to add supers.",
+    "shortDescription": "Countdown to the main flow.",
+    "keywords": [
+      "flow",
+      "countdown",
+      "supers",
+      "timing",
+      "nectar"
+    ],
+    "relatedSlugs": [
+      "super-addition-timing",
+      "super-requirement",
+      "forage-gap"
+    ]
+  },
+  "fall-preparation": {
+    "description": "Build a fall prep checklist with stores deficit, sugar needed, and mite check reminders.",
+    "shortDescription": "Prepare colonies for winter.",
+    "keywords": [
+      "fall",
+      "preparation",
+      "winter",
+      "stores",
+      "checklist"
+    ],
+    "relatedSlugs": [
+      "overwintering-readiness",
+      "winter-stores",
+      "wrapping-insulation"
+    ]
+  },
+  "winter-loss-replacement": {
+    "description": "Estimate expected winter losses and the cost to replace them by method.",
+    "shortDescription": "Budget winter loss replacement.",
+    "keywords": [
+      "winter",
+      "loss",
+      "replacement",
+      "nucs",
+      "cost"
+    ],
+    "relatedSlugs": [
+      "replacement-cost-winter-losses",
+      "deadout-analysis",
+      "overwintering-readiness"
+    ]
+  },
+  "local-bloom-calendar": {
+    "description": "See a regional bloom calendar of key nectar sources and the main flow window.",
+    "shortDescription": "Regional bloom calendar.",
+    "keywords": [
+      "bloom",
+      "calendar",
+      "forage",
+      "nectar",
+      "region"
+    ],
+    "relatedSlugs": [
+      "forage-gap",
+      "nectar-potential",
+      "main-flow-countdown"
+    ]
+  },
+  "forage-gap": {
+    "description": "Calculate dearth periods between flows and whether feeding is needed to bridge them.",
+    "shortDescription": "Bridge the forage gap.",
+    "keywords": [
+      "forage",
+      "gap",
+      "dearth",
+      "feeding",
+      "flow"
+    ],
+    "relatedSlugs": [
+      "local-bloom-calendar",
+      "do-i-need-to-feed",
+      "spring-buildup"
+    ]
+  },
+  "super-addition-timing": {
+    "description": "Decide when to add the next super based on fill level, flow stage, and weather.",
+    "shortDescription": "When to add the next super.",
+    "keywords": [
+      "super",
+      "timing",
+      "add",
+      "flow",
+      "fill"
+    ],
+    "relatedSlugs": [
+      "super-requirement",
+      "main-flow-countdown",
+      "extraction-day-planner"
+    ]
+  },
+  "wrapping-insulation": {
+    "description": "Plan winter wrapping and insulation with target R-value and material cost by climate.",
+    "shortDescription": "Winter wrapping and insulation.",
+    "keywords": [
+      "wrapping",
+      "insulation",
+      "winter",
+      "R-value",
+      "cold"
+    ],
+    "relatedSlugs": [
+      "overwintering-readiness",
+      "ventilation",
+      "fall-preparation"
+    ]
+  },
+  "ventilation": {
+    "description": "Size hive ventilation for winter or summer by climate to manage moisture and heat.",
+    "shortDescription": "Hive ventilation sizing.",
+    "keywords": [
+      "ventilation",
+      "moisture",
+      "airflow",
+      "winter",
+      "summer"
+    ],
+    "relatedSlugs": [
+      "wrapping-insulation",
+      "overwintering-readiness",
+      "fall-preparation"
+    ]
+  },
+  "mating-window": {
+    "description": "Calculate the queen mating window from emergence date and latitude.",
+    "shortDescription": "Queen mating window dates.",
+    "keywords": [
+      "mating",
+      "window",
+      "queen",
+      "virgin",
+      "drone"
+    ],
+    "relatedSlugs": [
+      "queen-rearing-timeline",
+      "drone-saturation",
+      "graft-acceptance-rate"
+    ]
+  },
+  "drone-saturation": {
+    "description": "Estimate drone saturation for good queen mating from nearby drone colonies.",
+    "shortDescription": "Drone saturation for mating.",
+    "keywords": [
+      "drone",
+      "saturation",
+      "mating",
+      "DCA",
+      "queen"
+    ],
+    "relatedSlugs": [
+      "mating-window",
+      "queen-rearing-timeline",
+      "breeder-selection-scorecard"
+    ]
+  },
+  "queen-cage-candy": {
+    "description": "Calculate powdered sugar and honey needed to make queen cage candy plugs.",
+    "shortDescription": "Queen cage candy recipe.",
+    "keywords": [
+      "queen cage",
+      "candy",
+      "sugar",
+      "introduction",
+      "plug"
+    ],
+    "relatedSlugs": [
+      "queen-rearing-timeline",
+      "mating-window",
+      "queen-bank-capacity"
+    ]
+  },
+  "breeder-selection-scorecard": {
+    "description": "Score queens on production, temperament, mite tolerance, wintering, and buildup to pick breeders.",
+    "shortDescription": "Score queens for breeding.",
+    "keywords": [
+      "breeder",
+      "selection",
+      "scorecard",
+      "genetics",
+      "queen"
+    ],
+    "relatedSlugs": [
+      "queen-replacement-timing",
+      "inbreeding-risk-lineage",
+      "graft-acceptance-rate"
+    ]
+  },
+  "inbreeding-risk-lineage": {
+    "description": "Assess inbreeding risk from generations tracked, breeder count, and outcross frequency.",
+    "shortDescription": "Assess inbreeding risk.",
+    "keywords": [
+      "inbreeding",
+      "lineage",
+      "genetics",
+      "outcross",
+      "diversity"
+    ],
+    "relatedSlugs": [
+      "breeder-selection-scorecard",
+      "drone-saturation",
+      "queen-production-profitability"
+    ]
+  },
+  "graft-acceptance-rate": {
+    "description": "Track graft acceptance rate and get tips to improve queen-rearing success.",
+    "shortDescription": "Track graft acceptance.",
+    "keywords": [
+      "graft",
+      "acceptance",
+      "queen rearing",
+      "cells",
+      "success"
+    ],
+    "relatedSlugs": [
+      "queen-rearing-timeline",
+      "royal-jelly-production",
+      "breeder-selection-scorecard"
+    ]
+  },
+  "queen-production-profitability": {
+    "description": "Model the profitability of selling queens across a season with costs and labor.",
+    "shortDescription": "Queen-selling profitability.",
+    "keywords": [
+      "queen",
+      "production",
+      "profit",
+      "sales",
+      "business"
+    ],
+    "relatedSlugs": [
+      "apiary-profit",
+      "breeder-selection-scorecard",
+      "custom-quote-builder"
+    ]
+  },
+  "transport-load-pollination": {
+    "description": "Plan loads, weight, driving time, and fuel cost for moving hives to pollination.",
+    "shortDescription": "Plan pollination transport.",
+    "keywords": [
+      "transport",
+      "load",
+      "pollination",
+      "fuel",
+      "hives"
+    ],
+    "relatedSlugs": [
+      "pollination-deployment-planner",
+      "pallet-loading",
+      "travel-surcharge"
+    ]
+  },
+  "pollination-deployment-planner": {
+    "description": "Plan hive distribution across fields with setup days and project timeline.",
+    "shortDescription": "Plan pollination deployment.",
+    "keywords": [
+      "pollination",
+      "deployment",
+      "fields",
+      "hives",
+      "planning"
+    ],
+    "relatedSlugs": [
+      "transport-load-pollination",
+      "pollination-revenue",
+      "pollination-contract-pricing"
+    ]
+  },
+  "pollination-revenue": {
+    "description": "Calculate pollination revenue from hives deployed, per-hive rate, and crop bonuses.",
+    "shortDescription": "Calculate pollination revenue.",
+    "keywords": [
+      "pollination",
+      "revenue",
+      "contract",
+      "crops",
+      "income"
+    ],
+    "relatedSlugs": [
+      "pollination-contract-pricing",
+      "pollination-deployment-planner",
+      "custom-quote-builder"
+    ]
+  },
+  "travel-surcharge": {
+    "description": "Calculate a fair travel surcharge from mileage, rate, and fuel cost for services.",
+    "shortDescription": "Calculate a travel surcharge.",
+    "keywords": [
+      "travel",
+      "surcharge",
+      "mileage",
+      "fuel",
+      "fee"
+    ],
+    "relatedSlugs": [
+      "transport-load-pollination",
+      "custom-quote-builder",
+      "pollination-revenue"
+    ]
+  },
+  "multiple-hive-totalizer": {
+    "description": "Total harvest, cost, revenue, and profit across many hives from per-hive averages.",
+    "shortDescription": "Total your whole apiary.",
+    "keywords": [
+      "total",
+      "apiary",
+      "harvest",
+      "revenue",
+      "profit"
+    ],
+    "relatedSlugs": [
+      "yield-per-hive-benchmark",
+      "apiary-profit",
+      "apiary-kpi-dashboard"
+    ]
+  },
+  "honey-jar-case-pack": {
+    "description": "Calculate cases needed to pack your jars, with partial cases and material cost.",
+    "shortDescription": "Pack jars into cases.",
+    "keywords": [
+      "jars",
+      "case",
+      "pack",
+      "packaging",
+      "shipping"
+    ],
+    "relatedSlugs": [
+      "jar-inventory-planner",
+      "jar-label-quantity",
+      "honey-bottling"
+    ]
+  },
+  "frame-coverage-percent": {
+    "description": "Calculate what percentage of a frame is covered by bees or brood.",
+    "shortDescription": "Frame coverage percentage.",
+    "keywords": [
+      "frame",
+      "coverage",
+      "percent",
+      "bees",
+      "brood"
+    ],
+    "relatedSlugs": [
+      "brood-area",
+      "hive-population-estimator",
+      "brood-pattern-scoring"
+    ]
+  },
+  "moisture-temperature-log": {
+    "description": "Check whether honey is stable and ready to bottle from moisture and temperature readings.",
+    "shortDescription": "Log honey moisture and temp.",
+    "keywords": [
+      "moisture",
+      "temperature",
+      "honey",
+      "bottling",
+      "stable"
+    ],
+    "relatedSlugs": [
+      "honey-moisture-correction",
+      "moisture-shrink-loss",
+      "honey-bottling"
+    ]
+  },
+  "yield-per-hive-benchmark": {
+    "description": "Benchmark your per-hive yield against regional averages and see your rank.",
+    "shortDescription": "Benchmark your yield.",
+    "keywords": [
+      "yield",
+      "benchmark",
+      "average",
+      "per hive",
+      "region"
+    ],
+    "relatedSlugs": [
+      "harvest-estimator",
+      "multiple-hive-totalizer",
+      "apiary-kpi-dashboard"
+    ]
+  },
+  "inspection-recommendation-engine": {
+    "description": "Get a data-driven recommendation on whether to inspect now from timing, weather, and colony state.",
+    "shortDescription": "Should you inspect now?",
+    "keywords": [
+      "inspection",
+      "recommendation",
+      "timing",
+      "weather",
+      "decision"
+    ],
+    "relatedSlugs": [
+      "inspection-interval",
+      "apiary-checklist-generator",
+      "inspection-note-to-score"
+    ]
+  },
+  "apiary-kpi-dashboard": {
+    "description": "See key apiary KPIs (yield, profit, margin, losses, mites) and an overall health rating.",
+    "shortDescription": "Your apiary KPI dashboard.",
+    "keywords": [
+      "KPI",
+      "dashboard",
+      "metrics",
+      "profit",
+      "performance"
+    ],
+    "relatedSlugs": [
+      "multiple-hive-totalizer",
+      "apiary-comparison",
+      "yield-per-hive-benchmark"
+    ]
+  },
+  "colony-scoring-sale-value": {
+    "description": "Score a colony and estimate its fair sale value from population, queen, brood, and equipment.",
+    "shortDescription": "Value a colony for sale.",
+    "keywords": [
+      "colony",
+      "sale",
+      "value",
+      "scoring",
+      "price"
+    ],
+    "relatedSlugs": [
+      "hive-strength-grading",
+      "package-bee-vs-nuc",
+      "custom-quote-builder"
+    ]
+  },
+  "commercial-labor-scheduling": {
+    "description": "Plan crew size and days to complete tasks across many hives at commercial scale.",
+    "shortDescription": "Schedule commercial labor.",
+    "keywords": [
+      "labor",
+      "scheduling",
+      "crew",
+      "commercial",
+      "workforce"
+    ],
+    "relatedSlugs": [
+      "labor-cost",
+      "commercial-labor-scheduling",
+      "apiary-kpi-dashboard"
+    ]
+  },
+  "migratory-route-profitability": {
+    "description": "Model the profitability of a migratory route with revenue, fuel, and labor.",
+    "shortDescription": "Migratory route profitability.",
+    "keywords": [
+      "migratory",
+      "route",
+      "profit",
+      "pollination",
+      "commercial"
+    ],
+    "relatedSlugs": [
+      "pollination-revenue",
+      "transport-load-pollination",
+      "apiary-kpi-dashboard"
+    ]
+  },
+  "weather-linked-nectar-flow": {
+    "description": "Predict nectar flow strength from temperature, rainfall, and daylight conditions.",
+    "shortDescription": "Predict nectar flow by weather.",
+    "keywords": [
+      "weather",
+      "nectar",
+      "flow",
+      "prediction",
+      "forecast"
+    ],
+    "relatedSlugs": [
+      "forage-gap",
+      "main-flow-countdown",
+      "nectar-potential"
+    ]
+  },
+  "apiary-comparison": {
+    "description": "Compare two apiaries side by side on per-hive yield and losses.",
+    "shortDescription": "Compare two apiaries.",
+    "keywords": [
+      "apiary",
+      "comparison",
+      "yield",
+      "performance",
+      "benchmark"
+    ],
+    "relatedSlugs": [
+      "yield-per-hive-benchmark",
+      "apiary-kpi-dashboard",
+      "multiple-hive-totalizer"
+    ]
+  },
+  "queen-bank-capacity": {
+    "description": "Calculate how many caged queens a bank frame setup can hold and the nurse bees needed.",
+    "shortDescription": "Queen bank capacity.",
+    "keywords": [
+      "queen bank",
+      "capacity",
+      "cages",
+      "nurse bees",
+      "storage"
+    ],
+    "relatedSlugs": [
+      "queen-cage-candy",
+      "queen-rearing-timeline",
+      "queen-production-profitability"
+    ]
+  },
+  "nuc-shipment-planning": {
+    "description": "Plan nuc shipments with box type, screen area, cost, and shipping tips.",
+    "shortDescription": "Plan nuc shipments.",
+    "keywords": [
+      "nuc",
+      "shipment",
+      "shipping",
+      "boxes",
+      "planning"
+    ],
+    "relatedSlugs": [
+      "nuc-build-up",
+      "pallet-loading",
+      "custom-quote-builder"
+    ]
+  },
+  "custom-quote-builder": {
+    "description": "Build a custom service quote with base rate, travel, service fees, and suggested deposit.",
+    "shortDescription": "Build a custom service quote.",
+    "keywords": [
+      "quote",
+      "pricing",
+      "service",
+      "estimate",
+      "deposit"
+    ],
+    "relatedSlugs": [
+      "pollination-contract-pricing",
+      "travel-surcharge",
+      "pollination-revenue"
+    ]
+  }
+};
+
 export const calculatorRegistry: CalculatorMeta[] = [
   // ═══════════════════════════════════════════
   // COLONY & HIVE MANAGEMENT
@@ -80,12 +1156,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'colony-and-hive-management',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '🏠',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -406,12 +1482,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'wax-and-hive-products',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '🕯️',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -534,12 +1610,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'disease-and-inspection-support',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '🩺',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -563,12 +1639,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'equipment-and-build',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '🔨',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -589,12 +1665,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'seasonal-planning',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '📅',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -613,12 +1689,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'queen-breeding-and-genetics',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '👑',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -660,12 +1736,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'pollination-services',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '🌻',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -978,12 +2054,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'data-conversion-and-utility',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '🔄',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 
   // ═══════════════════════════════════════════
@@ -1005,12 +2081,12 @@ export const calculatorRegistry: CalculatorMeta[] = [
     title: c.title,
     categorySlug: 'advanced-premium',
     type: c.type,
-    description: `${c.title}. Free, practical beekeeping calculator.`,
-    shortDescription: `${c.title}.`,
+    description: SPREAD_META[c.slug]?.description ?? `${c.title}. Free, practical beekeeping calculator.`,
+    shortDescription: SPREAD_META[c.slug]?.shortDescription ?? `${c.title}.`,
     icon: '⚡',
     isMvp: true,
-    keywords: [c.slug.replace(/-/g, ' ')],
-    relatedSlugs: [],
+    keywords: SPREAD_META[c.slug]?.keywords ?? [c.slug.replace(/-/g, ' ')],
+    relatedSlugs: SPREAD_META[c.slug]?.relatedSlugs ?? [],
   })),
 ];
 

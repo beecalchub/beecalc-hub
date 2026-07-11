@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"startBees":10000,"startBrood":3000,"weeksToProject":1
 export function ColonyGrowthProjectionCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('colony-growth-projection', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('colony-growth-projection', [{ label: 'Final population', value: String(result.finalBees) }]);
+  const copyText = () => formatResultsForCopy('Colony Growth Projection', [{ label: 'Final population', value: String(result.finalBees) }]);
   return (
     <div className="space-y-6">
       <Card>

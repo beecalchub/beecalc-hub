@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"queensBreeding":5,"droneColoniesNearby":20,"dcaDistanceMiles":2};
 export function DroneSaturationCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('drone-saturation', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('drone-saturation', [{ label: 'Estimated drones', value: String(result.dronesEstimated) }, { label: 'Drones per queen', value: String(result.saturationRatio) }, { label: 'Adequate saturation?', value: String(result.adequate) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Drone Saturation Calculator', [{ label: 'Estimated drones', value: String(result.dronesEstimated) }, { label: 'Drones per queen', value: String(result.saturationRatio) }, { label: 'Adequate saturation?', value: String(result.adequate) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -25,8 +27,8 @@ export function DroneSaturationCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Estimated drones" value={String(result.dronesEstimated)} unit="drones" highlight />
-        <ResultRow label="Drones per queen" value={String(result.saturationRatio)} />
+        <ResultRow label="Estimated drones" value={fmt(result.dronesEstimated)} unit="drones" highlight />
+        <ResultRow label="Drones per queen" value={fmt(result.saturationRatio)} />
         <ResultRow label="Adequate saturation?" value={result.adequate ? 'Yes' : 'No'} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>

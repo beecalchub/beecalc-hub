@@ -2,6 +2,7 @@ export interface Inputs { flowStartDate: string; flowEndDate: string; todayDate:
 export interface Result { daysUntilFlow: number; daysOfFlow: number; phase: string; supersNeededNow: number; recommendation: string; }
 export function calculate(i: Inputs): Result {
   const today = new Date(i.todayDate); const start = new Date(i.flowStartDate); const end = new Date(i.flowEndDate);
+  if (isNaN(today.getTime()) || isNaN(start.getTime()) || isNaN(end.getTime())) return { daysUntilFlow: 0, daysOfFlow: 0, phase: 'Enter valid dates', supersNeededNow: i.superCount, recommendation: 'Fill in all three dates to see the countdown.' };
   const daysUntil = Math.ceil((start.getTime() - today.getTime()) / 86400000);
   const daysOf = Math.ceil((end.getTime() - start.getTime()) / 86400000);
   let phase = 'Before flow'; let supersNow = i.superCount;

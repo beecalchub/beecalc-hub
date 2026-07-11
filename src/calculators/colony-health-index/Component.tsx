@@ -15,7 +15,7 @@ const DEFAULTS: Inputs = {"population":8,"broodQuality":"good","stores":3,"mites
 export function ColonyHealthIndexCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('colony-health-index', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('colony-health-index', [{ label: 'Health Index', value: String(result.index) }, { label: 'Grade', value: String(result.grade) }]);
+  const copyText = () => formatResultsForCopy('Colony Health Index', [{ label: 'Health Index', value: String(result.index) }, { label: 'Grade', value: String(result.grade) }]);
   return (
     <div className="space-y-6">
       <Card>

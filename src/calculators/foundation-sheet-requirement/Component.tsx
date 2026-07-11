@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"broodBoxes":2,"supers":2,"frameSize":"deep"};
 export function FoundationSheetRequirementCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('foundation-sheet-requirement', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('foundation-sheet-requirement', [{ label: 'Total foundation sheets', value: String(result.totalFrames) }, { label: 'Deep sheets', value: String(result.deepSheets) }, { label: 'Medium sheets', value: String(result.mediumSheets) }, { label: 'Shallow sheets', value: String(result.shallowSheets) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
+  const copyText = () => formatResultsForCopy('Foundation Sheet Requirement', [{ label: 'Total foundation sheets', value: String(result.totalFrames) }, { label: 'Deep sheets', value: String(result.deepSheets) }, { label: 'Medium sheets', value: String(result.mediumSheets) }, { label: 'Shallow sheets', value: String(result.shallowSheets) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -31,7 +32,7 @@ export function FoundationSheetRequirementCalculator() {
         <ResultRow label="Deep sheets" value={result.deepSheets} />
         <ResultRow label="Medium sheets" value={result.mediumSheets} />
         <ResultRow label="Shallow sheets" value={result.shallowSheets} />
-        <ResultRow label="Estimated cost" value={`$${result.estimatedCost.toFixed(2)}`} highlight />
+        <ResultRow label="Estimated cost" value={formatCurrency(result.estimatedCost)} highlight />
       </ResultPanel>
     </div>
   );

@@ -9,13 +9,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"waxOz":32,"candleType":"votive","addWickCotton":true};
 export function CandleYieldCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('candle-yield', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('candle-yield', [{ label: 'Candle count', value: String(result.candleCount) }, { label: 'Wick length needed', value: String(result.wickLengthFt) }, { label: 'Material cost', value: String(result.totalCost) }, { label: 'Potential revenue', value: String(result.potentialRevenue) }, { label: 'Profit', value: String(result.profit) }]);
+  const copyText = () => formatResultsForCopy('Candle Yield Calculator', [{ label: 'Candle count', value: String(result.candleCount) }, { label: 'Wick length needed', value: String(result.wickLengthFt) }, { label: 'Material cost', value: String(result.totalCost) }, { label: 'Potential revenue', value: String(result.potentialRevenue) }, { label: 'Profit', value: String(result.profit) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -29,9 +30,9 @@ export function CandleYieldCalculator() {
       <ResultPanel>
         <ResultRow label="Candle count" value={result.candleCount} unit="candles" highlight />
         <ResultRow label="Wick length needed" value={result.wickLengthFt} unit="ft" />
-        <ResultRow label="Material cost" value={`$${result.totalCost.toFixed(2)}`} />
-        <ResultRow label="Potential revenue" value={`$${result.potentialRevenue.toFixed(2)}`} />
-        <ResultRow label="Profit" value={`$${result.profit.toFixed(2)}`} highlight />
+        <ResultRow label="Material cost" value={formatCurrency(result.totalCost)} />
+        <ResultRow label="Potential revenue" value={formatCurrency(result.potentialRevenue)} />
+        <ResultRow label="Profit" value={formatCurrency(result.profit)} highlight />
       </ResultPanel>
     </div>
   );

@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"currentStoresLbs":40,"targetStoresLbs":80,"daysUntilFirstFrost":45,"miteCheckDone":false};
 export function FallPreparationCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('fall-preparation', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('fall-preparation', [{ label: 'Stores deficit', value: String(result.storesDeficitLbs) }, { label: 'Sugar to buy', value: String(result.sugarNeededLbs) }, { label: 'Estimated cost', value: String(result.costEstimate) }, { label: 'Urgency', value: String(result.urgency) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Fall Preparation Calculator', [{ label: 'Stores deficit', value: String(result.storesDeficitLbs) }, { label: 'Sugar to buy', value: String(result.sugarNeededLbs) }, { label: 'Estimated cost', value: String(result.costEstimate) }, { label: 'Urgency', value: String(result.urgency) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -30,10 +32,10 @@ export function FallPreparationCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Stores deficit" value={String(result.storesDeficitLbs)} unit="lbs" highlight />
-        <ResultRow label="Sugar to buy" value={String(result.sugarNeededLbs)} unit="lbs" />
-        <ResultRow label="Estimated cost" value={`$${result.costEstimate.toFixed(2)}`} highlight />
-        <ResultRow label="Urgency" value={String(result.urgency)} highlight />
+        <ResultRow label="Stores deficit" value={fmt(result.storesDeficitLbs)} unit="lbs" highlight />
+        <ResultRow label="Sugar to buy" value={fmt(result.sugarNeededLbs)} unit="lbs" />
+        <ResultRow label="Estimated cost" value={formatCurrency(result.costEstimate)} highlight />
+        <ResultRow label="Urgency" value={fmt(result.urgency)} highlight />
       </ResultPanel>
       {result.checklist.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Fall Checklist</h3>
         <ul className="space-y-2" role="list">{result.checklist.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>

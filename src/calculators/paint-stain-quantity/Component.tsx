@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"boxCountPerHive":4,"coatsPerSurface":2,"surfaceType":"paint"};
 export function PaintStainQuantityCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('paint-stain-quantity', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('paint-stain-quantity', [{ label: 'Gallons needed', value: String(result.gallonsNeeded) }, { label: 'Estimated cost', value: String(result.costEstimate) }, { label: 'Total coverage', value: String(result.coverageSqFt) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Paint / Stain Quantity Calculator', [{ label: 'Gallons needed', value: String(result.gallonsNeeded) }, { label: 'Estimated cost', value: String(result.costEstimate) }, { label: 'Total coverage', value: String(result.coverageSqFt) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -27,9 +29,9 @@ export function PaintStainQuantityCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Gallons needed" value={String(result.gallonsNeeded)} unit="gal" highlight />
-        <ResultRow label="Estimated cost" value={`$${result.costEstimate.toFixed(2)}`} highlight />
-        <ResultRow label="Total coverage" value={String(result.coverageSqFt)} unit="sq ft" />
+        <ResultRow label="Gallons needed" value={fmt(result.gallonsNeeded)} unit="gal" highlight />
+        <ResultRow label="Estimated cost" value={formatCurrency(result.costEstimate)} highlight />
+        <ResultRow label="Total coverage" value={fmt(result.coverageSqFt)} unit="sq ft" />
       </ResultPanel>
     </div>
   );

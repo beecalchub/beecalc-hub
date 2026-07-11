@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"productType":"lip-balm","batchQuantity":50,"beeswaxPerUnit":0.3};
 export function LipBalmSoapBatchCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('lip-balm-soap-batch', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('lip-balm-soap-batch', [{ label: 'Total beeswax', value: String(result.totalBeeswaxOz) }, { label: 'Total oils', value: String(result.totalOilsOz) }, { label: 'Essential oils', value: String(result.totalEssentialsOz) }, { label: 'Total cost', value: String(result.totalCost) }, { label: 'Revenue', value: String(result.sellingPrice) }, { label: 'Profit', value: String(result.profit) }]);
+  const copyText = () => formatResultsForCopy('Lip Balm / Soap Batch Calculator', [{ label: 'Total beeswax', value: String(result.totalBeeswaxOz) }, { label: 'Total oils', value: String(result.totalOilsOz) }, { label: 'Essential oils', value: String(result.totalEssentialsOz) }, { label: 'Total cost', value: String(result.totalCost) }, { label: 'Revenue', value: String(result.sellingPrice) }, { label: 'Profit', value: String(result.profit) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -29,9 +30,9 @@ export function LipBalmSoapBatchCalculator() {
         <ResultRow label="Total beeswax" value={result.totalBeeswaxOz} unit="oz" highlight />
         <ResultRow label="Total oils" value={result.totalOilsOz} unit="oz" />
         <ResultRow label="Essential oils" value={result.totalEssentialsOz} unit="oz" />
-        <ResultRow label="Total cost" value={`$${result.totalCost.toFixed(2)}`} />
-        <ResultRow label="Revenue" value={`$${result.sellingPrice.toFixed(2)}`} />
-        <ResultRow label="Profit" value={`$${result.profit.toFixed(2)}`} highlight />
+        <ResultRow label="Total cost" value={formatCurrency(result.totalCost)} />
+        <ResultRow label="Revenue" value={formatCurrency(result.sellingPrice)} />
+        <ResultRow label="Profit" value={formatCurrency(result.profit)} highlight />
       </ResultPanel>
     </div>
   );

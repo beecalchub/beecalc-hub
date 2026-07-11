@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"boxWidthInches":18.375,"frameType":"standard"};
 export function FoundationlessFrameSpacingCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('foundationless-frame-spacing', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('foundationless-frame-spacing', [{ label: 'Frames that fit', value: String(result.framesFitting) }, { label: 'Gap between frames', value: String(result.spacingInches) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Foundationless Frame Spacing', [{ label: 'Frames that fit', value: String(result.framesFitting) }, { label: 'Gap between frames', value: String(result.spacingInches) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -25,8 +27,8 @@ export function FoundationlessFrameSpacingCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Frames that fit" value={String(result.framesFitting)} unit="frames" highlight />
-        <ResultRow label="Gap between frames" value={String(result.spacingInches)} unit="in" />
+        <ResultRow label="Frames that fit" value={fmt(result.framesFitting)} unit="frames" highlight />
+        <ResultRow label="Gap between frames" value={fmt(result.spacingInches)} unit="in" />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

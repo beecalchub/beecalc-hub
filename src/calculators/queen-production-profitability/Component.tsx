@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"queensPerMonth":50,"seasonMonths":5,"pricePerQueen":35,"feedCostPerQueen":2,"laborHoursPerQueen":0.5,"laborRate":25};
 export function QueenProductionProfitabilityCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('queen-production-profitability', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('queen-production-profitability', [{ label: 'Total queens', value: String(result.totalQueens) }, { label: 'Revenue', value: String(result.revenue) }, { label: 'Costs', value: String(result.costs) }, { label: 'Net profit', value: String(result.profit) }, { label: 'Profit per queen', value: String(result.profitPerQueen) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Queen Production Profitability', [{ label: 'Total queens', value: String(result.totalQueens) }, { label: 'Revenue', value: String(result.revenue) }, { label: 'Costs', value: String(result.costs) }, { label: 'Net profit', value: String(result.profit) }, { label: 'Profit per queen', value: String(result.profitPerQueen) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -28,11 +30,11 @@ export function QueenProductionProfitabilityCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Total queens" value={String(result.totalQueens)} highlight />
-        <ResultRow label="Revenue" value={`$${result.revenue.toFixed(2)}`} highlight />
-        <ResultRow label="Costs" value={`$${result.costs.toFixed(2)}`} />
-        <ResultRow label="Net profit" value={`$${result.profit.toFixed(2)}`} highlight />
-        <ResultRow label="Profit per queen" value={`$${result.profitPerQueen.toFixed(2)}`} />
+        <ResultRow label="Total queens" value={fmt(result.totalQueens)} highlight />
+        <ResultRow label="Revenue" value={formatCurrency(result.revenue)} highlight />
+        <ResultRow label="Costs" value={formatCurrency(result.costs)} />
+        <ResultRow label="Net profit" value={formatCurrency(result.profit)} highlight />
+        <ResultRow label="Profit per queen" value={formatCurrency(result.profitPerQueen)} />
       </ResultPanel>
     </div>
   );

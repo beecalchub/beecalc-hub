@@ -7,13 +7,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hivesDeployed":100,"ratePerHive":200,"crops":2,"bonusPerCrop":500};
 export function PollinationRevenueCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('pollination-revenue', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('pollination-revenue', [{ label: 'Base revenue', value: String(result.baseRevenue) }, { label: 'Bonus revenue', value: String(result.bonusRevenue) }, { label: 'Total revenue', value: String(result.totalRevenue) }, { label: 'Per hive', value: String(result.revenuePerHive) }]);
+  const copyText = () => formatResultsForCopy('Pollination Revenue Calculator', [{ label: 'Base revenue', value: String(result.baseRevenue) }, { label: 'Bonus revenue', value: String(result.bonusRevenue) }, { label: 'Total revenue', value: String(result.totalRevenue) }, { label: 'Per hive', value: String(result.revenuePerHive) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,10 +27,10 @@ export function PollinationRevenueCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Base revenue" value={`$${result.baseRevenue.toFixed(2)}`} highlight />
-        <ResultRow label="Bonus revenue" value={`$${result.bonusRevenue.toFixed(2)}`} />
-        <ResultRow label="Total revenue" value={`$${result.totalRevenue.toFixed(2)}`} highlight />
-        <ResultRow label="Per hive" value={`$${result.revenuePerHive.toFixed(2)}`} />
+        <ResultRow label="Base revenue" value={formatCurrency(result.baseRevenue)} highlight />
+        <ResultRow label="Bonus revenue" value={formatCurrency(result.bonusRevenue)} />
+        <ResultRow label="Total revenue" value={formatCurrency(result.totalRevenue)} highlight />
+        <ResultRow label="Per hive" value={formatCurrency(result.revenuePerHive)} />
       </ResultPanel>
     </div>
   );

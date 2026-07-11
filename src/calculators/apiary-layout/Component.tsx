@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":8,"arrangement":"pairs","spaceBetweenFt":6};
 export function ApiaryLayoutCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('apiary-layout', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('apiary-layout', [{ label: 'Configuration', value: String(result.configuration) }, { label: 'Total length needed', value: String(result.totalLengthFt) }, { label: 'Total area', value: String(result.totalAreaSqFt) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Apiary Layout Calculator', [{ label: 'Configuration', value: String(result.configuration) }, { label: 'Total length needed', value: String(result.totalLengthFt) }, { label: 'Total area', value: String(result.totalAreaSqFt) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,9 +28,9 @@ export function ApiaryLayoutCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Configuration" value={String(result.configuration)} highlight />
-        <ResultRow label="Total length needed" value={String(result.totalLengthFt)} unit="ft" />
-        <ResultRow label="Total area" value={String(result.totalAreaSqFt)} unit="sq ft" highlight />
+        <ResultRow label="Configuration" value={fmt(result.configuration)} highlight />
+        <ResultRow label="Total length needed" value={fmt(result.totalLengthFt)} unit="ft" />
+        <ResultRow label="Total area" value={fmt(result.totalAreaSqFt)} unit="sq ft" highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

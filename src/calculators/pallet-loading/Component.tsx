@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":48,"hivesPerPallet":4,"palletsPerTruck":12};
 export function PalletLoadingCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('pallet-loading', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('pallet-loading', [{ label: 'Pallets needed', value: String(result.palletsNeeded) }, { label: 'Trucks needed', value: String(result.trucksNeeded) }, { label: 'Hives per truck', value: String(result.hivesPerTruck) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Pallet Loading Calculator', [{ label: 'Pallets needed', value: String(result.palletsNeeded) }, { label: 'Trucks needed', value: String(result.trucksNeeded) }, { label: 'Hives per truck', value: String(result.hivesPerTruck) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,9 +28,9 @@ export function PalletLoadingCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Pallets needed" value={String(result.palletsNeeded)} unit="pallets" highlight />
-        <ResultRow label="Trucks needed" value={String(result.trucksNeeded)} unit="loads" highlight />
-        <ResultRow label="Hives per truck" value={String(result.hivesPerTruck)} />
+        <ResultRow label="Pallets needed" value={fmt(result.palletsNeeded)} unit="pallets" highlight />
+        <ResultRow label="Trucks needed" value={fmt(result.trucksNeeded)} unit="loads" highlight />
+        <ResultRow label="Hives per truck" value={fmt(result.hivesPerTruck)} />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

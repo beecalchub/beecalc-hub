@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"totalJars":240,"jarsPerCase":12,"caseType":"cardboard"};
 export function HoneyJarCasePackCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('honey-jar-case-pack', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('honey-jar-case-pack', [{ label: 'Cases needed', value: String(result.casesNeeded) }, { label: 'Partial case has', value: String(result.partialCaseJars) }, { label: 'Packaging cost', value: String(result.materialCost) }, { label: 'Stackable height', value: String(result.stackableHeight) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Honey Jar Case Pack Calculator', [{ label: 'Cases needed', value: String(result.casesNeeded) }, { label: 'Partial case has', value: String(result.partialCaseJars) }, { label: 'Packaging cost', value: String(result.materialCost) }, { label: 'Stackable height', value: String(result.stackableHeight) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,10 +28,10 @@ export function HoneyJarCasePackCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Cases needed" value={String(result.casesNeeded)} unit="cases" highlight />
-        <ResultRow label="Partial case has" value={String(result.partialCaseJars)} unit="jars" />
-        <ResultRow label="Packaging cost" value={`$${result.materialCost.toFixed(2)}`} highlight />
-        <ResultRow label="Stackable height" value={String(result.stackableHeight)} unit="cases" />
+        <ResultRow label="Cases needed" value={fmt(result.casesNeeded)} unit="cases" highlight />
+        <ResultRow label="Partial case has" value={fmt(result.partialCaseJars)} unit="jars" />
+        <ResultRow label="Packaging cost" value={formatCurrency(result.materialCost)} highlight />
+        <ResultRow label="Stackable height" value={fmt(result.stackableHeight)} unit="cases" />
       </ResultPanel>
     </div>
   );

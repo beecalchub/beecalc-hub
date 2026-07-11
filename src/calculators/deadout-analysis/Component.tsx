@@ -13,7 +13,7 @@ const DEFAULTS: Inputs = {"clusterSmall":false,"honeyRemaining":false,"deadBrood
 export function DeadoutAnalysisCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('deadout-analysis', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('deadout-analysis', [{ label: 'Likely cause', value: String(result.likelyCause) }, { label: 'Confidence', value: String(result.confidence) }]);
+  const copyText = () => formatResultsForCopy('Deadout Analysis Calculator', [{ label: 'Likely cause', value: String(result.likelyCause) }, { label: 'Confidence', value: String(result.confidence) }]);
   return (
     <div className="space-y-6">
       <Card>

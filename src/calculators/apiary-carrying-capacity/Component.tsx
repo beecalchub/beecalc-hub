@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"forageAcres":20,"floraQuality":"good","competingHives
 export function ApiaryCarryingCapacityCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('apiary-carrying-capacity', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('apiary-carrying-capacity', [{ label: 'Maximum hives supported', value: String(result.maxHives) }, { label: 'Recommended (70% capacity)', value: String(result.recommendedHives) }]);
+  const copyText = () => formatResultsForCopy('Apiary Carrying Capacity', [{ label: 'Maximum hives supported', value: String(result.maxHives) }, { label: 'Recommended (70% capacity)', value: String(result.recommendedHives) }]);
   return (
     <div className="space-y-6">
       <Card>

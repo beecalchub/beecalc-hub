@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"strongHiveBrood":8,"strongHiveBees":10,"weakHiveBrood
 export function HiveBalancingCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('hive-balancing', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('hive-balancing', [{ label: 'Transfer brood frames', value: String(result.transferBrood) }, { label: 'New strong hive brood', value: String(result.newStrongBrood) }, { label: 'New weak hive brood', value: String(result.newWeakBrood) }]);
+  const copyText = () => formatResultsForCopy('Hive Balancing Calculator', [{ label: 'Transfer brood frames', value: String(result.transferBrood) }, { label: 'New strong hive brood', value: String(result.newStrongBrood) }, { label: 'New weak hive brood', value: String(result.newWeakBrood) }]);
   return (
     <div className="space-y-6">
       <Card>

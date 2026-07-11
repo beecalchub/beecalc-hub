@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"graftsAttempted":20,"graftsAccepted":14,"larvaeAge":"under-24h","starterStrength":"strong"};
 export function GraftAcceptanceRateCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('graft-acceptance-rate', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('graft-acceptance-rate', [{ label: 'Acceptance rate', value: String(result.acceptancePercent) }, { label: 'Grade', value: String(result.grade) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Graft Acceptance Rate Calculator', [{ label: 'Acceptance rate', value: String(result.acceptancePercent) }, { label: 'Grade', value: String(result.grade) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -27,8 +29,8 @@ export function GraftAcceptanceRateCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Acceptance rate" value={String(result.acceptancePercent)} unit="%" highlight />
-        <ResultRow label="Grade" value={String(result.grade)} highlight />
+        <ResultRow label="Acceptance rate" value={fmt(result.acceptancePercent)} unit="%" highlight />
+        <ResultRow label="Grade" value={fmt(result.grade)} highlight />
       </ResultPanel>
       {result.tips.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Improvement Tips</h3>
         <ul className="space-y-2" role="list">{result.tips.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>

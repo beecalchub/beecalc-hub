@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"colonyCount":10,"expectedLossPercent":25,"replacementType":"nuc","avgPriceEach":200};
 export function WinterLossReplacementCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('winter-loss-replacement', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('winter-loss-replacement', [{ label: 'Expected losses', value: String(result.lossesExpected) }, { label: 'Replacement cost', value: String(result.replacementCost) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Winter Loss Replacement Calculator', [{ label: 'Expected losses', value: String(result.lossesExpected) }, { label: 'Replacement cost', value: String(result.replacementCost) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -27,8 +29,8 @@ export function WinterLossReplacementCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Expected losses" value={String(result.lossesExpected)} unit="colonies" highlight />
-        <ResultRow label="Replacement cost" value={`$${result.replacementCost.toFixed(2)}`} highlight />
+        <ResultRow label="Expected losses" value={fmt(result.lossesExpected)} unit="colonies" highlight />
+        <ResultRow label="Replacement cost" value={formatCurrency(result.replacementCost)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

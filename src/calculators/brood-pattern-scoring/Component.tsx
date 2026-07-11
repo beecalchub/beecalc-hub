@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"emptyCells":10,"totalCells":100,"cappedRatio":80,"sol
 export function BroodPatternScoringCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('brood-pattern-scoring', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('brood-pattern-scoring', [{ label: 'Pattern score', value: String(result.score) }, { label: 'Grade', value: String(result.grade) }, { label: 'Empty cell percentage', value: String(result.emptyPercent) }]);
+  const copyText = () => formatResultsForCopy('Brood Pattern Scoring', [{ label: 'Pattern score', value: String(result.score) }, { label: 'Grade', value: String(result.grade) }, { label: 'Empty cell percentage', value: String(result.emptyPercent) }]);
   return (
     <div className="space-y-6">
       <Card>

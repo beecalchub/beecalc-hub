@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"apiary1Hives":10,"apiary1Yield":600,"apiary1Losses":1,"apiary2Hives":10,"apiary2Yield":450,"apiary2Losses":3};
 export function ApiaryComparisonCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('apiary-comparison', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('apiary-comparison', [{ label: 'Apiary 1 per hive', value: String(result.apiary1PerHive) }, { label: 'Apiary 2 per hive', value: String(result.apiary2PerHive) }, { label: 'Better apiary', value: String(result.betterApiary) }, { label: 'Yield difference', value: String(result.yieldDifference) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Apiary Comparison Calculator', [{ label: 'Apiary 1 per hive', value: String(result.apiary1PerHive) }, { label: 'Apiary 2 per hive', value: String(result.apiary2PerHive) }, { label: 'Better apiary', value: String(result.betterApiary) }, { label: 'Yield difference', value: String(result.yieldDifference) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -28,10 +30,10 @@ export function ApiaryComparisonCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Apiary 1 per hive" value={String(result.apiary1PerHive)} unit="lbs" highlight />
-        <ResultRow label="Apiary 2 per hive" value={String(result.apiary2PerHive)} unit="lbs" highlight />
-        <ResultRow label="Better apiary" value={String(result.betterApiary)} highlight />
-        <ResultRow label="Yield difference" value={String(result.yieldDifference)} unit="lbs" />
+        <ResultRow label="Apiary 1 per hive" value={fmt(result.apiary1PerHive)} unit="lbs" highlight />
+        <ResultRow label="Apiary 2 per hive" value={fmt(result.apiary2PerHive)} unit="lbs" highlight />
+        <ResultRow label="Better apiary" value={fmt(result.betterApiary)} highlight />
+        <ResultRow label="Yield difference" value={fmt(result.yieldDifference)} unit="lbs" />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

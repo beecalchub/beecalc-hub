@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"yourYieldLbs":500,"hiveCount":10,"region":"midwest"};
 export function YieldPerHiveBenchmarkCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('yield-per-hive-benchmark', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('yield-per-hive-benchmark', [{ label: 'Your average per hive', value: String(result.yourAverage) }, { label: 'Regional average', value: String(result.regionalAverage) }, { label: 'Percent of average', value: String(result.percentOfAverage) }, { label: 'Your rank', value: String(result.rank) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Yield Per Hive Benchmark', [{ label: 'Your average per hive', value: String(result.yourAverage) }, { label: 'Regional average', value: String(result.regionalAverage) }, { label: 'Percent of average', value: String(result.percentOfAverage) }, { label: 'Your rank', value: String(result.rank) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,10 +28,10 @@ export function YieldPerHiveBenchmarkCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Your average per hive" value={String(result.yourAverage)} unit="lbs" highlight />
-        <ResultRow label="Regional average" value={String(result.regionalAverage)} unit="lbs" />
-        <ResultRow label="Percent of average" value={String(result.percentOfAverage)} unit="%" highlight />
-        <ResultRow label="Your rank" value={String(result.rank)} highlight />
+        <ResultRow label="Your average per hive" value={fmt(result.yourAverage)} unit="lbs" highlight />
+        <ResultRow label="Regional average" value={fmt(result.regionalAverage)} unit="lbs" />
+        <ResultRow label="Percent of average" value={fmt(result.percentOfAverage)} unit="%" highlight />
+        <ResultRow label="Your rank" value={fmt(result.rank)} highlight />
       </ResultPanel>
     </div>
   );

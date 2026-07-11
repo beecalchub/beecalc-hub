@@ -13,7 +13,7 @@ const DEFAULTS: Inputs = {"deadBeesEntrance":false,"unusualSmell":false,"discolo
 export function DiseaseSymptomScoringCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('disease-symptom-scoring', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('disease-symptom-scoring', [{ label: 'Risk score', value: String(result.riskScore) }, { label: 'Level', value: String(result.level) }]);
+  const copyText = () => formatResultsForCopy('Disease Symptom Scoring', [{ label: 'Risk score', value: String(result.riskScore) }, { label: 'Level', value: String(result.level) }]);
   return (
     <div className="space-y-6">
       <Card>

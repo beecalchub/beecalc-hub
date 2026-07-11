@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"accessibilityNeeds":"medium","hiveWidthInches":16.25,"hiveDepthInches":19.875};
 export function HiveStandHeightFootprintCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('hive-stand-height-footprint', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('hive-stand-height-footprint', [{ label: 'Recommended stand height', value: String(result.recommendedHeightInches) }, { label: 'Hive footprint', value: String(result.footprintSqIn) }, { label: 'Space between hives', value: String(result.spaceBetweenInches) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Hive Stand Height & Footprint', [{ label: 'Recommended stand height', value: String(result.recommendedHeightInches) }, { label: 'Hive footprint', value: String(result.footprintSqIn) }, { label: 'Space between hives', value: String(result.spaceBetweenInches) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,9 +28,9 @@ export function HiveStandHeightFootprintCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Recommended stand height" value={String(result.recommendedHeightInches)} unit="in" highlight />
-        <ResultRow label="Hive footprint" value={String(result.footprintSqIn)} unit="sq in" />
-        <ResultRow label="Space between hives" value={String(result.spaceBetweenInches)} unit="in" />
+        <ResultRow label="Recommended stand height" value={fmt(result.recommendedHeightInches)} unit="in" highlight />
+        <ResultRow label="Hive footprint" value={fmt(result.footprintSqIn)} unit="sq in" />
+        <ResultRow label="Space between hives" value={fmt(result.spaceBetweenInches)} unit="in" />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

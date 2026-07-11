@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"region":"midwest"};
 export function LocalBloomCalendarCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('local-bloom-calendar', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('local-bloom-calendar', [{ label: 'Main flow period', value: String(result.mainFlow) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Local Bloom Calendar', [{ label: 'Main flow period', value: String(result.mainFlow) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -23,7 +25,7 @@ export function LocalBloomCalendarCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Main flow period" value={String(result.mainFlow)} highlight />
+        <ResultRow label="Main flow period" value={fmt(result.mainFlow)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
       <Card><h3 className="font-display text-base text-smoke-800 mb-3">Bloom Calendar</h3>

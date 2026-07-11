@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"season":"spring","experienceLevel":"intermediate","co
 export function InspectionIntervalCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('inspection-interval', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('inspection-interval', [{ label: 'Inspection interval', value: String(result.intervalDays) }]);
+  const copyText = () => formatResultsForCopy('Inspection Interval Calculator', [{ label: 'Inspection interval', value: String(result.intervalDays) }]);
   return (
     <div className="space-y-6">
       <Card>

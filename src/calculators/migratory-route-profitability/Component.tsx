@@ -7,13 +7,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":400,"stops":5,"totalMiles":3500,"totalRevenue":50000,"totalFuelCost":2500,"laborDays":30,"laborRate":25};
 export function MigratoryRouteProfitabilityCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('migratory-route-profitability', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('migratory-route-profitability', [{ label: 'Gross revenue', value: String(result.grossRevenue) }, { label: 'Total costs', value: String(result.totalCosts) }, { label: 'Net profit', value: String(result.netProfit) }, { label: 'Profit per hive', value: String(result.profitPerHive) }, { label: 'Profit per mile', value: String(result.profitPerMile) }]);
+  const copyText = () => formatResultsForCopy('Migratory Route Profitability', [{ label: 'Gross revenue', value: String(result.grossRevenue) }, { label: 'Total costs', value: String(result.totalCosts) }, { label: 'Net profit', value: String(result.netProfit) }, { label: 'Profit per hive', value: String(result.profitPerHive) }, { label: 'Profit per mile', value: String(result.profitPerMile) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -29,11 +30,11 @@ export function MigratoryRouteProfitabilityCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Gross revenue" value={`$${result.grossRevenue.toFixed(2)}`} highlight />
-        <ResultRow label="Total costs" value={`$${result.totalCosts.toFixed(2)}`} />
-        <ResultRow label="Net profit" value={`$${result.netProfit.toFixed(2)}`} highlight />
-        <ResultRow label="Profit per hive" value={`$${result.profitPerHive.toFixed(2)}`} />
-        <ResultRow label="Profit per mile" value={`$${result.profitPerMile.toFixed(2)}`} />
+        <ResultRow label="Gross revenue" value={formatCurrency(result.grossRevenue)} highlight />
+        <ResultRow label="Total costs" value={formatCurrency(result.totalCosts)} />
+        <ResultRow label="Net profit" value={formatCurrency(result.netProfit)} highlight />
+        <ResultRow label="Profit per hive" value={formatCurrency(result.profitPerHive)} />
+        <ResultRow label="Profit per mile" value={formatCurrency(result.profitPerMile)} />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hives":10,"avgHarvestPerHive":50,"avgCostPerHive":150,"avgRevenuePerHive":500};
 export function MultipleHiveTotalizerCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('multiple-hive-totalizer', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('multiple-hive-totalizer', [{ label: 'Total harvest', value: String(result.totalHarvest) }, { label: 'Total cost', value: String(result.totalCost) }, { label: 'Total revenue', value: String(result.totalRevenue) }, { label: 'Total profit', value: String(result.totalProfit) }, { label: 'Avg profit per hive', value: String(result.avgProfit) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Multiple-Hive Totalizer', [{ label: 'Total harvest', value: String(result.totalHarvest) }, { label: 'Total cost', value: String(result.totalCost) }, { label: 'Total revenue', value: String(result.totalRevenue) }, { label: 'Total profit', value: String(result.totalProfit) }, { label: 'Avg profit per hive', value: String(result.avgProfit) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,11 +28,11 @@ export function MultipleHiveTotalizerCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Total harvest" value={String(result.totalHarvest)} unit="lbs" highlight />
-        <ResultRow label="Total cost" value={`$${result.totalCost.toFixed(2)}`} />
-        <ResultRow label="Total revenue" value={`$${result.totalRevenue.toFixed(2)}`} highlight />
-        <ResultRow label="Total profit" value={`$${result.totalProfit.toFixed(2)}`} highlight />
-        <ResultRow label="Avg profit per hive" value={`$${result.avgProfit.toFixed(2)}`} />
+        <ResultRow label="Total harvest" value={fmt(result.totalHarvest)} unit="lbs" highlight />
+        <ResultRow label="Total cost" value={formatCurrency(result.totalCost)} />
+        <ResultRow label="Total revenue" value={formatCurrency(result.totalRevenue)} highlight />
+        <ResultRow label="Total profit" value={formatCurrency(result.totalProfit)} highlight />
+        <ResultRow label="Avg profit per hive" value={formatCurrency(result.avgProfit)} />
       </ResultPanel>
     </div>
   );

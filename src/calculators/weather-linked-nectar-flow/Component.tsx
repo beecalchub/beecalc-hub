@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"tempHighF":82,"tempLowF":62,"rainfallInches":1.2,"daylight":14};
 export function WeatherLinkedNectarFlowCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('weather-linked-nectar-flow', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('weather-linked-nectar-flow', [{ label: 'Nectar flow index', value: String(result.nectarFlowIndex) }, { label: 'Condition', value: String(result.condition) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Weather-Linked Nectar Flow Predictor', [{ label: 'Nectar flow index', value: String(result.nectarFlowIndex) }, { label: 'Condition', value: String(result.condition) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,8 +28,8 @@ export function WeatherLinkedNectarFlowCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Nectar flow index" value={String(result.nectarFlowIndex)} highlight />
-        <ResultRow label="Condition" value={String(result.condition)} highlight />
+        <ResultRow label="Nectar flow index" value={fmt(result.nectarFlowIndex)} highlight />
+        <ResultRow label="Condition" value={fmt(result.condition)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

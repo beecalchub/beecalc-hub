@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"queenAgeYears":1.5,"broodPatternQuality":"fair","temp
 export function QueenReplacementTimingCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('queen-replacement-timing', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('queen-replacement-timing', [{ label: 'Replace queen?', value: String(result.shouldReplace) }, { label: 'Urgency', value: String(result.urgency) }]);
+  const copyText = () => formatResultsForCopy('Queen Replacement Timing', [{ label: 'Replace queen?', value: String(result.shouldReplace) }, { label: 'Urgency', value: String(result.urgency) }]);
   return (
     <div className="space-y-6">
       <Card>

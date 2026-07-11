@@ -31,17 +31,20 @@ export function NumberInput({
 }: NumberInputProps) {
   const inputId = id || `input-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
-  // Fix #4: Don't coerce intermediate typing states like "3." or "" to 0
+  // Don't coerce intermediate typing states like "3." or "" to 0
+  // Clamp typed values to min/max so divisions never hit 0 or invalid ranges
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const raw = e.target.value;
       if (raw === '' || raw === '-') return;
       const parsed = parseFloat(raw);
       if (!isNaN(parsed)) {
-        onChange(parsed);
+        const lower = min !== undefined ? Math.max(min, parsed) : parsed;
+        const clamped = max !== undefined ? Math.min(max, lower) : lower;
+        onChange(clamped);
       }
     },
-    [onChange]
+    [onChange, min, max]
   );
 
   return (

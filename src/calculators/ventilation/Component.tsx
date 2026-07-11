@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"climateType":"moderate","winterOrSummer":"winter"};
 export function VentilationCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('ventilation', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('ventilation', [{ label: 'Ventilation area per hive', value: String(result.ventilationArea) }, { label: 'Recommended method', value: String(result.method) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Ventilation Calculator', [{ label: 'Ventilation area per hive', value: String(result.ventilationArea) }, { label: 'Recommended method', value: String(result.method) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,8 +28,8 @@ export function VentilationCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Ventilation area per hive" value={String(result.ventilationArea)} unit="sq in" highlight />
-        <ResultRow label="Recommended method" value={String(result.method)} />
+        <ResultRow label="Ventilation area per hive" value={fmt(result.ventilationArea)} unit="sq in" highlight />
+        <ResultRow label="Recommended method" value={fmt(result.method)} />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

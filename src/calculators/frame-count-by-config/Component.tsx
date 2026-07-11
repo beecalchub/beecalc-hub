@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hives":5,"deepBoxes":2,"mediumBoxes":2,"shallowBoxes":0,"boxWidth":10};
 export function FrameCountByConfigCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('frame-count-by-config', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('frame-count-by-config', [{ label: 'Deep frames', value: String(result.deepFrames) }, { label: 'Medium frames', value: String(result.mediumFrames) }, { label: 'Shallow frames', value: String(result.shallowFrames) }, { label: 'Total frames', value: String(result.totalFrames) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Frame Count by Configuration', [{ label: 'Deep frames', value: String(result.deepFrames) }, { label: 'Medium frames', value: String(result.mediumFrames) }, { label: 'Shallow frames', value: String(result.shallowFrames) }, { label: 'Total frames', value: String(result.totalFrames) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -28,11 +30,11 @@ export function FrameCountByConfigCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Deep frames" value={String(result.deepFrames)} />
-        <ResultRow label="Medium frames" value={String(result.mediumFrames)} />
-        <ResultRow label="Shallow frames" value={String(result.shallowFrames)} />
-        <ResultRow label="Total frames" value={String(result.totalFrames)} highlight />
-        <ResultRow label="Estimated cost" value={`$${result.estimatedCost.toFixed(2)}`} highlight />
+        <ResultRow label="Deep frames" value={fmt(result.deepFrames)} />
+        <ResultRow label="Medium frames" value={fmt(result.mediumFrames)} />
+        <ResultRow label="Shallow frames" value={fmt(result.shallowFrames)} />
+        <ResultRow label="Total frames" value={fmt(result.totalFrames)} highlight />
+        <ResultRow label="Estimated cost" value={formatCurrency(result.estimatedCost)} highlight />
       </ResultPanel>
     </div>
   );

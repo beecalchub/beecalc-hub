@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"trapDaysPerWeek":3,"seasonWeeks":8,"trapEfficiency":"medium"};
 export function PollenHarvestCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('pollen-harvest', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('pollen-harvest', [{ label: 'Grams per hive daily', value: String(result.gramsPerHiveDaily) }, { label: 'Total season yield', value: String(result.totalLbsSeason) }, { label: 'Total kilograms', value: String(result.totalKgSeason) }, { label: 'Estimated value', value: String(result.estimatedValue) }]);
+  const copyText = () => formatResultsForCopy('Pollen Harvest Calculator', [{ label: 'Grams per hive daily', value: String(result.gramsPerHiveDaily) }, { label: 'Total season yield', value: String(result.totalLbsSeason) }, { label: 'Total kilograms', value: String(result.totalKgSeason) }, { label: 'Estimated value', value: String(result.estimatedValue) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -30,7 +31,7 @@ export function PollenHarvestCalculator() {
         <ResultRow label="Grams per hive daily" value={result.gramsPerHiveDaily} unit="g" />
         <ResultRow label="Total season yield" value={result.totalLbsSeason} unit="lbs" highlight />
         <ResultRow label="Total kilograms" value={result.totalKgSeason} unit="kg" />
-        <ResultRow label="Estimated value" value={`$${result.estimatedValue.toFixed(2)}`} highlight />
+        <ResultRow label="Estimated value" value={formatCurrency(result.estimatedValue)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.warning}</div>
       </ResultPanel>
     </div>

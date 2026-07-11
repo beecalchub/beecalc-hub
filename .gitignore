@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Vercel
 .vercel
+BEECALC-HUB-INFRASTRUCTURE-LOG.md
+QA-QC-REPORT.md
+QA-FIXES-APPLIED.md

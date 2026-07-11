@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"lastInspectionDays":10,"weatherFavorable":true,"colonyHealthy":true,"swarmSeason":true};
 export function InspectionRecommendationEngineCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('inspection-recommendation-engine', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('inspection-recommendation-engine', [{ label: 'Inspect now?', value: String(result.shouldInspect) }, { label: 'Priority', value: String(result.priority) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Inspection-Based Recommendation Engine', [{ label: 'Inspect now?', value: String(result.shouldInspect) }, { label: 'Priority', value: String(result.priority) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -30,7 +32,7 @@ export function InspectionRecommendationEngineCalculator() {
       </Card>
       <ResultPanel>
         <ResultRow label="Inspect now?" value={result.shouldInspect ? 'Yes' : 'No'} highlight />
-        <ResultRow label="Priority" value={String(result.priority)} highlight />
+        <ResultRow label="Priority" value={fmt(result.priority)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
       {result.checklist.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Focus on</h3>

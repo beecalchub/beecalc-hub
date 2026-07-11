@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"framesOfBees":10,"queenYearsOld":1,"broodFrames":6,"storesFrames":3,"equipmentQuality":"good"};
 export function ColonyScoringSaleValueCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('colony-scoring-sale-value', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('colony-scoring-sale-value', [{ label: 'Colony score', value: String(result.score) }, { label: 'Estimated value', value: String(result.estimatedValue) }, { label: 'Grade', value: String(result.grade) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Colony Scoring for Sale Value', [{ label: 'Colony score', value: String(result.score) }, { label: 'Estimated value', value: String(result.estimatedValue) }, { label: 'Grade', value: String(result.grade) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -28,9 +30,9 @@ export function ColonyScoringSaleValueCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Colony score" value={String(result.score)} highlight />
-        <ResultRow label="Estimated value" value={`$${result.estimatedValue.toFixed(2)}`} highlight />
-        <ResultRow label="Grade" value={String(result.grade)} highlight />
+        <ResultRow label="Colony score" value={fmt(result.score)} highlight />
+        <ResultRow label="Estimated value" value={formatCurrency(result.estimatedValue)} highlight />
+        <ResultRow label="Grade" value={fmt(result.grade)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

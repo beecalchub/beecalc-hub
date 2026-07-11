@@ -3,7 +3,11 @@ export interface EggEmergenceResult { hatchDate: string; cappedDate: string; eme
 const PHASES = { worker: { hatch: 3, capped: 9, emerge: 21, laying: 0 }, drone: { hatch: 3, capped: 10, emerge: 24, laying: 0 }, queen: { hatch: 3, capped: 8, emerge: 16, laying: 21 } };
 function addDays(iso: string, n: number): string { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().split('T')[0]; }
 function fmt(iso: string): string { return new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+function isValidISO(iso: string): boolean { const d = new Date(iso + 'T12:00:00'); return !isNaN(d.getTime()); }
 export function calculateEggEmergence(inputs: EggEmergenceInputs): EggEmergenceResult {
+  if (!isValidISO(inputs.eggDate)) {
+    return { hatchDate: '-', cappedDate: '-', emergenceDate: '-', layingDate: '', timelineDays: [] };
+  }
   const p = PHASES[inputs.caste];
   const hatch = addDays(inputs.eggDate, p.hatch);
   const capped = addDays(inputs.eggDate, p.capped);

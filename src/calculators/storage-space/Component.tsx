@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"equipmentSet":"medium"};
 export function StorageSpaceCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('storage-space', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('storage-space', [{ label: 'Floor space needed', value: String(result.sqFtNeeded) }, { label: 'Cubic space', value: String(result.cubicFtNeeded) }, { label: 'Shelving', value: String(result.shelfingLinearFt) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Storage Space Calculator', [{ label: 'Floor space needed', value: String(result.sqFtNeeded) }, { label: 'Cubic space', value: String(result.cubicFtNeeded) }, { label: 'Shelving', value: String(result.shelfingLinearFt) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -23,9 +25,9 @@ export function StorageSpaceCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Floor space needed" value={String(result.sqFtNeeded)} unit="sq ft" highlight />
-        <ResultRow label="Cubic space" value={String(result.cubicFtNeeded)} unit="cu ft" />
-        <ResultRow label="Shelving" value={String(result.shelfingLinearFt)} unit="linear ft" />
+        <ResultRow label="Floor space needed" value={fmt(result.sqFtNeeded)} unit="sq ft" highlight />
+        <ResultRow label="Cubic space" value={fmt(result.cubicFtNeeded)} unit="cu ft" />
+        <ResultRow label="Shelving" value={fmt(result.shelfingLinearFt)} unit="linear ft" />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

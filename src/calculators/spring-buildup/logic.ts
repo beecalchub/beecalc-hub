@@ -2,6 +2,7 @@ export interface Inputs { startDate: string; currentFramesOfBees: number; target
 export interface Result { weeksUntilFlow: number; weeklyGrowthNeeded: number; feedRecommendation: string; }
 export function calculate(i: Inputs): Result {
   const start = new Date(i.startDate); const flow = new Date(i.flowStartDate);
+  if (isNaN(start.getTime()) || isNaN(flow.getTime())) return { weeksUntilFlow: 0, weeklyGrowthNeeded: 0, feedRecommendation: 'Enter valid dates to calculate.' };
   const days = Math.ceil((flow.getTime() - start.getTime()) / 86400000);
   const weeks = Math.max(1, Math.ceil(days / 7));
   const growth = Math.ceil((i.targetFramesByFlow - i.currentFramesOfBees) / weeks * 10) / 10;

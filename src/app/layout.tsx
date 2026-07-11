@@ -1,12 +1,13 @@
-import { GoogleAnalytics } from '@next/third-parties/google';
 import React from 'react';
 import type { Metadata } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Providers } from './providers';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://beecalchub.com'),
   title: {
     default: 'BeeCalc Hub - Professional Beekeeping Calculators',
     template: '%s | BeeCalc Hub',
@@ -16,6 +17,15 @@ export const metadata: Metadata = {
   keywords: ['beekeeping', 'calculator', 'apiary', 'honey', 'varroa', 'bee', 'hive management'],
   icons: {
     icon: '/favicon.svg',
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'BeeCalc Hub',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'BeeCalc Hub - Smart tools for smarter beekeeping' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.png'],
   },
 };
 

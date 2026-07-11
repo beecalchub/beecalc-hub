@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"generationsTracked":3,"breederColoniesUsed":5,"outcrossFrequency":"biennial"};
 export function InbreedingRiskLineageCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('inbreeding-risk-lineage', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('inbreeding-risk-lineage', [{ label: 'Inbreeding risk', value: String(result.inbreedingRiskPercent) }, { label: 'Risk level', value: String(result.riskLevel) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Inbreeding Risk / Lineage Tracker', [{ label: 'Inbreeding risk', value: String(result.inbreedingRiskPercent) }, { label: 'Risk level', value: String(result.riskLevel) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,8 +28,8 @@ export function InbreedingRiskLineageCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Inbreeding risk" value={String(result.inbreedingRiskPercent)} unit="%" highlight />
-        <ResultRow label="Risk level" value={String(result.riskLevel)} highlight />
+        <ResultRow label="Inbreeding risk" value={fmt(result.inbreedingRiskPercent)} unit="%" highlight />
+        <ResultRow label="Risk level" value={fmt(result.riskLevel)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

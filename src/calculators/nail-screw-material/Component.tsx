@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"boxCount":10,"boxType":"hive-body","fastenerType":"nails"};
 export function NailScrewMaterialCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('nail-screw-material', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('nail-screw-material', [{ label: 'Fasteners needed', value: String(result.fastenersNeeded) }, { label: 'Packages to buy', value: String(result.poundsOrBoxes) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Nail / Screw Material Calculator', [{ label: 'Fasteners needed', value: String(result.fastenersNeeded) }, { label: 'Packages to buy', value: String(result.poundsOrBoxes) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,9 +28,9 @@ export function NailScrewMaterialCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Fasteners needed" value={String(result.fastenersNeeded)} unit="pcs" highlight />
-        <ResultRow label="Packages to buy" value={String(result.poundsOrBoxes)} unit="boxes" />
-        <ResultRow label="Estimated cost" value={`$${result.estimatedCost.toFixed(2)}`} />
+        <ResultRow label="Fasteners needed" value={fmt(result.fastenersNeeded)} unit="pcs" highlight />
+        <ResultRow label="Packages to buy" value={fmt(result.poundsOrBoxes)} unit="boxes" />
+        <ResultRow label="Estimated cost" value={formatCurrency(result.estimatedCost)} />
       </ResultPanel>
     </div>
   );

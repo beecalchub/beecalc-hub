@@ -25,6 +25,9 @@ function addDays(date: Date, days: number): Date {
 
 export function calculateQueenTimeline(inputs: QueenTimelineInputs): QueenTimelineResult {
   const graft = new Date(inputs.graftDate + 'T12:00:00');
+  if (isNaN(graft.getTime())) {
+    return { milestones: [], totalDays: 0, earliestLayingDate: new Date() };
+  }
 
   if (inputs.method === 'graft') {
     const milestones: TimelineMilestone[] = [

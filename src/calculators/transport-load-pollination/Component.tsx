@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hivesToMove":48,"truckCapacity":48,"avgHiveWeight":120,"tripMiles":50};
 export function TransportLoadPollinationCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('transport-load-pollination', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('transport-load-pollination', [{ label: 'Loads needed', value: String(result.loadsNeeded) }, { label: 'Total weight', value: String(result.totalWeight) }, { label: 'Driving time', value: String(result.drivingTimeHours) }, { label: 'Fuel cost estimate', value: String(result.fuelCostEstimate) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Transport/Load for Pollination', [{ label: 'Loads needed', value: String(result.loadsNeeded) }, { label: 'Total weight', value: String(result.totalWeight) }, { label: 'Driving time', value: String(result.drivingTimeHours) }, { label: 'Fuel cost estimate', value: String(result.fuelCostEstimate) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,10 +28,10 @@ export function TransportLoadPollinationCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Loads needed" value={String(result.loadsNeeded)} unit="loads" highlight />
-        <ResultRow label="Total weight" value={String(result.totalWeight)} unit="lbs" />
-        <ResultRow label="Driving time" value={String(result.drivingTimeHours)} unit="hrs" />
-        <ResultRow label="Fuel cost estimate" value={`$${result.fuelCostEstimate.toFixed(2)}`} highlight />
+        <ResultRow label="Loads needed" value={fmt(result.loadsNeeded)} unit="loads" highlight />
+        <ResultRow label="Total weight" value={fmt(result.totalWeight)} unit="lbs" />
+        <ResultRow label="Driving time" value={fmt(result.drivingTimeHours)} unit="hrs" />
+        <ResultRow label="Fuel cost estimate" value={formatCurrency(result.fuelCostEstimate)} highlight />
       </ResultPanel>
     </div>
   );

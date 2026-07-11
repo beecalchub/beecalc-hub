@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hives":50,"servicesLevel":"full","distance":100,"durationDays":21};
 export function CustomQuoteBuilderCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('custom-quote-builder', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('custom-quote-builder', [{ label: 'Base quote', value: String(result.baseQuote) }, { label: 'Travel fee', value: String(result.travelFee) }, { label: 'Service fee', value: String(result.serviceFee) }, { label: 'Total quote', value: String(result.totalQuote) }, { label: 'Suggested deposit (30%)', value: String(result.depositSuggested) }]);
+  const copyText = () => formatResultsForCopy('Custom Quote Builder', [{ label: 'Base quote', value: String(result.baseQuote) }, { label: 'Travel fee', value: String(result.travelFee) }, { label: 'Service fee', value: String(result.serviceFee) }, { label: 'Total quote', value: String(result.totalQuote) }, { label: 'Suggested deposit (30%)', value: String(result.depositSuggested) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -27,11 +28,11 @@ export function CustomQuoteBuilderCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Base quote" value={`$${result.baseQuote.toFixed(2)}`} highlight />
-        <ResultRow label="Travel fee" value={`$${result.travelFee.toFixed(2)}`} />
-        <ResultRow label="Service fee" value={`$${result.serviceFee.toFixed(2)}`} />
-        <ResultRow label="Total quote" value={`$${result.totalQuote.toFixed(2)}`} highlight />
-        <ResultRow label="Suggested deposit (30%)" value={`$${result.depositSuggested.toFixed(2)}`} />
+        <ResultRow label="Base quote" value={formatCurrency(result.baseQuote)} highlight />
+        <ResultRow label="Travel fee" value={formatCurrency(result.travelFee)} />
+        <ResultRow label="Service fee" value={formatCurrency(result.serviceFee)} />
+        <ResultRow label="Total quote" value={formatCurrency(result.totalQuote)} highlight />
+        <ResultRow label="Suggested deposit (30%)" value={formatCurrency(result.depositSuggested)} />
       </ResultPanel>
     </div>
   );

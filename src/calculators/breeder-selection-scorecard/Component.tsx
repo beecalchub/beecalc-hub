@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"honeyProduction":4,"temperament":5,"mitetolerance":4,"overwintering":5,"buildup":4};
 export function BreederSelectionScorecardCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('breeder-selection-scorecard', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('breeder-selection-scorecard', [{ label: 'Breeder score', value: String(result.score) }, { label: 'Grade', value: String(result.grade) }, { label: 'Breeder-worthy?', value: String(result.breederWorthy) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Breeder Selection Scorecard', [{ label: 'Breeder score', value: String(result.score) }, { label: 'Grade', value: String(result.grade) }, { label: 'Breeder-worthy?', value: String(result.breederWorthy) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -27,8 +29,8 @@ export function BreederSelectionScorecardCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Breeder score" value={String(result.score)} highlight />
-        <ResultRow label="Grade" value={String(result.grade)} highlight />
+        <ResultRow label="Breeder score" value={fmt(result.score)} highlight />
+        <ResultRow label="Grade" value={fmt(result.grade)} highlight />
         <ResultRow label="Breeder-worthy?" value={result.breederWorthy ? 'Yes' : 'No'} />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>

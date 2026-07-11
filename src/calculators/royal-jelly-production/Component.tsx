@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"cellBarsCount":3,"graftsPerBar":15,"acceptanceRate":70,"harvestCycles":12};
 export function RoyalJellyProductionCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('royal-jelly-production', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('royal-jelly-production', [{ label: 'Total grafts', value: String(result.totalGrafts) }, { label: 'Accepted cells', value: String(result.acceptedCells) }, { label: 'Grams per harvest', value: String(result.gramsPerHarvest) }, { label: 'Total season grams', value: String(result.totalGramsSeason) }, { label: 'Estimated value', value: String(result.estimatedValue) }]);
+  const copyText = () => formatResultsForCopy('Royal Jelly Production Calculator', [{ label: 'Total grafts', value: String(result.totalGrafts) }, { label: 'Accepted cells', value: String(result.acceptedCells) }, { label: 'Grams per harvest', value: String(result.gramsPerHarvest) }, { label: 'Total season grams', value: String(result.totalGramsSeason) }, { label: 'Estimated value', value: String(result.estimatedValue) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -31,7 +32,7 @@ export function RoyalJellyProductionCalculator() {
         <ResultRow label="Accepted cells" value={result.acceptedCells} highlight />
         <ResultRow label="Grams per harvest" value={result.gramsPerHarvest} unit="g" />
         <ResultRow label="Total season grams" value={result.totalGramsSeason} unit="g" highlight />
-        <ResultRow label="Estimated value" value={`$${result.estimatedValue.toFixed(2)}`} />
+        <ResultRow label="Estimated value" value={formatCurrency(result.estimatedValue)} />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

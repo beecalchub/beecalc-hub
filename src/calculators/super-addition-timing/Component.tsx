@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"currentSuperFillPercent":60,"daysIntoFlow":10,"flowPeakIn":15,"weatherForecast":"ideal"};
 export function SuperAdditionTimingCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('super-addition-timing', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('super-addition-timing', [{ label: 'Add super now?', value: String(result.addSuperNow) }, { label: 'Days until full', value: String(result.daysToFull) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Super Addition Timing', [{ label: 'Add super now?', value: String(result.addSuperNow) }, { label: 'Days until full', value: String(result.daysToFull) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -28,7 +30,7 @@ export function SuperAdditionTimingCalculator() {
       </Card>
       <ResultPanel>
         <ResultRow label="Add super now?" value={result.addSuperNow ? 'Yes' : 'No'} highlight />
-        <ResultRow label="Days until full" value={String(result.daysToFull)} unit="days" highlight />
+        <ResultRow label="Days until full" value={fmt(result.daysToFull)} unit="days" highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

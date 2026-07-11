@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"setupLevel":"standard"};
 export function ApiaryEquipmentPlannerCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('apiary-equipment-planner', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('apiary-equipment-planner', [{ label: 'Total cost', value: String(result.totalCost) }]);
+  const copyText = () => formatResultsForCopy('Apiary Equipment Planner', [{ label: 'Total cost', value: String(result.totalCost) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -25,7 +26,7 @@ export function ApiaryEquipmentPlannerCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Total cost" value={`$${result.totalCost.toFixed(2)}`} highlight />
+        <ResultRow label="Total cost" value={formatCurrency(result.totalCost)} highlight />
       </ResultPanel>
       <Card><h3 className="font-display text-base text-smoke-800 mb-3">Equipment List</h3>
         <div className="space-y-1 max-h-80 overflow-y-auto">{result.items.map((row: Record<string, unknown>, i: number) => (

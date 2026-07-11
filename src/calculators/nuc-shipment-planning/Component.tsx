@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"nucsToShip":50,"boxType":"cardboard","shippingMethod":"freight"};
 export function NucShipmentPlanningCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('nuc-shipment-planning', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('nuc-shipment-planning', [{ label: 'Boxes needed', value: String(result.boxesNeeded) }, { label: 'Screen area', value: String(result.screenAreaSqFt) }, { label: 'Shipping cost', value: String(result.estimatedShippingCost) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Nuc Shipment Planning Calculator', [{ label: 'Boxes needed', value: String(result.boxesNeeded) }, { label: 'Screen area', value: String(result.screenAreaSqFt) }, { label: 'Shipping cost', value: String(result.estimatedShippingCost) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,9 +28,9 @@ export function NucShipmentPlanningCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Boxes needed" value={String(result.boxesNeeded)} highlight />
-        <ResultRow label="Screen area" value={String(result.screenAreaSqFt)} unit="sq ft" />
-        <ResultRow label="Shipping cost" value={`$${result.estimatedShippingCost.toFixed(2)}`} highlight />
+        <ResultRow label="Boxes needed" value={fmt(result.boxesNeeded)} highlight />
+        <ResultRow label="Screen area" value={fmt(result.screenAreaSqFt)} unit="sq ft" />
+        <ResultRow label="Shipping cost" value={formatCurrency(result.estimatedShippingCost)} highlight />
       </ResultPanel>
       {result.recommendations.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Tips</h3>
         <ul className="space-y-2" role="list">{result.recommendations.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>

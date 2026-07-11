@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"rawWaxLbs":5,"method":"hot-water","cleanliness":"medium"};
 export function WaxRenderingYieldCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('wax-rendering-yield', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('wax-rendering-yield', [{ label: 'Clean wax yield', value: String(result.cleanWaxLbs) }, { label: 'Yield percentage', value: String(result.yieldPercent) }, { label: 'Slumgum/waste', value: String(result.slumgumLbs) }, { label: 'Estimated value', value: String(result.valueEstimate) }]);
+  const copyText = () => formatResultsForCopy('Wax Rendering Yield Calculator', [{ label: 'Clean wax yield', value: String(result.cleanWaxLbs) }, { label: 'Yield percentage', value: String(result.yieldPercent) }, { label: 'Slumgum/waste', value: String(result.slumgumLbs) }, { label: 'Estimated value', value: String(result.valueEstimate) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -29,7 +30,7 @@ export function WaxRenderingYieldCalculator() {
         <ResultRow label="Clean wax yield" value={result.cleanWaxLbs} unit="lbs" highlight />
         <ResultRow label="Yield percentage" value={result.yieldPercent} unit="%" />
         <ResultRow label="Slumgum/waste" value={result.slumgumLbs} unit="lbs" />
-        <ResultRow label="Estimated value" value={`$${result.valueEstimate.toFixed(2)}`} />
+        <ResultRow label="Estimated value" value={formatCurrency(result.valueEstimate)} />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

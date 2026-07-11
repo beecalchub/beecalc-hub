@@ -13,7 +13,8 @@ export interface JarPriceResult {
 export function calculateJarPrice(inputs: JarPriceInputs): JarPriceResult {
   const { jarSizeOz, costPerJar, costOfHoneyPerLb, labelAndLidCost, sellingVenue, region, isRawUnfiltered, isVarietal, isOrganic } = inputs;
 
-  const honeyWeightLbs = jarSizeOz / 16 * 1.42; // honey is denser than water
+  // Honey jars are labeled by net WEIGHT: a "16 oz" honey jar contains 1 lb of honey
+  const honeyWeightLbs = jarSizeOz / 16;
   const honeyCost = honeyWeightLbs * costOfHoneyPerLb;
   const totalCost = costPerJar + honeyCost + labelAndLidCost;
 

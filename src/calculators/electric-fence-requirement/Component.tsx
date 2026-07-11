@@ -9,13 +9,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"perimeterFt":100,"bearPressure":"medium","hasGround":false};
 export function ElectricFenceRequirementCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('electric-fence-requirement', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('electric-fence-requirement', [{ label: 'Wire strands', value: String(result.wireStrands) }, { label: 'Total wire', value: String(result.totalWireFt) }, { label: 'Energizer output', value: String(result.energizerJoules) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Electric Fence Requirement', [{ label: 'Wire strands', value: String(result.wireStrands) }, { label: 'Total wire', value: String(result.totalWireFt) }, { label: 'Energizer output', value: String(result.energizerJoules) }, { label: 'Estimated cost', value: String(result.estimatedCost) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -29,10 +31,10 @@ export function ElectricFenceRequirementCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Wire strands" value={String(result.wireStrands)} unit="strands" highlight />
-        <ResultRow label="Total wire" value={String(result.totalWireFt)} unit="ft" />
-        <ResultRow label="Energizer output" value={String(result.energizerJoules)} unit="joules" />
-        <ResultRow label="Estimated cost" value={`$${result.estimatedCost.toFixed(2)}`} highlight />
+        <ResultRow label="Wire strands" value={fmt(result.wireStrands)} unit="strands" highlight />
+        <ResultRow label="Total wire" value={fmt(result.totalWireFt)} unit="ft" />
+        <ResultRow label="Energizer output" value={fmt(result.energizerJoules)} unit="joules" />
+        <ResultRow label="Estimated cost" value={formatCurrency(result.estimatedCost)} highlight />
       </ResultPanel>
       {result.tips.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Tips</h3>
         <ul className="space-y-2" role="list">{result.tips.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>

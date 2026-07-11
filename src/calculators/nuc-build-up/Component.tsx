@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"startingFrames":5,"weeksToBuildUp":10,"feedingIntensi
 export function NucBuildUpCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('nuc-build-up', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('nuc-build-up', [{ label: 'Final frames', value: String(result.finalFrames) }, { label: 'Ready for full hive at week', value: String(result.readyAt) }]);
+  const copyText = () => formatResultsForCopy('Nuc Build-Up Calculator', [{ label: 'Final frames', value: String(result.finalFrames) }, { label: 'Ready for full hive at week', value: String(result.readyAt) }]);
   return (
     <div className="space-y-6">
       <Card>

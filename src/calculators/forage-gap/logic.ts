@@ -2,6 +2,7 @@ export interface Inputs { lastFlowEnd: string; nextFlowStart: string; hiveCount:
 export interface Result { gapDays: number; consumptionLbs: number; deficitLbs: number; feedingRecommendation: string; }
 export function calculate(i: Inputs): Result {
   const end = new Date(i.lastFlowEnd); const next = new Date(i.nextFlowStart);
+  if (isNaN(end.getTime()) || isNaN(next.getTime())) return { gapDays: 0, consumptionLbs: 0, deficitLbs: 0, feedingRecommendation: 'Enter valid dates to calculate the gap.' };
   const days = Math.max(0, Math.ceil((next.getTime() - end.getTime()) / 86400000));
   const dailyPerHive = 0.7;
   const consumption = Math.round(days * dailyPerHive * i.hiveCount);

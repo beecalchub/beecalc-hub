@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":20,"harvestLbs":1200,"revenue":6000,"costs":2500,"lossPercent":18,"avgMiteCount":1.2};
 export function ApiaryKpiDashboardCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('apiary-kpi-dashboard', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('apiary-kpi-dashboard', [{ label: 'Overall health', value: String(result.overallHealth) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Apiary KPI Dashboard', [{ label: 'Overall health', value: String(result.overallHealth) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -28,7 +30,7 @@ export function ApiaryKpiDashboardCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Overall health" value={String(result.overallHealth)} highlight />
+        <ResultRow label="Overall health" value={fmt(result.overallHealth)} highlight />
       </ResultPanel>
       <Card><h3 className="font-display text-base text-smoke-800 mb-3">KPIs</h3>
         <div className="space-y-1 max-h-80 overflow-y-auto">{result.kpis.map((row: Record<string, unknown>, i: number) => (

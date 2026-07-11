@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"totalHives":200,"workers":3,"tasksPerDay":"moderate"};
 export function CommercialLaborSchedulingCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('commercial-labor-scheduling', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('commercial-labor-scheduling', [{ label: 'Hives per worker per day', value: String(result.hivesPerWorkerPerDay) }, { label: 'Days to complete', value: String(result.daysToComplete) }, { label: 'Total labor hours', value: String(result.laborHoursTotal) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Commercial Labor Scheduling', [{ label: 'Hives per worker per day', value: String(result.hivesPerWorkerPerDay) }, { label: 'Days to complete', value: String(result.daysToComplete) }, { label: 'Total labor hours', value: String(result.laborHoursTotal) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,9 +28,9 @@ export function CommercialLaborSchedulingCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Hives per worker per day" value={String(result.hivesPerWorkerPerDay)} highlight />
-        <ResultRow label="Days to complete" value={String(result.daysToComplete)} unit="days" highlight />
-        <ResultRow label="Total labor hours" value={String(result.laborHoursTotal)} unit="hrs" />
+        <ResultRow label="Hives per worker per day" value={fmt(result.hivesPerWorkerPerDay)} highlight />
+        <ResultRow label="Days to complete" value={fmt(result.daysToComplete)} unit="days" highlight />
+        <ResultRow label="Total labor hours" value={fmt(result.laborHoursTotal)} unit="hrs" />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

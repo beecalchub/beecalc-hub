@@ -14,7 +14,7 @@ const DEFAULTS: Inputs = {"eggsFound":true,"youngLarvae":true,"queenSeen":false,
 export function QueenrightnessCheckerCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('queenrightness-checker', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('queenrightness-checker', [{ label: 'Queenright?', value: String(result.queenright) }, { label: 'Confidence', value: String(result.confidence) }]);
+  const copyText = () => formatResultsForCopy('Queenrightness Checker', [{ label: 'Queenright?', value: String(result.queenright) }, { label: 'Confidence', value: String(result.confidence) }]);
   return (
     <div className="space-y-6">
       <Card>

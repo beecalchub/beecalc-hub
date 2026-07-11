@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"milesEachWay":100,"baseRatePerMile":0.5,"fuelPricePerGallon":4,"truckMpg":8};
 export function TravelSurchargeCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('travel-surcharge', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('travel-surcharge', [{ label: 'Round trip miles', value: String(result.roundTripMiles) }, { label: 'Fuel cost', value: String(result.fuelCost) }, { label: 'Total surcharge', value: String(result.totalSurcharge) }, { label: 'Per mile', value: String(result.perMile) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Travel Surcharge Calculator', [{ label: 'Round trip miles', value: String(result.roundTripMiles) }, { label: 'Fuel cost', value: String(result.fuelCost) }, { label: 'Total surcharge', value: String(result.totalSurcharge) }, { label: 'Per mile', value: String(result.perMile) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,10 +28,10 @@ export function TravelSurchargeCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Round trip miles" value={String(result.roundTripMiles)} unit="mi" />
-        <ResultRow label="Fuel cost" value={`$${result.fuelCost.toFixed(2)}`} />
-        <ResultRow label="Total surcharge" value={`$${result.totalSurcharge.toFixed(2)}`} highlight />
-        <ResultRow label="Per mile" value={`$${result.perMile.toFixed(2)}`} />
+        <ResultRow label="Round trip miles" value={fmt(result.roundTripMiles)} unit="mi" />
+        <ResultRow label="Fuel cost" value={formatCurrency(result.fuelCost)} />
+        <ResultRow label="Total surcharge" value={formatCurrency(result.totalSurcharge)} highlight />
+        <ResultRow label="Per mile" value={formatCurrency(result.perMile)} />
       </ResultPanel>
     </div>
   );

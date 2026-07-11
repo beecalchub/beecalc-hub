@@ -8,13 +8,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"wrapType":"foam-board","winterLowF":10,"windExposure":"moderate"};
 export function WrappingInsulationCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('wrapping-insulation', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('wrapping-insulation', [{ label: 'Total wrap area', value: String(result.wrapAreaSqFt) }, { label: 'Cost per hive', value: String(result.materialCostEach) }, { label: 'Total cost', value: String(result.totalCost) }, { label: 'Target R-value', value: String(result.rValueTarget) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Wrapping / Insulation Calculator', [{ label: 'Total wrap area', value: String(result.wrapAreaSqFt) }, { label: 'Cost per hive', value: String(result.materialCostEach) }, { label: 'Total cost', value: String(result.totalCost) }, { label: 'Target R-value', value: String(result.rValueTarget) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -27,10 +29,10 @@ export function WrappingInsulationCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Total wrap area" value={String(result.wrapAreaSqFt)} unit="sq ft" />
-        <ResultRow label="Cost per hive" value={`$${result.materialCostEach.toFixed(2)}`} />
-        <ResultRow label="Total cost" value={`$${result.totalCost.toFixed(2)}`} highlight />
-        <ResultRow label="Target R-value" value={String(result.rValueTarget)} />
+        <ResultRow label="Total wrap area" value={fmt(result.wrapAreaSqFt)} unit="sq ft" />
+        <ResultRow label="Cost per hive" value={formatCurrency(result.materialCostEach)} />
+        <ResultRow label="Total cost" value={formatCurrency(result.totalCost)} highlight />
+        <ResultRow label="Target R-value" value={fmt(result.rValueTarget)} />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
       </ResultPanel>
     </div>

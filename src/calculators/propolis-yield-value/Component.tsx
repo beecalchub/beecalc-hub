@@ -8,13 +8,14 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatCurrency } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"hiveCount":5,"trapType":"screen","collectionMonths":4};
 export function PropolisYieldValueCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('propolis-yield-value', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('propolis-yield-value', [{ label: 'Grams per hive', value: String(result.gramsPerHive) }, { label: 'Total grams', value: String(result.totalGrams) }, { label: 'Total ounces', value: String(result.totalOz) }, { label: 'Estimated value', value: String(result.estimatedValue) }]);
+  const copyText = () => formatResultsForCopy('Propolis Yield / Value Calculator', [{ label: 'Grams per hive', value: String(result.gramsPerHive) }, { label: 'Total grams', value: String(result.totalGrams) }, { label: 'Total ounces', value: String(result.totalOz) }, { label: 'Estimated value', value: String(result.estimatedValue) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -29,7 +30,7 @@ export function PropolisYieldValueCalculator() {
         <ResultRow label="Grams per hive" value={result.gramsPerHive} unit="g" highlight />
         <ResultRow label="Total grams" value={result.totalGrams} unit="g" />
         <ResultRow label="Total ounces" value={result.totalOz} unit="oz" />
-        <ResultRow label="Estimated value" value={`$${result.estimatedValue.toFixed(2)}`} highlight />
+        <ResultRow label="Estimated value" value={formatCurrency(result.estimatedValue)} highlight />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
       </ResultPanel>
     </div>

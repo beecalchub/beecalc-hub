@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"boxType":"deep","frameCount":10};
 export function LangstrothBoxVolumeCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('langstroth-box-volume', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('langstroth-box-volume', [{ label: 'Volume (cubic inches)', value: String(result.volumeCuIn) }, { label: 'Volume (liters)', value: String(result.volumeLiters) }, { label: 'Honey capacity', value: String(result.honeyCapacityLbs) }, { label: 'Full box weight', value: String(result.weightFullLbs) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Langstroth Box Volume Calculator', [{ label: 'Volume (cubic inches)', value: String(result.volumeCuIn) }, { label: 'Volume (liters)', value: String(result.volumeLiters) }, { label: 'Honey capacity', value: String(result.honeyCapacityLbs) }, { label: 'Full box weight', value: String(result.weightFullLbs) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -24,10 +26,10 @@ export function LangstrothBoxVolumeCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Volume (cubic inches)" value={String(result.volumeCuIn)} unit="in³" highlight />
-        <ResultRow label="Volume (liters)" value={String(result.volumeLiters)} unit="L" />
-        <ResultRow label="Honey capacity" value={String(result.honeyCapacityLbs)} unit="lbs" highlight />
-        <ResultRow label="Full box weight" value={String(result.weightFullLbs)} unit="lbs" />
+        <ResultRow label="Volume (cubic inches)" value={fmt(result.volumeCuIn)} unit="in³" highlight />
+        <ResultRow label="Volume (liters)" value={fmt(result.volumeLiters)} unit="L" />
+        <ResultRow label="Honey capacity" value={fmt(result.honeyCapacityLbs)} unit="lbs" highlight />
+        <ResultRow label="Full box weight" value={fmt(result.weightFullLbs)} unit="lbs" />
       </ResultPanel>
     </div>
   );

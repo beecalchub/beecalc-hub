@@ -7,13 +7,15 @@ import { ResultRow } from '@/components/calculator/ResultRow';
 import { ResetButton } from '@/components/calculator/ResetButton';
 import { CopyResultButton } from '@/components/calculator/CopyResultButton';
 import { useCalculatorInputs } from '@/hooks/useCalculatorInputs';
+import { formatNumber } from '@/lib/formatters';
 import { formatResultsForCopy } from '@/lib/clipboard';
 import { calculate, type Inputs } from './logic';
 const DEFAULTS: Inputs = {"frameLengthIn":17.625,"frameHeightIn":9,"coveredLengthIn":14,"coveredHeightIn":7};
 export function FrameCoveragePercentCalculator() {
   const [inputs, updateInputs, resetInputs] = useCalculatorInputs('frame-coverage-percent', DEFAULTS);
   const result = useMemo(() => calculate(inputs), [inputs]);
-  const copyText = () => formatResultsForCopy('frame-coverage-percent', [{ label: 'Coverage', value: String(result.coveragePercent) }, { label: 'Area covered', value: String(result.coveredSqIn) }, { label: 'Total frame area', value: String(result.totalSqIn) }]);
+  const fmt = (v: unknown): string => (typeof v === 'number' ? formatNumber(v) : String(v));
+  const copyText = () => formatResultsForCopy('Frame Coverage Percent Calculator', [{ label: 'Coverage', value: String(result.coveragePercent) }, { label: 'Area covered', value: String(result.coveredSqIn) }, { label: 'Total frame area', value: String(result.totalSqIn) }]);
   return (
     <div className="space-y-6">
       <Card>
@@ -26,9 +28,9 @@ export function FrameCoveragePercentCalculator() {
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
-        <ResultRow label="Coverage" value={String(result.coveragePercent)} unit="%" highlight />
-        <ResultRow label="Area covered" value={String(result.coveredSqIn)} unit="sq in" />
-        <ResultRow label="Total frame area" value={String(result.totalSqIn)} unit="sq in" />
+        <ResultRow label="Coverage" value={fmt(result.coveragePercent)} unit="%" highlight />
+        <ResultRow label="Area covered" value={fmt(result.coveredSqIn)} unit="sq in" />
+        <ResultRow label="Total frame area" value={fmt(result.totalSqIn)} unit="sq in" />
         <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.description}</div>
       </ResultPanel>
     </div>

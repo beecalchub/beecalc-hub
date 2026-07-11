@@ -2,7 +2,7 @@ export interface WaxMothInputs { storedCombFrames: number; storageType: 'open-ai
 export interface WaxMothResult { riskScore: number; riskLevel: string; recommendations: string[]; breakdown: Array<{ factor: string; score: number; max: number; note: string }>; }
 export function calculateWaxMothRisk(inputs: WaxMothInputs): WaxMothResult {
   const breakdown: WaxMothResult['breakdown'] = [];
-  let tempScore = inputs.avgTempF > 90 ? 25 : inputs.avgTempF > 75 ? 18 : inputs.avgTempF > 60 ? 10 : 3;
+  const tempScore = inputs.avgTempF > 90 ? 25 : inputs.avgTempF > 75 ? 18 : inputs.avgTempF > 60 ? 10 : 3;
   breakdown.push({ factor: 'Temperature', score: tempScore, max: 25, note: `${inputs.avgTempF}°F` });
   const storageScore = inputs.storageType === 'open-air' ? 25 : inputs.storageType === 'sealed-container' ? 10 : 2;
   breakdown.push({ factor: 'Storage method', score: storageScore, max: 25, note: inputs.storageType });
