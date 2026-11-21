@@ -64,6 +64,9 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-hive-700 text-center text-xs text-hive-500">
           © {new Date().getFullYear()} BeeCalc Hub. {isRu ? f.copyright : 'Free tools for beekeepers everywhere.'}
+          <span className="ml-2 text-hive-600" title={isRu ? 'Версия сайта' : 'Site version'}>
+            v{process.env.NEXT_PUBLIC_APP_VERSION}
+          </span>
         </div>
       </div>
     </footer>

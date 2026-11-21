@@ -2,6 +2,8 @@
 
 import { useT } from '@/i18n/runtime';
 import React, { useCallback } from 'react';
+import { useIsMetricSafe } from '@/context/UnitSystemContext';
+import { metricOf, roundTo } from '@/lib/autoUnits';
 
 interface NumberInputProps {
   label: string;
@@ -31,6 +33,11 @@ export function NumberInput({
   id,
 }: NumberInputProps) {
   const t = useT();
+  const isMetric = useIsMetricSafe();
+  // Auto-convert imperial-only fields: the user sees and types metric, the calculator still receives imperial
+  const conv = isMetric ? metricOf(unit) : null;
+  const shownUnit = conv ? conv.unit : unit;
+  const shownValue = conv && typeof value === 'number' && isFinite(value) ? roundTo(conv.toMetric(value), conv.decimals) : value;
   const inputId = id || `input-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   // Don't coerce intermediate typing states like "3." or "" to 0
@@ -41,29 +48,35 @@ export function NumberInput({
       if (raw === '' || raw === '-') return;
       const parsed = parseFloat(raw);
       if (!isNaN(parsed)) {
+        if (conv) {
+          const imp = conv.toImperial(parsed);
+          const lo = min !== undefined ? Math.max(min, imp) : imp;
+          onChange(max !== undefined ? Math.min(max, lo) : lo);
+          return;
+        }
         const lower = min !== undefined ? Math.max(min, parsed) : parsed;
         const clamped = max !== undefined ? Math.min(max, lower) : lower;
         onChange(clamped);
       }
     },
-    [onChange, min, max]
+    [onChange, min, max, conv]
   );
 
   return (
     <div>
       <label htmlFor={inputId} className="label-field">
         {t(label)}
-        {unit && <span className="text-smoke-400 font-normal ml-1">({t(unit)})</span>}
+        {shownUnit && <span className="text-smoke-400 font-normal ml-1">({t(shownUnit)})</span>}
       </label>
       <input
         id={inputId}
         type="number"
         inputMode="decimal"
-        value={value}
+        value={shownValue}
         onChange={handleChange}
-        min={min}
-        max={max}
-        step={step}
+        min={conv && min !== undefined ? roundTo(conv.toMetric(min), conv.decimals) : min}
+        max={conv && max !== undefined ? roundTo(conv.toMetric(max), conv.decimals) : max}
+        step={conv ? 'any' : step}
         placeholder={t(placeholder)}
         aria-invalid={error ? 'true' : undefined}
         aria-describedby={error ? `${inputId}-error` : helpText ? `${inputId}-help` : undefined}

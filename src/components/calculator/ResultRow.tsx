@@ -2,6 +2,8 @@
 
 import { useT } from '@/i18n/runtime';
 import React from 'react';
+import { useIsMetricSafe } from '@/context/UnitSystemContext';
+import { metricOf, convertDisplayValue, convertValueWithUnit } from '@/lib/autoUnits';
 
 interface ResultRowProps {
   label: string;
@@ -14,6 +16,20 @@ interface ResultRowProps {
 // Fix #13: detail renders inline, not detached. Whole row is one semantic block.
 export function ResultRow({ label, value, unit, highlight = false, detail }: ResultRowProps) {
   const t = useT();
+  const isMetric = useIsMetricSafe();
+  // Show metric automatically when the calculator itself only works in imperial units
+  if (isMetric) {
+    const conv = metricOf(unit);
+    if (conv) {
+      const converted = convertDisplayValue(value, conv);
+      if (converted !== null) {
+        value = converted;
+        unit = conv.unit;
+      }
+    } else if (!unit && typeof value === 'string') {
+      value = convertValueWithUnit(value) ?? value;
+    }
+  }
   return (
     <div
       className={`py-2.5 ${

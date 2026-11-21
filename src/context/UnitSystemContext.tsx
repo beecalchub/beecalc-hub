@@ -39,3 +39,9 @@ export function useUnitSystemContext() {
   }
   return context;
 }
+
+// Safe variant for shared UI components: returns false when rendered outside the provider.
+export function useIsMetricSafe(): boolean {
+  const context = useContext(UnitSystemContext);
+  return context ? context.isMetric : false;
+}
