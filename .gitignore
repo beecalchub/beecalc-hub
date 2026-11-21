@@ -45,3 +45,5 @@ next-env.d.ts
 BEECALC-HUB-INFRASTRUCTURE-LOG.md
 QA-QC-REPORT.md
 QA-FIXES-APPLIED.md
+*.tar.gz
+*.zip

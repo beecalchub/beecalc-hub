@@ -104,3 +104,8 @@
     text-wrap: balance;
   }
 }
+
+/* Hide the browser built-in clear button on search fields (we show our own) */
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
