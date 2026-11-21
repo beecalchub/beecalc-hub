@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import { T } from '@/i18n/runtime';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { SliderInput } from '@/components/ui/SliderInput';
 import { Card } from '@/components/ui/Card';
@@ -51,11 +52,11 @@ export function BroodAreaCalculator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <SelectInput label="Frame Type" value={frameType} onChange={(v) => setFrameType(v as 'deep' | 'medium')} options={[{ value: 'deep', label: 'Deep (Langstroth)' }, { value: 'medium', label: 'Medium' }]} />
           <div>
-            <label className="label-field">Frames with Brood</label>
+            <label className="label-field"><T v={"Frames with Brood"} /></label>
             <input type="number" value={frameCount} onChange={(e) => adjustFrameCount(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))} min={1} max={20} className="input-field" />
           </div>
         </div>
-        <p className="text-sm text-smoke-600 mb-3 font-medium">Coverage per frame (% of each side with brood):</p>
+        <p className="text-sm text-smoke-600 mb-3 font-medium"><T v={"Coverage per frame (% of each side with brood):"} /></p>
         <div className="space-y-2 max-h-64 overflow-y-auto pr-2">
           {coverages.slice(0, frameCount).map((cov, i) => (
             <SliderInput key={i} label={`Frame ${i + 1}`} value={cov} onChange={(v) => updateCoverage(i, v)} min={0} max={100} step={5} unit="%" />
@@ -68,7 +69,7 @@ export function BroodAreaCalculator() {
         <ResultRow label="Total brood cells" value={formatInteger(result.totalCells)} />
         <ResultRow label="Brood area" value={isMetric ? formatNumber(result.totalSqCm) : formatNumber(result.totalSqInches)} unit={isMetric ? 'cm²' : 'in²'} />
         <ResultRow label="Est. eggs/day" value={formatInteger(result.estimatedEggsPerDay)} />
-        <div className="mt-3 p-3 rounded-lg bg-honey-50 text-honey-800 text-sm font-medium">{result.queenRating}</div>
+        <div className="mt-3 p-3 rounded-lg bg-honey-50 text-honey-800 text-sm font-medium">{<T v={result.queenRating} />}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[
         { label: 'Cells per deep frame', value: '~7,000 (both sides)' },

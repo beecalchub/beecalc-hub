@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState, useCallback } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -33,7 +34,7 @@ export function TreatmentCostCalculator() {
       <Card>
         <NumberInput label="Number of Hives" value={hiveCount} onChange={setHiveCount} min={1} step={1} />
 
-        <p className="text-sm font-medium text-smoke-700 mt-4 mb-2">Treatment plan (toggle on/off, adjust cost):</p>
+        <p className="text-sm font-medium text-smoke-700 mt-4 mb-2"><T v={"Treatment plan (toggle on/off, adjust cost):"} /></p>
         <div className="space-y-3">
           {treatments.map((t, i) => (
             <div key={t.name} className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 bg-smoke-50 rounded-lg">
@@ -44,11 +45,11 @@ export function TreatmentCostCalculator() {
                 <div className="w-24">
                   <input type="number" value={t.costPerHive} onChange={(e) => updateTreatment(i, 'costPerHive', parseFloat(e.target.value) || 0)} className="input-field text-sm" step="0.5" min="0" disabled={!t.enabled} aria-label={`${t.name} cost per hive`} />
                 </div>
-                <span className="text-xs text-smoke-400 self-center flex-shrink-0">$/hive</span>
+                <span className="text-xs text-smoke-400 self-center flex-shrink-0"><T v={"$/hive"} /></span>
                 <div className="w-16">
                   <input type="number" value={t.roundsPerYear} onChange={(e) => updateTreatment(i, 'roundsPerYear', parseInt(e.target.value) || 1)} className="input-field text-sm" step="1" min="1" max="6" disabled={!t.enabled} aria-label={`${t.name} rounds per year`} />
                 </div>
-                <span className="text-xs text-smoke-400 self-center flex-shrink-0">rounds</span>
+                <span className="text-xs text-smoke-400 self-center flex-shrink-0"><T v={"rounds"} /></span>
               </div>
             </div>
           ))}
@@ -65,8 +66,8 @@ export function TreatmentCostCalculator() {
       </ResultPanel>
 
       <div className="text-sm text-smoke-500 bg-smoke-50 rounded-lg p-4">
-        <p className="font-medium text-smoke-700 mb-1">Example usage:</p>
-        <p>Running 10 hives with OAV in spring (3 rounds) and Formic Pro in late summer? Total treatment cost for the year is about {formatCurrency(result.totalAllHives)}.</p>
+        <p className="font-medium text-smoke-700 mb-1"><T v={"Example usage:"} /></p>
+        <p><T v={"Running 10 hives with OAV in spring (3 rounds) and Formic Pro in late summer? Total treatment cost for the year is about "} />{<T v={formatCurrency(result.totalAllHives)} />}.</p>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n/runtime';
 import React from 'react';
 
 interface CheckboxProps {
@@ -11,6 +12,7 @@ interface CheckboxProps {
 
 // Fix #10, #18: Shared checkbox with 44px minimum touch target
 export function Checkbox({ label, checked, onChange, id }: CheckboxProps) {
+  const t = useT();
   const inputId = id || `cb-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   return (
@@ -26,7 +28,7 @@ export function Checkbox({ label, checked, onChange, id }: CheckboxProps) {
         onChange={(e) => onChange(e.target.checked)}
         className="h-5 w-5 rounded border-smoke-300 text-honey-500 focus:ring-honey-400 focus:ring-2 flex-shrink-0"
       />
-      <span className="text-sm text-smoke-700">{label}</span>
+      <span className="text-sm text-smoke-700">{t(label)}</span>
     </label>
   );
 }

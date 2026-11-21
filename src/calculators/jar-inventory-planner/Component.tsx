@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -51,9 +52,9 @@ export function JarInventoryPlannerCalculator() {
         </div>
 
         <div className="mt-4 mb-2 flex items-center justify-between">
-          <p className="text-sm text-smoke-600 font-medium">Jar size distribution:</p>
+          <p className="text-sm text-smoke-600 font-medium"><T v={"Jar size distribution:"} /></p>
           {pctError ? (
-            <p className="text-xs text-red-600 font-medium" role="alert">{pctError}</p>
+            <p className="text-xs text-red-600 font-medium" role="alert">{<T v={pctError} />}</p>
           ) : (
             <p className="text-xs text-meadow-600 font-medium">✓ 100%</p>
           )}

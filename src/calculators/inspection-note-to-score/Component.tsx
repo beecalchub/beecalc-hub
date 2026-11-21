@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -39,21 +40,21 @@ export function InspectionNoteToScoreCalculator() {
       </Card>
       <ResultPanel title="Inspection Score">
         <div className="text-center mb-4">
-          <span className={`inline-flex items-center justify-center w-20 h-20 rounded-full text-3xl font-display ${gradeColors[result.grade]}`}>{result.grade}</span>
+          <span className={`inline-flex items-center justify-center w-20 h-20 rounded-full text-3xl font-display ${gradeColors[result.grade]}`}>{<T v={result.grade} />}</span>
           <p className="text-2xl font-mono font-bold text-smoke-800 mt-2">{result.totalScore}/100</p>
-          <p className="text-sm text-smoke-600 mt-1">{result.gradeLabel}</p>
+          <p className="text-sm text-smoke-600 mt-1">{<T v={result.gradeLabel} />}</p>
         </div>
         <div className="space-y-2">{result.breakdown.map((b) => (
           <div key={b.factor} className="flex items-center justify-between text-sm py-1.5 border-b border-smoke-100 last:border-0">
-            <div><span className="text-smoke-700 font-medium">{b.factor}</span><span className="text-smoke-400 ml-2 text-xs">{b.note}</span></div>
+            <div><span className="text-smoke-700 font-medium">{<T v={b.factor} />}</span><span className="text-smoke-400 ml-2 text-xs">{<T v={b.note} />}</span></div>
             <span className="font-mono text-smoke-800 flex-shrink-0 ml-2">{b.score}/{b.max}</span>
           </div>
         ))}</div>
       </ResultPanel>
-      {result.alerts.length > 0 && <Card className="border-red-200 bg-red-50"><h3 className="font-display text-base text-red-800 mb-2">Alerts</h3>
-        <ul className="space-y-1.5" role="list">{result.alerts.map((a, i) => <li key={i} className="text-sm text-red-700 flex gap-2"><span aria-hidden="true">⚠️</span>{a}</li>)}</ul></Card>}
-      {result.actions.length > 0 && <Card className="border-blue-200 bg-blue-50"><h3 className="font-display text-base text-blue-800 mb-2">Recommended Actions</h3>
-        <ul className="space-y-1.5" role="list">{result.actions.map((a, i) => <li key={i} className="text-sm text-blue-700 flex gap-2"><span aria-hidden="true">→</span>{a}</li>)}</ul></Card>}
+      {result.alerts.length > 0 && <Card className="border-red-200 bg-red-50"><h3 className="font-display text-base text-red-800 mb-2"><T v={"Alerts"} /></h3>
+        <ul className="space-y-1.5" role="list">{result.alerts.map((a, i) => <li key={i} className="text-sm text-red-700 flex gap-2"><span aria-hidden="true">⚠️</span>{<T v={a} />}</li>)}</ul></Card>}
+      {result.actions.length > 0 && <Card className="border-blue-200 bg-blue-50"><h3 className="font-display text-base text-blue-800 mb-2"><T v={"Recommended Actions"} /></h3>
+        <ul className="space-y-1.5" role="list">{result.actions.map((a, i) => <li key={i} className="text-sm text-blue-700 flex gap-2"><span aria-hidden="true">→</span>{<T v={a} />}</li>)}</ul></Card>}
     </div>
   );
 }

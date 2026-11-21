@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -28,7 +29,7 @@ export function StorageSpaceCalculator() {
         <ResultRow label="Floor space needed" value={fmt(result.sqFtNeeded)} unit="sq ft" highlight />
         <ResultRow label="Cubic space" value={fmt(result.cubicFtNeeded)} unit="cu ft" />
         <ResultRow label="Shelving" value={fmt(result.shelfingLinearFt)} unit="linear ft" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.note} />}</div>
       </ResultPanel>
     </div>
   );

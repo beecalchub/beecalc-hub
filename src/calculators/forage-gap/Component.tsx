@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -21,8 +22,8 @@ export function ForageGapCalculator() {
     <div className="space-y-6">
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div><label htmlFor="date-lastFlowEnd" className="label-field">Last Flow Ended</label><input id="date-lastFlowEnd" type="date" value={inputs.lastFlowEnd} onChange={(e) => updateInputs({ lastFlowEnd: e.target.value })} className="input-field" /></div>
-          <div><label htmlFor="date-nextFlowStart" className="label-field">Next Flow Starts</label><input id="date-nextFlowStart" type="date" value={inputs.nextFlowStart} onChange={(e) => updateInputs({ nextFlowStart: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-lastFlowEnd" className="label-field"><T v={"Last Flow Ended"} /></label><input id="date-lastFlowEnd" type="date" value={inputs.lastFlowEnd} onChange={(e) => updateInputs({ lastFlowEnd: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-nextFlowStart" className="label-field"><T v={"Next Flow Starts"} /></label><input id="date-nextFlowStart" type="date" value={inputs.nextFlowStart} onChange={(e) => updateInputs({ nextFlowStart: e.target.value })} className="input-field" /></div>
           <NumberInput label="Number of Hives" value={inputs.hiveCount} onChange={(v) => updateInputs({ hiveCount: v })} min={1} step={1} />
           <NumberInput label="Current Stores per Hive" value={inputs.currentStoresLbs} onChange={(v) => updateInputs({ currentStoresLbs: v })} unit="lbs" min={0} step={5} />
         </div>
@@ -32,7 +33,7 @@ export function ForageGapCalculator() {
         <ResultRow label="Gap duration" value={fmt(result.gapDays)} unit="days" highlight />
         <ResultRow label="Total consumption" value={fmt(result.consumptionLbs)} unit="lbs" />
         <ResultRow label="Feeding deficit" value={fmt(result.deficitLbs)} unit="lbs" highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.feedingRecommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.feedingRecommendation} />}</div>
       </ResultPanel>
     </div>
   );

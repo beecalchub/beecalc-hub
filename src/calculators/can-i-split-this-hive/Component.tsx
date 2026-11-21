@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -40,16 +41,16 @@ export function CanISplitThisHiveCalculator() {
 
       <ResultPanel>
         <div className={`p-5 rounded-xl border-2 mb-4 text-center ${confColors[result.confidence]}`}>
-          <p className="text-2xl font-display mb-1">{result.canSplit ? '✓ Yes' : '✗ Not Yet'}</p>
-          <p className="text-sm">{result.verdict}</p>
+          <p className="text-2xl font-display mb-1">{<T v={result.canSplit ? '✓ Yes' : '✗ Not Yet'} />}</p>
+          <p className="text-sm">{<T v={result.verdict} />}</p>
         </div>
-        {result.reasons.length > 0 && <div className="mb-3">{result.reasons.map((r, i) => <p key={i} className="text-sm text-meadow-700 flex gap-2 py-0.5"><span aria-hidden="true">✓</span>{r}</p>)}</div>}
-        {result.warnings.length > 0 && <div>{result.warnings.map((w, i) => <p key={i} className="text-sm text-orange-600 flex gap-2 py-0.5"><span aria-hidden="true">⚠</span>{w}</p>)}</div>}
+        {result.reasons.length > 0 && <div className="mb-3">{result.reasons.map((r, i) => <p key={i} className="text-sm text-meadow-700 flex gap-2 py-0.5"><span aria-hidden="true">✓</span>{<T v={r} />}</p>)}</div>}
+        {result.warnings.length > 0 && <div>{result.warnings.map((w, i) => <p key={i} className="text-sm text-orange-600 flex gap-2 py-0.5"><span aria-hidden="true">⚠</span>{<T v={w} />}</p>)}</div>}
       </ResultPanel>
 
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">{result.canSplit ? 'How to Split - Step by Step' : 'What to Do Instead'}</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3">{<T v={result.canSplit ? 'How to Split - Step by Step' : 'What to Do Instead'} />}</h3>
         <ol className="space-y-2">{result.steps.map((s, i) => (
-          <li key={i} className="flex gap-3 text-sm text-smoke-700"><span className="flex-shrink-0 w-6 h-6 rounded-full bg-honey-100 text-honey-700 text-xs font-bold flex items-center justify-center">{i+1}</span><span className="pt-0.5">{s}</span></li>
+          <li key={i} className="flex gap-3 text-sm text-smoke-700"><span className="flex-shrink-0 w-6 h-6 rounded-full bg-honey-100 text-honey-700 text-xs font-bold flex items-center justify-center">{i+1}</span><span className="pt-0.5">{<T v={s} />}</span></li>
         ))}</ol>
       </Card>
     </div>

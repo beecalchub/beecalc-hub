@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -88,13 +89,13 @@ export function VarroaInfestationRateCalculator() {
         {/* Risk assessment */}
         <div className={`mt-4 p-4 rounded-lg border ${riskColors[result.riskLevel]}`}>
           <p className="font-medium text-base mb-1 capitalize">
-            Risk Level: {result.riskLevel}
+            <T v={"Risk Level: "} />{<T v={result.riskLevel} />}
           </p>
-          <p className="text-sm">{result.recommendation}</p>
+          <p className="text-sm">{<T v={result.recommendation} />}</p>
         </div>
 
         <div className="mt-3 text-xs text-smoke-500">
-          <p>Treatment thresholds: Spring &lt;{result.thresholdSpring}% · Late Summer &lt;{result.thresholdLateSummer}%</p>
+          <p><T v={"Treatment thresholds: Spring <"} />{result.thresholdSpring}<T v={"% · Late Summer <"} />{result.thresholdLateSummer}%</p>
         </div>
       </ResultPanel>
 

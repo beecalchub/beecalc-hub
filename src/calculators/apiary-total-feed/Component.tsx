@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState, useCallback } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -63,12 +64,12 @@ export function ApiaryTotalFeedCalculator() {
           <NumberInput label="Sugar Price" value={sugarPrice} onChange={setSugarPrice} unit="$/lb" min={0.01} step={0.05} />
         </div>
 
-        <p className="text-sm font-medium text-smoke-700 mb-2">Per-hive feed deficit:</p>
+        <p className="text-sm font-medium text-smoke-700 mb-2"><T v={"Per-hive feed deficit:"} /></p>
         <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
           {hives.map((hive, i) => (
             <div key={hive.id} className="flex items-center gap-3 p-2 bg-smoke-50 rounded-lg">
               <Checkbox label="" checked={hive.needsFeeding} onChange={(v) => updateHive(i, 'needsFeeding', v)} id={`feed-hive-${hive.id}`} />
-              <span className="text-sm text-smoke-600 w-16 flex-shrink-0">{hive.label}</span>
+              <span className="text-sm text-smoke-600 w-16 flex-shrink-0">{<T v={hive.label} />}</span>
               <div className="flex-1">
                 <input
                   type="number"
@@ -81,7 +82,7 @@ export function ApiaryTotalFeedCalculator() {
                   disabled={!hive.needsFeeding}
                 />
               </div>
-              <span className="text-xs text-smoke-400 flex-shrink-0">lbs deficit</span>
+              <span className="text-xs text-smoke-400 flex-shrink-0"><T v={"lbs deficit"} /></span>
             </div>
           ))}
         </div>

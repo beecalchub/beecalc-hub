@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -28,12 +29,12 @@ export function ApiaryEquipmentPlannerCalculator() {
       <ResultPanel>
         <ResultRow label="Total cost" value={formatCurrency(result.totalCost)} highlight />
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Equipment List</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Equipment List"} /></h3>
         <div className="space-y-1 max-h-80 overflow-y-auto">{result.items.map((row: Record<string, unknown>, i: number) => (
           <div key={i} className="flex justify-between text-sm py-1.5 border-b border-smoke-100">
-            <span className="text-smoke-700 font-medium">{String(row.name)}</span>
-            <span className="text-smoke-500">Qty: {String(row.qty)}</span>
-            <span className="text-smoke-500">${String(row.cost)}</span>
+            <span className="text-smoke-700 font-medium">{<T v={String(row.name)} />}</span>
+            <span className="text-smoke-500"><T v={"Qty: "} />{<T v={String(row.qty)} />}</span>
+            <span className="text-smoke-500">${<T v={String(row.cost)} />}</span>
           </div>
         ))}</div>
       </Card>

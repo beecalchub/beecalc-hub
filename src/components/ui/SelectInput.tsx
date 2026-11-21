@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n/runtime';
 import React from 'react';
 
 interface SelectOption {
@@ -26,11 +27,12 @@ export function SelectInput({
   helpText,
   id,
 }: SelectInputProps) {
+  const t = useT();
   const inputId = id || label.toLowerCase().replace(/\s+/g, '-');
 
   return (
     <div>
-      <label htmlFor={inputId} className="label-field">{label}</label>
+      <label htmlFor={inputId} className="label-field">{t(label)}</label>
       <select
         id={inputId}
         value={value}
@@ -38,11 +40,11 @@ export function SelectInput({
         className={`input-field ${error ? 'border-red-400 focus:ring-red-400' : ''}`}
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>{opt.label}</option>
+          <option key={opt.value} value={opt.value}>{t(opt.label)}</option>
         ))}
       </select>
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
-      {helpText && !error && <p className="mt-1 text-xs text-smoke-400">{helpText}</p>}
+      {error && <p className="mt-1 text-xs text-red-600">{t(error)}</p>}
+      {helpText && !error && <p className="mt-1 text-xs text-smoke-400">{t(helpText)}</p>}
     </div>
   );
 }

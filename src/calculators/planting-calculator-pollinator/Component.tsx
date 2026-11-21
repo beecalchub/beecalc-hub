@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -28,13 +29,13 @@ export function PlantingCalculatorPollinatorCalculator() {
         <ResultRow label="Estimated cost" value={formatCurrency(result.totalCost)} highlight />
         <ResultRow label="Bloom coverage" value={result.bloomCalendar} />
         <ResultRow label="Budget coverage" value={`${result.coveragePercent}%`} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.tip}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.tip} />}</div>
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Recommended Plants</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Recommended Plants"} /></h3>
         <div className="space-y-2">{result.plants.map(p => (
           <div key={p.name} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-smoke-50 rounded-lg gap-1">
-            <div><span className="font-medium text-smoke-700">{p.name}</span><span className="text-xs text-smoke-400 ml-2">{p.bloomTime}</span><span className={`text-xs ml-2 px-1.5 py-0.5 rounded ${p.nectarValue === 'high' ? 'bg-meadow-100 text-meadow-700' : 'bg-yellow-100 text-yellow-700'}`}>{p.nectarValue} nectar</span></div>
-            <div className="text-sm text-smoke-600">{p.seedNeeded > 0 ? `${formatNumber(p.seedNeeded)} lbs - ${formatCurrency(p.cost)}` : 'Free / allow to grow'}</div>
+            <div><span className="font-medium text-smoke-700">{<T v={p.name} />}</span><span className="text-xs text-smoke-400 ml-2">{<T v={p.bloomTime} />}</span><span className={`text-xs ml-2 px-1.5 py-0.5 rounded ${p.nectarValue === 'high' ? 'bg-meadow-100 text-meadow-700' : 'bg-yellow-100 text-yellow-700'}`}>{<T v={p.nectarValue} />} <T v={"nectar"} /></span></div>
+            <div className="text-sm text-smoke-600">{<T v={p.seedNeeded > 0 ? `${formatNumber(p.seedNeeded)} lbs - ${formatCurrency(p.cost)}` : 'Free / allow to grow'} />}</div>
           </div>
         ))}</div>
       </Card>

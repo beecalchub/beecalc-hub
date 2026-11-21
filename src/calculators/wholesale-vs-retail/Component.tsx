@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -22,16 +23,16 @@ function ScenarioCard({ title, data, best }: { title: string; data: ScenarioResu
   return (
     <div className={`p-4 rounded-lg border ${best ? 'border-honey-300 bg-honey-50' : 'border-smoke-200 bg-white'}`}>
       <h4 className="font-display text-sm text-smoke-800 mb-2 flex items-center gap-2">
-        {title}
-        {best && <span className="text-xs bg-honey-200 text-honey-800 px-2 py-0.5 rounded-full font-medium">Best</span>}
+        {<T v={title} />}
+        {best && <span className="text-xs bg-honey-200 text-honey-800 px-2 py-0.5 rounded-full font-medium"><T v={"Best"} /></span>}
       </h4>
-      <p className="text-xl font-mono font-bold text-smoke-800 mb-2">{formatCurrency(data.netProfit)}</p>
+      <p className="text-xl font-mono font-bold text-smoke-800 mb-2">{<T v={formatCurrency(data.netProfit)} />}</p>
       <div className="space-y-1 text-sm text-smoke-600">
-        <div className="flex justify-between"><span>Jars sold</span><span className="font-medium">{formatInteger(data.jarsSold)}</span></div>
-        <div className="flex justify-between"><span>Revenue</span><span>{formatCurrency(data.grossRevenue)}</span></div>
-        <div className="flex justify-between"><span>Production</span><span>-{formatCurrency(data.productionCost)}</span></div>
-        <div className="flex justify-between"><span>Time/selling</span><span>-{formatCurrency(data.timeCost)}</span></div>
-        <div className="flex justify-between"><span>Unsold</span><span>{formatInteger(data.unsoldJars)} jars</span></div>
+        <div className="flex justify-between"><span><T v={"Jars sold"} /></span><span className="font-medium">{<T v={formatInteger(data.jarsSold)} />}</span></div>
+        <div className="flex justify-between"><span><T v={"Revenue"} /></span><span>{<T v={formatCurrency(data.grossRevenue)} />}</span></div>
+        <div className="flex justify-between"><span><T v={"Production"} /></span><span>-{<T v={formatCurrency(data.productionCost)} />}</span></div>
+        <div className="flex justify-between"><span><T v={"Time/selling"} /></span><span>-{<T v={formatCurrency(data.timeCost)} />}</span></div>
+        <div className="flex justify-between"><span><T v={"Unsold"} /></span><span>{<T v={formatInteger(data.unsoldJars)} />} <T v={"jars"} /></span></div>
       </div>
     </div>
   );
@@ -72,7 +73,7 @@ export function WholesaleVsRetailCalculator() {
       </div>
 
       <div className="p-4 bg-honey-50 border border-honey-200 rounded-lg text-sm text-honey-800">
-        {result.recommendation}
+        {<T v={result.recommendation} />}
       </div>
     </div>
   );

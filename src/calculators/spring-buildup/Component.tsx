@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -21,17 +22,17 @@ export function SpringBuildupCalculator() {
     <div className="space-y-6">
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div><label htmlFor="date-startDate" className="label-field">Today</label><input id="date-startDate" type="date" value={inputs.startDate} onChange={(e) => updateInputs({ startDate: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-startDate" className="label-field"><T v={"Today"} /></label><input id="date-startDate" type="date" value={inputs.startDate} onChange={(e) => updateInputs({ startDate: e.target.value })} className="input-field" /></div>
           <NumberInput label="Current Frames of Bees" value={inputs.currentFramesOfBees} onChange={(v) => updateInputs({ currentFramesOfBees: v })} min={1} max={15} step={1} />
           <NumberInput label="Target by Flow" value={inputs.targetFramesByFlow} onChange={(v) => updateInputs({ targetFramesByFlow: v })} min={1} max={25} step={1} />
-          <div><label htmlFor="date-flowStartDate" className="label-field">Flow Start Date</label><input id="date-flowStartDate" type="date" value={inputs.flowStartDate} onChange={(e) => updateInputs({ flowStartDate: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-flowStartDate" className="label-field"><T v={"Flow Start Date"} /></label><input id="date-flowStartDate" type="date" value={inputs.flowStartDate} onChange={(e) => updateInputs({ flowStartDate: e.target.value })} className="input-field" /></div>
         </div>
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
         <ResultRow label="Weeks until flow" value={fmt(result.weeksUntilFlow)} unit="weeks" highlight />
         <ResultRow label="Growth needed per week" value={fmt(result.weeklyGrowthNeeded)} unit="frames" highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.feedRecommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.feedRecommendation} />}</div>
       </ResultPanel>
     </div>
   );

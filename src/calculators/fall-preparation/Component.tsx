@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -37,8 +38,8 @@ export function FallPreparationCalculator() {
         <ResultRow label="Estimated cost" value={formatCurrency(result.costEstimate)} highlight />
         <ResultRow label="Urgency" value={fmt(result.urgency)} highlight />
       </ResultPanel>
-      {result.checklist.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Fall Checklist</h3>
-        <ul className="space-y-2" role="list">{result.checklist.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.checklist.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Fall Checklist"} /></h3>
+        <ul className="space-y-2" role="list">{result.checklist.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

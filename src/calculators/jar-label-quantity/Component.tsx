@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -42,7 +43,7 @@ export function JarLabelQuantityCalculator() {
   return (
     <div className="space-y-6">
       <Card>
-        <p className="text-sm font-medium text-smoke-700 mb-2">Jars per size:</p>
+        <p className="text-sm font-medium text-smoke-700 mb-2"><T v={"Jars per size:"} /></p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <NumberInput label="8 oz jars" value={inputs.qty8oz} onChange={(v) => updateInputs({ qty8oz: v })} min={0} step={5} />
           <NumberInput label="16 oz jars" value={inputs.qty16oz} onChange={(v) => updateInputs({ qty16oz: v })} min={0} step={10} />

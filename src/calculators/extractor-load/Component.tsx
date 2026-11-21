@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -34,7 +35,7 @@ export function ExtractorLoadCalculator() {
         <ResultRow label="Last load" value={result.lastLoadFrames} unit="frames" />
         <ResultRow label="Honey per load" value={formatNumber(result.estimatedHoneyPerLoadLbs)} unit="lbs" />
         <ResultRow label="Total honey estimate" value={isMetric ? formatNumber(result.totalHoneyKg) : formatNumber(result.totalHoneyLbs)} unit={isMetric ? 'kg' : 'lbs'} highlight />
-        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{result.balanceNote}</div>
+        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{<T v={result.balanceNote} />}</div>
       </ResultPanel>
     </div>
   );

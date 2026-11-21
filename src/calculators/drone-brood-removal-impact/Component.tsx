@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -30,7 +31,7 @@ export function DroneBroodRemovalImpactCalculator() {
         <ResultRow label="Estimated mites trapped" value={formatInteger(result.totalMitesTrapped)} unit="total season" highlight />
         <ResultRow label="Mite reduction" value={formatPercent(result.reductionPercent, 0)} highlight />
         <ResultRow label="Resulting mite level" value={formatPercent(result.resultingMitePercent)} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[{ label: 'Mites per drone frame', value: '~200 (full capped drone frame)' }, { label: 'Max reduction', value: '~30% as standalone method' }, { label: 'Best combined with', value: 'OAV, formic acid, or other treatments' }]} />
     </div>

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -36,8 +37,8 @@ export function MouseGuardOpeningCalculator() {
         <ResultRow label="Remove by" value={result.removeBy} />
         <ResultRow label="Ventilation" value={result.ventilationAdequate ? 'Adequate' : 'Consider adding upper vent'} />
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Installation Tips</h3>
-        <ul className="space-y-2" role="list">{result.tips.map((t, i) => (<li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{t}</li>))}</ul>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Installation Tips"} /></h3>
+        <ul className="space-y-2" role="list">{result.tips.map((t, i) => (<li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={t} />}</li>))}</ul>
       </Card>
     </div>
   );

@@ -4,29 +4,39 @@ import { categories } from '@/data/categories';
 
 const BASE_URL = 'https://beecalchub.com';
 
+// Helper: entry with English + Russian alternates
+function withLocales(
+  path: string,
+  changeFrequency: 'weekly' | 'monthly' | 'yearly',
+  priority: number
+): MetadataRoute.Sitemap {
+  const enUrl = path === '/' ? BASE_URL : `${BASE_URL}${path}`;
+  const ruUrl = path === '/' ? `${BASE_URL}/ru` : `${BASE_URL}/ru${path}`;
+  const alternates = { languages: { en: enUrl, ru: ruUrl } };
+  const lastModified = new Date();
+  return [
+    { url: enUrl, lastModified, changeFrequency, priority, alternates },
+    { url: ruUrl, lastModified, changeFrequency, priority: Math.max(0.1, priority - 0.1), alternates },
+  ];
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE_URL, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
-    { url: `${BASE_URL}/calculators`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${BASE_URL}/support`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
-    { url: `${BASE_URL}/disclaimer`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.2 },
+  const entries: MetadataRoute.Sitemap = [
+    ...withLocales('/', 'weekly', 1),
+    ...withLocales('/calculators', 'weekly', 0.9),
+    ...withLocales('/about', 'monthly', 0.5),
+    ...withLocales('/support', 'monthly', 0.5),
+    ...withLocales('/contact', 'monthly', 0.4),
+    ...withLocales('/disclaimer', 'yearly', 0.2),
   ];
 
-  const categoryPages: MetadataRoute.Sitemap = categories.map((cat) => ({
-    url: `${BASE_URL}/category/${cat.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }));
+  for (const cat of categories) {
+    entries.push(...withLocales(`/category/${cat.slug}`, 'weekly', 0.8));
+  }
 
-  const calculatorPages: MetadataRoute.Sitemap = calculatorRegistry.map((calc) => ({
-    url: `${BASE_URL}/calculator/${calc.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
+  for (const calc of calculatorRegistry) {
+    entries.push(...withLocales(`/calculator/${calc.slug}`, 'monthly', 0.7));
+  }
 
-  return [...staticPages, ...categoryPages, ...calculatorPages];
+  return entries;
 }

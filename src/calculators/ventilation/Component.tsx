@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -30,7 +31,7 @@ export function VentilationCalculator() {
       <ResultPanel>
         <ResultRow label="Ventilation area per hive" value={fmt(result.ventilationArea)} unit="sq in" highlight />
         <ResultRow label="Recommended method" value={fmt(result.method)} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

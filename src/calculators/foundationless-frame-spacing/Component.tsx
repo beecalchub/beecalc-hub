@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -29,7 +30,7 @@ export function FoundationlessFrameSpacingCalculator() {
       <ResultPanel>
         <ResultRow label="Frames that fit" value={fmt(result.framesFitting)} unit="frames" highlight />
         <ResultRow label="Gap between frames" value={fmt(result.spacingInches)} unit="in" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

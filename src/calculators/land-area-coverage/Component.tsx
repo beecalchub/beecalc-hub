@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -34,7 +35,7 @@ export function LandAreaCoverageCalculator() {
         <ResultRow label="Acres" value={formatNumber(result.acres, 3)} />
         <ResultRow label="Hectares" value={formatNumber(result.hectares, 3)} />
         <ResultRow label="Hives supported" value={result.hivesSupported} unit="hives" highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.note} />}</div>
       </ResultPanel>
     </div>
   );

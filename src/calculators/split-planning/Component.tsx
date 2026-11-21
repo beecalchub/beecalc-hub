@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -58,18 +59,18 @@ export function SplitPlanningCalculator() {
       <ResultPanel>
         <div className={`p-4 rounded-lg border mb-3 ${result.canSplit ? 'bg-meadow-50 border-meadow-200' : 'bg-orange-50 border-orange-200'}`}>
           <p className={`font-medium ${result.canSplit ? 'text-meadow-700' : 'text-orange-700'}`}>
-            {result.canSplit ? `✓ Yes - up to ${result.maxSplits} split${result.maxSplits > 1 ? 's' : ''}` : '✗ Not recommended yet'}
+            {<T v={result.canSplit ? `✓ Yes - up to ${result.maxSplits} split${result.maxSplits > 1 ? 's' : ''}` : '✗ Not recommended yet'} />}
           </p>
-          <p className="text-sm text-smoke-600 mt-1">{result.recommendation}</p>
+          <p className="text-sm text-smoke-600 mt-1">{<T v={result.recommendation} />}</p>
         </div>
 
         {result.canSplit && (
           <>
-            <p className="text-sm font-medium text-smoke-700 mt-3 mb-1">Per split (nuc):</p>
+            <p className="text-sm font-medium text-smoke-700 mt-3 mb-1"><T v={"Per split (nuc):"} /></p>
             <ResultRow label="Bees frames" value={result.perSplit.beesFrames} unit="frames" />
             <ResultRow label="Brood frames" value={result.perSplit.broodFrames} unit="frames" />
             <ResultRow label="Honey frames" value={result.perSplit.honeyFrames} unit="frames" />
-            <p className="text-sm font-medium text-smoke-700 mt-3 mb-1">Parent colony retains:</p>
+            <p className="text-sm font-medium text-smoke-700 mt-3 mb-1"><T v={"Parent colony retains:"} /></p>
             <ResultRow label="Bees frames" value={result.parentRetains.beesFrames} unit="frames" />
             <ResultRow label="Brood frames" value={result.parentRetains.broodFrames} unit="frames" />
             <ResultRow label="Honey frames" value={result.parentRetains.honeyFrames} unit="frames" />
@@ -78,14 +79,14 @@ export function SplitPlanningCalculator() {
 
         {result.risks.length > 0 && (
           <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-            <p className="text-sm font-medium text-orange-700 mb-1">Risks:</p>
-            {result.risks.map((r, i) => <p key={i} className="text-sm text-orange-600">• {r}</p>)}
+            <p className="text-sm font-medium text-orange-700 mb-1"><T v={"Risks:"} /></p>
+            {result.risks.map((r, i) => <p key={i} className="text-sm text-orange-600">• {<T v={r} />}</p>)}
           </div>
         )}
         {result.tips.length > 0 && (
           <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm font-medium text-blue-700 mb-1">Tips:</p>
-            {result.tips.map((t, i) => <p key={i} className="text-sm text-blue-600">• {t}</p>)}
+            <p className="text-sm font-medium text-blue-700 mb-1"><T v={"Tips:"} /></p>
+            {result.tips.map((t, i) => <p key={i} className="text-sm text-blue-600">• {<T v={t} />}</p>)}
           </div>
         )}
       </ResultPanel>

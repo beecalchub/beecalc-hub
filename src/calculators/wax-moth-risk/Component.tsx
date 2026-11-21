@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -31,17 +32,17 @@ export function WaxMothRiskCalculator() {
       <ResultPanel title="Wax Moth Risk Assessment">
         <div className="text-center mb-4">
           <p className="text-3xl font-mono font-bold text-smoke-800">{result.riskScore}/100</p>
-          <div className={`mt-2 inline-block px-4 py-1 rounded-full text-sm font-medium ${riskColors[result.riskLevel]}`}>{result.riskLevel} Risk</div>
+          <div className={`mt-2 inline-block px-4 py-1 rounded-full text-sm font-medium ${riskColors[result.riskLevel]}`}>{<T v={result.riskLevel} />} <T v={"Risk"} /></div>
         </div>
         <div className="space-y-2">{result.breakdown.map((b) => (
           <div key={b.factor} className="flex items-center justify-between text-sm py-1.5 border-b border-smoke-100 last:border-0">
-            <div><span className="text-smoke-700 font-medium">{b.factor}</span><span className="text-smoke-400 ml-2 text-xs">{b.note}</span></div>
+            <div><span className="text-smoke-700 font-medium">{<T v={b.factor} />}</span><span className="text-smoke-400 ml-2 text-xs">{<T v={b.note} />}</span></div>
             <span className="font-mono text-smoke-800 flex-shrink-0 ml-2">{b.score}/{b.max}</span>
           </div>
         ))}</div>
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Recommendations</h3>
-        <ul className="space-y-2" role="list">{result.recommendations.map((r, i) => (<li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{r}</li>))}</ul>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Recommendations"} /></h3>
+        <ul className="space-y-2" role="list">{result.recommendations.map((r, i) => (<li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={r} />}</li>))}</ul>
       </Card>
     </div>
   );

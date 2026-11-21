@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -29,10 +30,10 @@ export function QueenReplacementTimingCalculator() {
       <ResultPanel>
         <ResultRow label="Replace queen?" value={result.shouldReplace ? 'Yes' : 'No'} highlight />
         <ResultRow label="Urgency" value={result.urgency} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.timing}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.timing} />}</div>
       </ResultPanel>
-      {result.reasons.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Reasons</h3>
-        <ul className="space-y-2" role="list">{result.reasons.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.reasons.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Reasons"} /></h3>
+        <ul className="space-y-2" role="list">{result.reasons.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

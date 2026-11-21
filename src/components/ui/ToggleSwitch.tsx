@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n/runtime';
 import React from 'react';
 
 interface ToggleSwitchProps {
@@ -12,19 +13,20 @@ interface ToggleSwitchProps {
 
 // Fix #9: Toggle meets 44px touch target. Knob and track enlarged.
 export function ToggleSwitch({ labelLeft, labelRight, checked, onChange, ariaLabel }: ToggleSwitchProps) {
+  const t = useT();
   return (
     <div className="flex items-center gap-2.5">
       <span
         className={`text-sm font-medium transition-colors select-none ${!checked ? 'text-honey-700' : 'text-smoke-400'}`}
         aria-hidden="true"
       >
-        {labelLeft}
+        {t(labelLeft)}
       </span>
       <button
         type="button"
         role="switch"
         aria-checked={checked}
-        aria-label={ariaLabel || `Toggle between ${labelLeft} and ${labelRight}`}
+        aria-label={t(ariaLabel || `Toggle between ${labelLeft} and ${labelRight}`)}
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-8 w-14 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-honey-400 focus:ring-offset-2 ${
           checked ? 'bg-honey-500' : 'bg-smoke-300'
@@ -41,7 +43,7 @@ export function ToggleSwitch({ labelLeft, labelRight, checked, onChange, ariaLab
         className={`text-sm font-medium transition-colors select-none ${checked ? 'text-honey-700' : 'text-smoke-400'}`}
         aria-hidden="true"
       >
-        {labelRight}
+        {t(labelRight)}
       </span>
     </div>
   );

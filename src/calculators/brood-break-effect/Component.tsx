@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -32,7 +33,7 @@ export function BroodBreakEffectCalculator() {
         <ResultRow label="Mite reduction" value={formatPercent(result.miteReductionPercent, 0)} highlight />
         <ResultRow label="Resulting mite level" value={formatPercent(result.resultingMitePercent)} highlight />
         <ResultRow label="Brood cycles disrupted" value={formatNumber(result.broodCyclesDisrupted)} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.explanation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.explanation} />}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[{ label: 'Natural reduction per cycle', value: '~15% per brood cycle disrupted' }, { label: 'Max natural reduction', value: '~50%' }, { label: 'Brood cycle', value: '21 days' }]} />
     </div>

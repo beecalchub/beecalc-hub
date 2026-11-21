@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -34,8 +35,8 @@ export function DeadoutAnalysisCalculator() {
         <ResultRow label="Likely cause" value={result.likelyCause} highlight />
         <ResultRow label="Confidence" value={result.confidence} />
       </ResultPanel>
-      {result.prevention.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Prevention for Next Year</h3>
-        <ul className="space-y-2" role="list">{result.prevention.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.prevention.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Prevention for Next Year"} /></h3>
+        <ul className="space-y-2" role="list">{result.prevention.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

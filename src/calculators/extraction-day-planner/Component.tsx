@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -34,9 +35,9 @@ export function ExtractionDayPlannerCalculator() {
         <ResultRow label="Total time" value={formatNumber(result.totalHours)} unit="hours" highlight />
         <ResultRow label="To finish by 5 PM, start at" value={result.startTimeFor5pm} />
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Timeline</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Timeline"} /></h3>
         <div className="space-y-2">{result.timeline.map((t, i) => (
-          <div key={i} className="flex gap-3 text-sm py-1.5 border-b border-smoke-100 last:border-0"><span className="text-smoke-400 font-mono w-20 flex-shrink-0">{t.time}</span><span className="text-smoke-700">{t.task}</span></div>
+          <div key={i} className="flex gap-3 text-sm py-1.5 border-b border-smoke-100 last:border-0"><span className="text-smoke-400 font-mono w-20 flex-shrink-0">{<T v={t.time} />}</span><span className="text-smoke-700">{<T v={t.task} />}</span></div>
         ))}</div>
       </Card>
     </div>

@@ -2,6 +2,8 @@
 
 import React, { useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useCurrentLocale } from './LanguageSwitcher';
+import { RU_UI } from '@/i18n/ru';
 
 interface MobileMenuProps {
   open: boolean;
@@ -11,6 +13,8 @@ interface MobileMenuProps {
 
 // Fix #14: Proper backdrop a11y, keyboard dismiss, focus trap basics
 export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
+  const locale = useCurrentLocale();
+  const isRu = locale === 'ru';
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -34,7 +38,7 @@ export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 sm:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <div className="fixed inset-0 z-50 sm:hidden" role="dialog" aria-modal="true" aria-label={isRu ? RU_UI.nav.menu : "Navigation menu"}>
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-smoke-900/40"
@@ -45,11 +49,11 @@ export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
       {/* Panel */}
       <nav className="absolute right-0 top-0 h-full w-72 bg-white shadow-xl animate-slide-in-right">
         <div className="flex items-center justify-between px-4 h-14 border-b border-smoke-100">
-          <span className="font-display text-lg text-honey-800">Menu</span>
+          <span className="font-display text-lg text-honey-800">{isRu ? RU_UI.nav.menu : "Menu"}</span>
           <button
             onClick={onClose}
             className="p-2.5 text-smoke-500 hover:text-smoke-800 rounded-lg hover:bg-smoke-50 transition-colors"
-            aria-label="Close menu"
+            aria-label={isRu ? RU_UI.nav.closeMenu : "Close menu"}
             style={{ minHeight: 44, minWidth: 44 }}
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -60,12 +64,12 @@ export function MobileMenu({ open, onClose, links }: MobileMenuProps) {
 
         <div className="px-4 py-4 space-y-1">
           <Link
-            href="/"
+            href={isRu ? "/ru" : "/"}
             onClick={onClose}
             className="block px-3 py-3 rounded-lg text-smoke-700 font-medium hover:bg-honey-50 hover:text-honey-800 transition-colors"
             style={{ minHeight: 44 }}
           >
-            Home
+            {isRu ? RU_UI.nav.home : "Home"}
           </Link>
           {links.map((link) => (
             <Link

@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n/runtime';
 import React from 'react';
 import { useFavorites } from '@/hooks/useFavorites';
 
@@ -11,13 +12,14 @@ interface FavoriteButtonProps {
 export function FavoriteButton({ slug, size = 'md' }: FavoriteButtonProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const fav = isFavorite(slug);
+  const t = useT();
 
   const iconSize = size === 'sm' ? 'w-4 h-4' : 'w-5 h-5';
 
   return (
     <button
       onClick={() => toggleFavorite(slug)}
-      aria-label={fav ? 'Remove from favorites' : 'Add to favorites'}
+      aria-label={t(fav ? 'Remove from favorites' : 'Add to favorites')}
       className={`p-1 rounded transition-colors ${
         fav ? 'text-honey-500 hover:text-honey-600' : 'text-smoke-300 hover:text-honey-400'
       }`}

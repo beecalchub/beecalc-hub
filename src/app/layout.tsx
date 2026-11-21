@@ -8,6 +8,9 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://beecalchub.com'),
+  alternates: {
+    languages: { en: 'https://beecalchub.com', ru: 'https://beecalchub.com/ru' },
+  },
   title: {
     default: 'BeeCalc Hub - Professional Beekeeping Calculators',
     template: '%s | BeeCalc Hub',

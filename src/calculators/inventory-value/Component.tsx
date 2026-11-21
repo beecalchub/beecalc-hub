@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo, useState, useCallback } from 'react';
+import { T } from '@/i18n/runtime';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
 import { ResultRow } from '@/components/calculator/ResultRow';
@@ -19,17 +20,17 @@ export function InventoryValueCalculator() {
   return (
     <div className="space-y-6">
       <Card>
-        <p className="text-sm font-medium text-smoke-700 mb-3">Equipment & inventory items:</p>
+        <p className="text-sm font-medium text-smoke-700 mb-3"><T v={"Equipment & inventory items:"} /></p>
         <div className="space-y-2 max-h-96 overflow-y-auto pr-1">{items.map((item, i) => (
           <div key={i} className="flex flex-col sm:flex-row gap-2 p-3 bg-smoke-50 rounded-lg">
-            <div className="flex-1"><label className="text-xs text-smoke-500">Item</label><input type="text" value={item.name} onChange={(e) => update(i, 'name', e.target.value)} className="input-field text-sm" /></div>
-            <div className="w-20"><label className="text-xs text-smoke-500">Qty</label><input type="number" value={item.quantity} onChange={(e) => update(i, 'quantity', parseInt(e.target.value) || 0)} className="input-field text-sm" min="0" /></div>
-            <div className="w-24"><label className="text-xs text-smoke-500">$/unit</label><input type="number" value={item.unitValue} onChange={(e) => update(i, 'unitValue', parseFloat(e.target.value) || 0)} className="input-field text-sm" min="0" step="5" /></div>
-            <div className="w-24"><label className="text-xs text-smoke-500">Category</label><input type="text" value={item.category} onChange={(e) => update(i, 'category', e.target.value)} className="input-field text-sm" /></div>
+            <div className="flex-1"><label className="text-xs text-smoke-500"><T v={"Item"} /></label><input type="text" value={item.name} onChange={(e) => update(i, 'name', e.target.value)} className="input-field text-sm" /></div>
+            <div className="w-20"><label className="text-xs text-smoke-500"><T v={"Qty"} /></label><input type="number" value={item.quantity} onChange={(e) => update(i, 'quantity', parseInt(e.target.value) || 0)} className="input-field text-sm" min="0" /></div>
+            <div className="w-24"><label className="text-xs text-smoke-500"><T v={"$/unit"} /></label><input type="number" value={item.unitValue} onChange={(e) => update(i, 'unitValue', parseFloat(e.target.value) || 0)} className="input-field text-sm" min="0" step="5" /></div>
+            <div className="w-24"><label className="text-xs text-smoke-500"><T v={"Category"} /></label><input type="text" value={item.category} onChange={(e) => update(i, 'category', e.target.value)} className="input-field text-sm" /></div>
             <button type="button" onClick={() => remove(i)} className="self-end p-2 text-smoke-400 hover:text-red-500" style={{ minHeight: 44, minWidth: 44 }} aria-label="Remove">✕</button>
           </div>
         ))}</div>
-        <button type="button" onClick={add} className="mt-2 text-sm text-honey-600 hover:text-honey-700 font-medium py-2" style={{ minHeight: 44 }}>+ Add item</button>
+        <button type="button" onClick={add} className="mt-2 text-sm text-honey-600 hover:text-honey-700 font-medium py-2" style={{ minHeight: 44 }}><T v={"+ Add item"} /></button>
         <div className="flex gap-2 mt-4"><ResetButton onReset={reset} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>

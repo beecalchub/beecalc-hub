@@ -1,3 +1,6 @@
+'use client';
+
+import { useT } from '@/i18n/runtime';
 import React from 'react';
 import type { CalculatorType } from '@/types/calculator';
 
@@ -52,9 +55,10 @@ const typeLabelMap: Record<CalculatorType, string> = {
 };
 
 export function CalculatorTypeBadge({ type }: { type: CalculatorType }) {
+  const t = useT();
   return (
     <Badge variant={typeVariantMap[type]} size="sm">
-      {typeLabelMap[type]}
+      {t(typeLabelMap[type])}
     </Badge>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -33,8 +34,8 @@ export function WindbreakCalculator() {
         <ResultRow label="Wind reduction" value={formatPercent(result.windReductionPercent, 0)} highlight />
         <ResultRow label="Protection zone" value={formatNumber(result.protectionZoneFt)} unit="ft downwind" />
         <ResultRow label="Placement" value={result.protectionAdequate ? '✓ Good' : '⚠ Needs adjustment'} />
-        <div className={`mt-3 p-4 rounded-lg border ${result.protectionAdequate ? 'bg-meadow-50 border-meadow-200 text-meadow-700' : 'bg-orange-50 border-orange-200 text-orange-700'}`}><p className="text-sm">{result.recommendation}</p></div>
-        <div className="mt-3">{result.benefits.map((b, i) => <p key={i} className="text-sm text-smoke-600 py-0.5 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{b}</p>)}</div>
+        <div className={`mt-3 p-4 rounded-lg border ${result.protectionAdequate ? 'bg-meadow-50 border-meadow-200 text-meadow-700' : 'bg-orange-50 border-orange-200 text-orange-700'}`}><p className="text-sm">{<T v={result.recommendation} />}</p></div>
+        <div className="mt-3">{result.benefits.map((b, i) => <p key={i} className="text-sm text-smoke-600 py-0.5 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={b} />}</p>)}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[{ label: 'Protection zone', value: '~10× windbreak height' }, { label: 'Ideal distance', value: '1–3× windbreak height from hives' }, { label: 'Trees', value: '~70% wind reduction (allow some airflow)' }, { label: 'Solid wall', value: 'Creates turbulence - 50% mesh is often better' }]} />
     </div>

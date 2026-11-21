@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -32,10 +33,10 @@ export function QueenrightnessCheckerCalculator() {
       <ResultPanel>
         <ResultRow label="Queenright?" value={result.queenright ? 'Yes' : 'No'} highlight />
         <ResultRow label="Confidence" value={result.confidence} highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.diagnosis}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.diagnosis} />}</div>
       </ResultPanel>
-      {result.nextSteps.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Next Steps</h3>
-        <ul className="space-y-2" role="list">{result.nextSteps.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.nextSteps.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Next Steps"} /></h3>
+        <ul className="space-y-2" role="list">{result.nextSteps.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

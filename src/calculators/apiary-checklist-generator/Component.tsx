@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo, useState, useCallback } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -53,7 +54,7 @@ export function ApiaryChecklistGeneratorCalculator() {
         <div className="w-full bg-smoke-100 rounded-full h-2 mb-4"><div className="bg-honey-500 h-2 rounded-full transition-all" style={{ width: `${(doneCount / result.totalTasks) * 100}%` }} /></div>
         {result.checklist.map((section) => (
           <div key={section.section} className="mb-5 last:mb-0">
-            <h4 className="text-sm font-medium text-smoke-700 mb-2">{section.section}</h4>
+            <h4 className="text-sm font-medium text-smoke-700 mb-2">{<T v={section.section} />}</h4>
             <div className="space-y-1.5">
               {section.items.map((item) => {
                 const key = section.section + item.task;
@@ -69,8 +70,8 @@ export function ApiaryChecklistGeneratorCalculator() {
                     <span className={`flex-shrink-0 w-5 h-5 mt-0.5 rounded border-2 flex items-center justify-center transition-colors ${isDone ? 'bg-meadow-500 border-meadow-500 text-white' : 'border-smoke-300'}`}>
                       {isDone && <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                     </span>
-                    <span className={`text-sm flex-1 ${isDone ? 'line-through text-smoke-400' : 'text-smoke-700'}`}>{item.task}</span>
-                    <span className={`text-[10px] uppercase tracking-wide font-medium px-1.5 py-0.5 rounded border flex-shrink-0 ${priorityStyles[item.priority]}`}>{item.priority}</span>
+                    <span className={`text-sm flex-1 ${isDone ? 'line-through text-smoke-400' : 'text-smoke-700'}`}>{<T v={item.task} />}</span>
+                    <span className={`text-[10px] uppercase tracking-wide font-medium px-1.5 py-0.5 rounded border flex-shrink-0 ${priorityStyles[item.priority]}`}>{<T v={item.priority} />}</span>
                   </button>
                 );
               })}

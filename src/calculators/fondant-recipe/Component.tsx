@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -86,14 +87,14 @@ export function FondantRecipeCalculator() {
       </ResultPanel>
 
       <Card>
-        <h3 className="font-display text-base text-smoke-800 mb-3">Instructions</h3>
+        <h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Instructions"} /></h3>
         <ol className="space-y-2">
           {result.instructions.map((step, i) => (
             <li key={i} className="flex gap-3 text-sm text-smoke-700">
               <span className="flex-shrink-0 w-6 h-6 rounded-full bg-honey-100 text-honey-700 text-xs font-bold flex items-center justify-center">
                 {i + 1}
               </span>
-              <span className="pt-0.5">{step}</span>
+              <span className="pt-0.5">{<T v={step} />}</span>
             </li>
           ))}
         </ol>
@@ -109,8 +110,8 @@ export function FondantRecipeCalculator() {
       />
 
       <div className="text-sm text-smoke-500 bg-smoke-50 rounded-lg p-4">
-        <p className="font-medium text-smoke-700 mb-1">Example usage:</p>
-        <p>Making fondant for 5 hives? Set target weight to 10 lbs with the standard recipe. You&apos;ll need about 8.3 lbs of sugar and 1.4 cups of water. A candy thermometer is essential for the cooked versions.</p>
+        <p className="font-medium text-smoke-700 mb-1"><T v={"Example usage:"} /></p>
+        <p><T v={"Making fondant for 5 hives? Set target weight to 10 lbs with the standard recipe. You'll need about 8.3 lbs of sugar and 1.4 cups of water. A candy thermometer is essential for the cooked versions."} /></p>
       </div>
     </div>
   );

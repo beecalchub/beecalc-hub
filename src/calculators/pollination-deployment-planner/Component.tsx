@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -31,7 +32,7 @@ export function PollinationDeploymentPlannerCalculator() {
         <ResultRow label="Hives per field" value={fmt(result.hivesPerField)} highlight />
         <ResultRow label="Total project days" value={fmt(result.totalProjectDays)} unit="days" />
         <ResultRow label="Setup days" value={fmt(result.setupDaysNeeded)} unit="days" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

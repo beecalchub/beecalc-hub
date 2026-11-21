@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -33,18 +34,18 @@ export function SwarmRiskCalculator() {
       <ResultPanel>
         <div className={`p-5 rounded-xl border-2 mb-4 text-center ${levelColors[result.level]}`}>
           <p className="text-3xl font-mono font-bold">{result.score}/100</p>
-          <p className="text-lg font-display mt-1">{result.level} Risk</p>
-          <p className="text-sm mt-1">{result.verdict}</p>
+          <p className="text-lg font-display mt-1">{<T v={result.level} />} <T v={"Risk"} /></p>
+          <p className="text-sm mt-1">{<T v={result.verdict} />}</p>
         </div>
         <div className="space-y-2">{result.factors.map(f => (
           <div key={f.factor} className="flex justify-between text-sm py-1.5 border-b border-smoke-100 last:border-0">
-            <div><span className="text-smoke-700 font-medium">{f.factor}</span><span className="text-smoke-400 ml-2 text-xs">{f.note}</span></div>
+            <div><span className="text-smoke-700 font-medium">{<T v={f.factor} />}</span><span className="text-smoke-400 ml-2 text-xs">{<T v={f.note} />}</span></div>
             <span className="font-mono text-smoke-800">+{f.score}</span>
           </div>
         ))}</div>
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Actions</h3>
-        <ul className="space-y-2" role="list">{result.actions.map((a, i) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{a}</li>)}</ul>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Actions"} /></h3>
+        <ul className="space-y-2" role="list">{result.actions.map((a, i) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={a} />}</li>)}</ul>
       </Card>
     </div>
   );

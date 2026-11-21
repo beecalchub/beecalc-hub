@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -24,15 +25,15 @@ export function PackageBeeVsNucCalculator() {
         <NumberInput label="Honey Price" value={inputs.honeyPricePerLb} onChange={(v) => updateInputs({ honeyPricePerLb: v })} unit="$/lb" min={0} step={1} />
       </div><div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div></Card>
       <ResultPanel title="Side-by-Side Comparison">
-        <div className="overflow-x-auto -mx-4 sm:-mx-6"><table className="w-full text-sm min-w-[400px]"><thead><tr className="border-b border-smoke-200 text-left"><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium">Factor</th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium">Package</th><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium">Nuc</th></tr></thead>
-          <tbody>{result.comparison.map(c => (<tr key={c.factor} className="border-b border-smoke-50"><td className="py-2 px-4 sm:px-6 text-smoke-700 font-medium">{c.factor}</td>
-            <td className={`py-2 px-2 ${c.winner === 'package' ? 'text-meadow-700 font-medium' : 'text-smoke-600'}`}>{c.package_}{c.winner === 'package' ? ' ✓' : ''}</td>
-            <td className={`py-2 px-4 sm:px-6 ${c.winner === 'nuc' ? 'text-meadow-700 font-medium' : 'text-smoke-600'}`}>{c.nuc}{c.winner === 'nuc' ? ' ✓' : ''}</td></tr>))}</tbody></table></div>
+        <div className="overflow-x-auto -mx-4 sm:-mx-6"><table className="w-full text-sm min-w-[400px]"><thead><tr className="border-b border-smoke-200 text-left"><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium"><T v={"Factor"} /></th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium"><T v={"Package"} /></th><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium"><T v={"Nuc"} /></th></tr></thead>
+          <tbody>{result.comparison.map(c => (<tr key={c.factor} className="border-b border-smoke-50"><td className="py-2 px-4 sm:px-6 text-smoke-700 font-medium">{<T v={c.factor} />}</td>
+            <td className={`py-2 px-2 ${c.winner === 'package' ? 'text-meadow-700 font-medium' : 'text-smoke-600'}`}>{<T v={c.package_} />}{<T v={c.winner === 'package' ? ' ✓' : ''} />}</td>
+            <td className={`py-2 px-4 sm:px-6 ${c.winner === 'nuc' ? 'text-meadow-700 font-medium' : 'text-smoke-600'}`}>{<T v={c.nuc} />}{<T v={c.winner === 'nuc' ? ' ✓' : ''} />}</td></tr>))}</tbody></table></div>
       </ResultPanel>
       <ResultPanel>
         <ResultRow label="Package net cost (after honey)" value={formatCurrency(result.packageNetCost)} />
         <ResultRow label="Nuc net cost (after honey)" value={formatCurrency(result.nucNetCost)} />
-        <div className="mt-3 p-4 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-4 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

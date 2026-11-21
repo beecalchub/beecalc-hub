@@ -33,6 +33,10 @@ export async function generateMetadata({ params }: CalculatorPageProps): Promise
     },
     alternates: {
       canonical: url,
+      languages: {
+        en: url,
+        ru: `${SITE_URL}/ru/calculator/${calc.slug}`,
+      },
     },
   };
 }

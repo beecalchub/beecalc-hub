@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n/runtime';
 import React from 'react';
 
 interface SliderInputProps {
@@ -23,13 +24,16 @@ export function SliderInput({
   unit,
   showValue = true,
 }: SliderInputProps) {
+  const t = useT();
+  const u = unit ? ` ${t(unit)}` : '';
+  const uv = unit ? ` ${t.unit(unit, value)}` : '';
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <label className="label-field mb-0">{label}</label>
+        <label className="label-field mb-0">{t(label)}</label>
         {showValue && (
           <span className="text-sm font-medium text-honey-700">
-            {value}{unit ? ` ${unit}` : ''}
+            {value}{uv}
           </span>
         )}
       </div>
@@ -43,8 +47,8 @@ export function SliderInput({
         className="w-full h-2 bg-smoke-200 rounded-lg appearance-none cursor-pointer accent-honey-500"
       />
       <div className="flex justify-between text-xs text-smoke-400 mt-1">
-        <span>{min}{unit ? ` ${unit}` : ''}</span>
-        <span>{max}{unit ? ` ${unit}` : ''}</span>
+        <span>{min}{u}</span>
+        <span>{max}{u}</span>
       </div>
     </div>
   );

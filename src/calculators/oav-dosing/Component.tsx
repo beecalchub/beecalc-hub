@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -80,13 +81,13 @@ export function OavDosingCalculator() {
 
       <Card className="border-red-200 bg-red-50">
         <h3 className="font-display text-base text-red-800 mb-3 flex items-center gap-2">
-          <span aria-hidden="true">⚠️</span> Safety Requirements
+          <span aria-hidden="true">⚠️</span> <T v={"Safety Requirements"} />
         </h3>
         <ul className="space-y-2" role="list">
           {result.safetyNotes.map((note, i) => (
             <li key={i} className="text-sm text-red-700 flex items-start gap-2">
               <span className="text-red-400 mt-0.5" aria-hidden="true">•</span>
-              {note}
+              {<T v={note} />}
             </li>
           ))}
         </ul>

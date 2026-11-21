@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -55,34 +56,34 @@ export function BeginnerHiveSetupCalculator() {
       </ResultPanel>
 
       <Card>
-        <h3 className="font-display text-base text-smoke-800 mb-3">Equipment List</h3>
+        <h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Equipment List"} /></h3>
         <div className="overflow-x-auto -mx-4 sm:-mx-6">
           <table className="w-full text-sm min-w-[400px]">
             <thead>
               <tr className="border-b border-smoke-200 text-left">
-                <th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium">Item</th>
-                <th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right">Qty</th>
-                <th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right">Unit</th>
-                <th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium text-right">Total</th>
+                <th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium"><T v={"Item"} /></th>
+                <th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right"><T v={"Qty"} /></th>
+                <th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right"><T v={"Unit"} /></th>
+                <th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium text-right"><T v={"Total"} /></th>
               </tr>
             </thead>
             <tbody>
               {result.equipment.map((e, i) => (
                 <tr key={i} className="border-b border-smoke-50">
                   <td className="py-2 px-4 sm:px-6 text-smoke-700">
-                    {e.item}
+                    {<T v={e.item} />}
                     {e.essential && <span className="text-honey-500 ml-1 text-xs" aria-label="essential">●</span>}
                   </td>
                   <td className="py-2 px-2 text-right text-smoke-600">{e.totalQty}</td>
-                  <td className="py-2 px-2 text-right text-smoke-600">{formatCurrency(e.unitCost)}</td>
-                  <td className="py-2 px-4 sm:px-6 text-right font-medium text-smoke-800">{formatCurrency(e.totalCost)}</td>
+                  <td className="py-2 px-2 text-right text-smoke-600">{<T v={formatCurrency(e.unitCost)} />}</td>
+                  <td className="py-2 px-4 sm:px-6 text-right font-medium text-smoke-800">{<T v={formatCurrency(e.totalCost)} />}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <p className="text-xs text-smoke-400 mt-3">
-          <span className="text-honey-500" aria-hidden="true">●</span> = essential item. Prices are approximate US averages.
+          <span className="text-honey-500" aria-hidden="true">●</span> <T v={"= essential item. Prices are approximate US averages."} />
         </p>
       </Card>
     </div>

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -34,7 +35,7 @@ export function ApiaryComparisonCalculator() {
         <ResultRow label="Apiary 2 per hive" value={fmt(result.apiary2PerHive)} unit="lbs" highlight />
         <ResultRow label="Better apiary" value={fmt(result.betterApiary)} highlight />
         <ResultRow label="Yield difference" value={fmt(result.yieldDifference)} unit="lbs" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

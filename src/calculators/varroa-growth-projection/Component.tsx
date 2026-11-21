@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -31,11 +32,11 @@ export function VarroaGrowthProjectionCalculator() {
       <ResultPanel>
         <ResultRow label="Peak mite level" value={formatPercent(result.peakPercent)} highlight />
         <ResultRow label="Months until critical (3%)" value={result.monthsUntilCritical !== null ? `${result.monthsUntilCritical}` : 'Not reached'} unit={result.monthsUntilCritical !== null ? 'months' : ''} />
-        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{result.treatmentImpact}</div>
+        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{<T v={result.treatmentImpact} />}</div>
         <div className="mt-3 space-y-1">{result.projections.map((p) => (
           <div key={p.month} className="flex justify-between text-sm py-1 border-b border-smoke-100">
-            <span className="text-smoke-500">Month {p.month}</span>
-            <span className={`font-mono font-medium ${riskColors[p.risk]}`}>{formatPercent(p.mitePercent)} - {p.risk}</span>
+            <span className="text-smoke-500"><T v={"Month "} />{p.month}</span>
+            <span className={`font-mono font-medium ${riskColors[p.risk]}`}>{<T v={formatPercent(p.mitePercent)} />} - {<T v={p.risk} />}</span>
           </div>
         ))}</div>
       </ResultPanel>

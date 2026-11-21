@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -23,23 +24,23 @@ export function MiteDropTrendCalculator() {
     <div className="space-y-6">
       <Card>
         <NumberInput label="Days Board Was In" value={boardDays} onChange={setBoardDays} min={1} max={14} step={1} helpText="How many days the sticky board collected mites" />
-        <p className="text-sm font-medium text-smoke-700 mt-4 mb-2">Mite counts (add multiple readings to see trend):</p>
+        <p className="text-sm font-medium text-smoke-700 mt-4 mb-2"><T v={"Mite counts (add multiple readings to see trend):"} /></p>
         <div className="space-y-2">{readings.map((r, i) => (
           <div key={i} className="flex gap-2 items-end p-2 bg-smoke-50 rounded-lg">
-            <div className="flex-1"><label className="text-xs text-smoke-500">Date</label><input type="date" value={r.date} onChange={(e) => updateReading(i, 'date', e.target.value)} className="input-field text-sm" /></div>
-            <div className="w-24"><label className="text-xs text-smoke-500">Mites</label><input type="number" value={r.count} onChange={(e) => updateReading(i, 'count', parseInt(e.target.value) || 0)} className="input-field text-sm" min="0" /></div>
+            <div className="flex-1"><label className="text-xs text-smoke-500"><T v={"Date"} /></label><input type="date" value={r.date} onChange={(e) => updateReading(i, 'date', e.target.value)} className="input-field text-sm" /></div>
+            <div className="w-24"><label className="text-xs text-smoke-500"><T v={"Mites"} /></label><input type="number" value={r.count} onChange={(e) => updateReading(i, 'count', parseInt(e.target.value) || 0)} className="input-field text-sm" min="0" /></div>
             {readings.length > 1 && <button type="button" onClick={() => removeReading(i)} className="p-2 text-smoke-400 hover:text-red-500" style={{ minHeight: 44, minWidth: 44 }} aria-label="Remove">✕</button>}
           </div>
         ))}</div>
-        <button type="button" onClick={addReading} className="mt-2 text-sm text-honey-600 hover:text-honey-700 font-medium py-2" style={{ minHeight: 44 }}>+ Add reading</button>
+        <button type="button" onClick={addReading} className="mt-2 text-sm text-honey-600 hover:text-honey-700 font-medium py-2" style={{ minHeight: 44 }}><T v={"+ Add reading"} /></button>
         <div className="flex gap-2 mt-4"><ResetButton onReset={reset} /><CopyResultButton getText={copyText} /></div>
       </Card>
       <ResultPanel>
         <ResultRow label="Latest daily mite drop" value={formatNumber(result.latestDailyDrop)} unit="mites/day" highlight />
         <ResultRow label="Projected weekly drop" value={formatNumber(result.projectedWeeklyDrop)} unit="mites/week" />
-        <div className={`mt-3 p-4 rounded-lg border ${trendColors[result.trend]}`}><p className="font-medium capitalize mb-1">Trend: {result.trend}</p><p className="text-sm">{result.trendMessage}</p></div>
+        <div className={`mt-3 p-4 rounded-lg border ${trendColors[result.trend]}`}><p className="font-medium capitalize mb-1"><T v={"Trend: "} />{<T v={result.trend} />}</p><p className="text-sm">{<T v={result.trendMessage} />}</p></div>
         {result.dailyAverages.length > 1 && <div className="mt-3 space-y-1">{result.dailyAverages.map((d, i) => (
-          <div key={i} className="flex justify-between text-sm py-1 border-b border-smoke-100"><span className="text-smoke-500">{d.date}</span><span className="font-mono text-smoke-800">{d.dailyDrop} /day</span></div>
+          <div key={i} className="flex justify-between text-sm py-1 border-b border-smoke-100"><span className="text-smoke-500">{<T v={d.date} />}</span><span className="font-mono text-smoke-800">{d.dailyDrop} <T v={"/day"} /></span></div>
         ))}</div>}
       </ResultPanel>
     </div>

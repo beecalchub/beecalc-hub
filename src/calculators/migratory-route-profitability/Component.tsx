@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -35,7 +36,7 @@ export function MigratoryRouteProfitabilityCalculator() {
         <ResultRow label="Net profit" value={formatCurrency(result.netProfit)} highlight />
         <ResultRow label="Profit per hive" value={formatCurrency(result.profitPerHive)} />
         <ResultRow label="Profit per mile" value={formatCurrency(result.profitPerMile)} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

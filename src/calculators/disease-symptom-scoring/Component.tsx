@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -34,8 +35,8 @@ export function DiseaseSymptomScoringCalculator() {
         <ResultRow label="Risk score" value={result.riskScore} highlight />
         <ResultRow label="Level" value={result.level} highlight />
       </ResultPanel>
-      {result.suspected.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Suspected Conditions</h3>
-        <ul className="space-y-2" role="list">{result.suspected.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.suspected.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Suspected Conditions"} /></h3>
+        <ul className="space-y-2" role="list">{result.suspected.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

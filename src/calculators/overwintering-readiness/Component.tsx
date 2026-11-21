@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -59,17 +60,17 @@ export function OverwinteringReadinessCalculator() {
       <ResultPanel title="Winter Readiness Score">
         <div className="text-center mb-4">
           <span className={`inline-flex items-center justify-center w-20 h-20 rounded-full text-3xl font-display ${gradeColors[result.grade]}`}>
-            {result.grade}
+            {<T v={result.grade} />}
           </span>
           <p className="text-2xl font-mono font-bold text-smoke-800 mt-2">{result.totalScore}/100</p>
-          <p className="text-sm text-smoke-600 mt-1">{result.verdict}</p>
+          <p className="text-sm text-smoke-600 mt-1">{<T v={result.verdict} />}</p>
         </div>
         <div className="space-y-2">
           {result.breakdown.map((b) => (
             <div key={b.category} className="flex items-center justify-between text-sm py-1.5 border-b border-smoke-100 last:border-0">
               <div>
-                <span className="text-smoke-700 font-medium">{b.category}</span>
-                <span className="text-smoke-400 ml-2 text-xs">{b.note}</span>
+                <span className="text-smoke-700 font-medium">{<T v={b.category} />}</span>
+                <span className="text-smoke-400 ml-2 text-xs">{<T v={b.note} />}</span>
               </div>
               <span className="font-mono text-smoke-800 flex-shrink-0 ml-2">{b.score}/{b.max}</span>
             </div>

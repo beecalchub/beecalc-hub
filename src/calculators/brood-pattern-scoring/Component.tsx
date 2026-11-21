@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -30,7 +31,7 @@ export function BroodPatternScoringCalculator() {
         <ResultRow label="Pattern score" value={result.score} highlight />
         <ResultRow label="Grade" value={result.grade} highlight />
         <ResultRow label="Empty cell percentage" value={result.emptyPercent} unit="%" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.diagnosis}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.diagnosis} />}</div>
       </ResultPanel>
     </div>
   );

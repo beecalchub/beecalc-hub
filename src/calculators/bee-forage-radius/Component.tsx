@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -39,7 +40,7 @@ export function BeeForageRadiusCalculator() {
         <ResultRow label="Total forage area" value={isMetric ? formatInteger(result.areaHectares) : formatInteger(result.areaAcres)} unit={isMetric ? 'hectares' : 'acres'} highlight />
         <ResultRow label="Radius" value={isMetric ? formatNumber(result.radiusKm) : formatNumber(result.radiusMiles)} unit={isMetric ? 'km' : 'miles'} />
         <ResultRow label="Area per colony" value={isMetric ? formatInteger(result.hectaresPerColony) : formatInteger(result.acresPerColony)} unit={isMetric ? 'ha/colony' : 'acres/colony'} highlight />
-        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{result.competitionLevel}</div>
+        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{<T v={result.competitionLevel} />}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[
         { label: 'Typical foraging radius', value: '2-3 miles (3-5 km)' },

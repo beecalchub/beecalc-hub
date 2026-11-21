@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -31,7 +32,7 @@ export function CommercialLaborSchedulingCalculator() {
         <ResultRow label="Hives per worker per day" value={fmt(result.hivesPerWorkerPerDay)} highlight />
         <ResultRow label="Days to complete" value={fmt(result.daysToComplete)} unit="days" highlight />
         <ResultRow label="Total labor hours" value={fmt(result.laborHoursTotal)} unit="hrs" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

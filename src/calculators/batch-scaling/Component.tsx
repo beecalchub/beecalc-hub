@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import { T, useT } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -14,6 +15,7 @@ import { calculateBatchScaling, EXAMPLE_RECIPES, type BatchIngredient } from './
 
 // Fix #11: mobile-friendly ingredient layout (stacked on small screens)
 export function BatchScalingCalculator() {
+  const t = useT();
   const [originalServings, setOriginalServings] = useState(1);
   const [targetServings, setTargetServings] = useState(5);
   const [ingredients, setIngredients] = useState<BatchIngredient[]>([
@@ -70,7 +72,7 @@ export function BatchScalingCalculator() {
     <div className="space-y-6">
       <Card>
         <div className="mb-4">
-          <p className="text-sm text-smoke-600 mb-2">Load an example recipe:</p>
+          <p className="text-sm text-smoke-600 mb-2"><T v={"Load an example recipe:"} /></p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(EXAMPLE_RECIPES).map(([key, recipe]) => (
               <button
@@ -80,7 +82,7 @@ export function BatchScalingCalculator() {
                 className="px-3.5 py-2 text-sm bg-honey-50 text-honey-700 rounded-full hover:bg-honey-100 transition-colors font-medium"
                 style={{ minHeight: 40 }}
               >
-                {recipe.name}
+                {<T v={recipe.name} />}
               </button>
             ))}
           </div>
@@ -106,7 +108,7 @@ export function BatchScalingCalculator() {
         </div>
 
         <p className="text-sm font-medium text-smoke-700 mb-2">
-          Ingredients (original amounts):
+          <T v={"Ingredients (original amounts):"} />
         </p>
         <div className="space-y-3">
           {ingredients.map((ing, i) => (
@@ -115,19 +117,19 @@ export function BatchScalingCalculator() {
               className="flex flex-col sm:flex-row gap-2 sm:items-end p-3 bg-smoke-50 rounded-lg"
             >
               <div className="flex-1">
-                <label className="text-xs text-smoke-500 mb-0.5 block">Name</label>
+                <label className="text-xs text-smoke-500 mb-0.5 block"><T v={"Name"} /></label>
                 <input
                   type="text"
                   value={ing.name}
                   onChange={(e) => updateIngredient(i, 'name', e.target.value)}
-                  placeholder="e.g. Sugar"
+                  placeholder={t('e.g. Sugar')}
                   className="input-field text-sm"
-                  aria-label={`Ingredient ${i + 1} name`}
+                  aria-label={t(`Ingredient ${i + 1} name`)}
                 />
               </div>
               <div className="flex gap-2">
                 <div className="w-24">
-                  <label className="text-xs text-smoke-500 mb-0.5 block">Amount</label>
+                  <label className="text-xs text-smoke-500 mb-0.5 block"><T v={"Amount"} /></label>
                   <input
                     type="number"
                     value={ing.amount}
@@ -136,18 +138,18 @@ export function BatchScalingCalculator() {
                     }
                     className="input-field text-sm"
                     step="0.1"
-                    aria-label={`Ingredient ${i + 1} amount`}
+                    aria-label={t(`Ingredient ${i + 1} amount`)}
                   />
                 </div>
                 <div className="w-20">
-                  <label className="text-xs text-smoke-500 mb-0.5 block">Unit</label>
+                  <label className="text-xs text-smoke-500 mb-0.5 block"><T v={"Unit"} /></label>
                   <input
                     type="text"
                     value={ing.unit}
                     onChange={(e) => updateIngredient(i, 'unit', e.target.value)}
-                    placeholder="lbs"
+                    placeholder={t('lbs')}
                     className="input-field text-sm"
-                    aria-label={`Ingredient ${i + 1} unit`}
+                    aria-label={t(`Ingredient ${i + 1} unit`)}
                   />
                 </div>
                 <div className="flex items-end">
@@ -155,7 +157,7 @@ export function BatchScalingCalculator() {
                     type="button"
                     onClick={() => removeIngredient(i)}
                     className="p-2.5 text-smoke-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                    aria-label={`Remove ingredient ${ing.name || i + 1}`}
+                    aria-label={t(`Remove ingredient ${ing.name || i + 1}`)}
                     style={{ minHeight: 44, minWidth: 44 }}
                   >
                     <svg
@@ -183,7 +185,7 @@ export function BatchScalingCalculator() {
           className="mt-3 text-sm text-honey-600 hover:text-honey-700 font-medium px-1 py-2"
           style={{ minHeight: 44 }}
         >
-          + Add ingredient
+          <T v={"+ Add ingredient"} />
         </button>
 
         <div className="flex gap-2 mt-4">

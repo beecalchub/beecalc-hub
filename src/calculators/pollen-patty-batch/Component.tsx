@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -71,8 +72,8 @@ export function PollenPattyBatchCalculator() {
       ]} />
 
       <div className="text-sm text-smoke-500 bg-smoke-50 rounded-lg p-4">
-        <p className="font-medium text-smoke-700 mb-1">Example usage:</p>
-        <p>Making 10 standard patties at 8 oz each? You&apos;ll need about 1.75 lbs of pollen substitute, 2.25 lbs of sugar, and small amounts of water and honey as binders. Mix to a Play-Doh consistency and flatten between wax paper.</p>
+        <p className="font-medium text-smoke-700 mb-1"><T v={"Example usage:"} /></p>
+        <p><T v={"Making 10 standard patties at 8 oz each? You'll need about 1.75 lbs of pollen substitute, 2.25 lbs of sugar, and small amounts of water and honey as binders. Mix to a Play-Doh consistency and flatten between wax paper."} /></p>
       </div>
     </div>
   );

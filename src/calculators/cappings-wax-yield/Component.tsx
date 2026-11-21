@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -98,8 +99,8 @@ export function CappingsWaxYieldCalculator() {
       ]} />
 
       <div className="text-sm text-smoke-500 bg-smoke-50 rounded-lg p-4">
-        <p className="font-medium text-smoke-700 mb-1">Example usage:</p>
-        <p>Extracting 200 lbs of honey with a hot knife yields roughly 4 lbs of raw cappings. After solar rendering, expect about 1.4 lbs of clean beeswax (22 oz) worth around $17, plus about 2 lbs of cappings honey.</p>
+        <p className="font-medium text-smoke-700 mb-1"><T v={"Example usage:"} /></p>
+        <p><T v={"Extracting 200 lbs of honey with a hot knife yields roughly 4 lbs of raw cappings. After solar rendering, expect about 1.4 lbs of clean beeswax (22 oz) worth around $17, plus about 2 lbs of cappings honey."} /></p>
       </div>
     </div>
   );

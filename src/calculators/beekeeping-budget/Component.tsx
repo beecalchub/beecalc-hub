@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -64,14 +65,14 @@ export function BeekeepingBudgetCalculator() {
       </ResultPanel>
 
       <Card>
-        <h3 className="font-display text-base text-smoke-800 mb-3">Budget Breakdown</h3>
+        <h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Budget Breakdown"} /></h3>
         {Object.entries(grouped).map(([cat, items]) => (
           <div key={cat} className="mb-4 last:mb-0">
-            <p className="text-sm font-medium text-smoke-700 mb-1">{cat}</p>
+            <p className="text-sm font-medium text-smoke-700 mb-1">{<T v={cat} />}</p>
             {items.map((item, i) => (
               <div key={i} className="flex justify-between text-sm py-1.5 border-b border-smoke-50">
-                <span className="text-smoke-600">{item.item}{item.recurring ? <span className="text-xs text-smoke-400 ml-1">(annual)</span> : ''}</span>
-                <span className="font-mono text-smoke-800 flex-shrink-0 ml-2">{formatCurrency(item.cost)}</span>
+                <span className="text-smoke-600">{<T v={item.item} />}{item.recurring ? <span className="text-xs text-smoke-400 ml-1"><T v={"(annual)"} /></span> : ''}</span>
+                <span className="font-mono text-smoke-800 flex-shrink-0 ml-2">{<T v={formatCurrency(item.cost)} />}</span>
               </div>
             ))}
           </div>
@@ -80,9 +81,9 @@ export function BeekeepingBudgetCalculator() {
 
       {result.tips.length > 0 && (
         <Card>
-          <h3 className="font-display text-base text-smoke-800 mb-3">Money-Saving Tips</h3>
+          <h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Money-Saving Tips"} /></h3>
           <ul className="space-y-2" role="list">{result.tips.map((t, i) => (
-            <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{t}</li>
+            <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={t} />}</li>
           ))}</ul>
         </Card>
       )}

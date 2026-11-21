@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -29,11 +30,11 @@ export function RoiCalculator() {
         <ResultRow label="Payback period" value={result.paybackYears > 0 ? `${formatNumber(result.paybackYears)} years` : 'N/A (no profit)'} />
         <ResultRow label={`${inputs.yearsToProject}-year total profit`} value={formatCurrency(result.totalProfit)} highlight />
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Year-by-Year Projection</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Year-by-Year Projection"} /></h3>
         <div className="space-y-1">{result.cumulativeByYear.map(y => (
           <div key={y.year} className="flex justify-between text-sm py-1.5 border-b border-smoke-100 last:border-0">
-            <span className="text-smoke-600">Year {y.year}</span>
-            <span className={`font-mono font-medium ${y.cumulative >= 0 ? 'text-meadow-600' : 'text-red-600'}`}>{formatCurrency(y.cumulative)}</span>
+            <span className="text-smoke-600"><T v={"Year "} />{y.year}</span>
+            <span className={`font-mono font-medium ${y.cumulative >= 0 ? 'text-meadow-600' : 'text-red-600'}`}>{<T v={formatCurrency(y.cumulative)} />}</span>
           </div>
         ))}</div>
       </Card>

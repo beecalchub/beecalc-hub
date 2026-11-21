@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -32,12 +33,12 @@ export function ApiaryKpiDashboardCalculator() {
       <ResultPanel>
         <ResultRow label="Overall health" value={fmt(result.overallHealth)} highlight />
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">KPIs</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"KPIs"} /></h3>
         <div className="space-y-1 max-h-80 overflow-y-auto">{result.kpis.map((row: Record<string, unknown>, i: number) => (
           <div key={i} className="flex justify-between text-sm py-1.5 border-b border-smoke-100">
-            <span className="text-smoke-700 font-medium">{String(row.metric)}</span>
-            <span className="text-smoke-500">{String(row.value)}</span>
-            <span className="text-smoke-500">{String(row.status)}</span>
+            <span className="text-smoke-700 font-medium">{<T v={String(row.metric)} />}</span>
+            <span className="text-smoke-500">{<T v={String(row.value)} />}</span>
+            <span className="text-smoke-500">{<T v={String(row.status)} />}</span>
           </div>
         ))}</div>
       </Card>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import { T } from '@/i18n/runtime';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -43,7 +44,7 @@ export function QueenRearingTimelineCalculator() {
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="graft-date" className="label-field">Graft / Split Date</label>
+            <label htmlFor="graft-date" className="label-field"><T v={"Graft / Split Date"} /></label>
             <input
               id="graft-date"
               type="date"
@@ -66,7 +67,7 @@ export function QueenRearingTimelineCalculator() {
           <ResetButton onReset={resetInputs} />
           <CopyResultButton getText={copyText} />
           <Button variant="secondary" size="sm" onClick={handleExportICal}>
-            {exported ? '✓ Downloaded!' : '📅 Export to iCal'}
+            {<T v={exported ? '✓ Downloaded!' : '📅 Export to iCal'} />}
           </Button>
         </div>
       </Card>
@@ -85,14 +86,14 @@ export function QueenRearingTimelineCalculator() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-baseline gap-2">
-                  <span className="text-xs font-mono text-smoke-400">Day {m.day}</span>
-                  <span className="text-xs text-smoke-400">{formatDate(m.date)}</span>
+                  <span className="text-xs font-mono text-smoke-400"><T v={"Day "} />{m.day}</span>
+                  <span className="text-xs text-smoke-400">{<T v={formatDate(m.date)} />}</span>
                 </div>
                 <p className={`text-sm font-medium ${m.critical ? 'text-honey-800' : 'text-smoke-700'}`}>
-                  {m.event}
+                  {<T v={m.event} />}
                   {m.critical && <span className="text-honey-500 ml-1">★</span>}
                 </p>
-                <p className="text-xs text-smoke-500 mt-0.5">{m.description}</p>
+                <p className="text-xs text-smoke-500 mt-0.5">{<T v={m.description} />}</p>
               </div>
             </div>
           ))}
@@ -100,8 +101,8 @@ export function QueenRearingTimelineCalculator() {
       </ResultPanel>
 
       <div className="text-sm text-smoke-500 bg-smoke-50 rounded-lg p-4">
-        <p className="font-medium text-smoke-700 mb-1">Example usage:</p>
-        <p>Select your graft date, review the timeline, then export to iCal to get reminders on your phone for each critical milestone. Star (★) marks the dates you must not miss.</p>
+        <p className="font-medium text-smoke-700 mb-1"><T v={"Example usage:"} /></p>
+        <p><T v={"Select your graft date, review the timeline, then export to iCal to get reminders on your phone for each critical milestone. Star (★) marks the dates you must not miss."} /></p>
       </div>
     </div>
   );

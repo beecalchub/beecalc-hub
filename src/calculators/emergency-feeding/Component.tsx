@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -41,19 +42,19 @@ export function EmergencyFeedingCalculator() {
       </Card>
       <ResultPanel>
         <div className={`p-4 rounded-lg border mb-3 ${urgencyColors[result.urgency]}`}>
-          <p className="font-medium text-base">{urgencyLabels[result.urgency]}</p>
+          <p className="font-medium text-base">{<T v={urgencyLabels[result.urgency]} />}</p>
         </div>
         <ResultRow label="Stores remaining" value={formatNumber(result.daysOfStoresRemaining)} unit="days" highlight />
         <ResultRow label="Recommended method" value={result.method} />
         <ResultRow label="Amount needed" value={result.amountNeeded} />
-        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{result.methodReason}</div>
+        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{<T v={result.methodReason} />}</div>
       </ResultPanel>
       <Card>
-        <h3 className="font-display text-base text-smoke-800 mb-3">Instructions</h3>
+        <h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Instructions"} /></h3>
         <ol className="space-y-2">{result.instructions.map((s, i) => (
           <li key={i} className="flex gap-3 text-sm text-smoke-700">
             <span className="flex-shrink-0 w-6 h-6 rounded-full bg-honey-100 text-honey-700 text-xs font-bold flex items-center justify-center">{i+1}</span>
-            <span className="pt-0.5">{s}</span>
+            <span className="pt-0.5">{<T v={s} />}</span>
           </li>
         ))}</ol>
       </Card>

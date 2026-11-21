@@ -1,3 +1,6 @@
+'use client';
+
+import { useT } from '@/i18n/runtime';
 import React from 'react';
 
 interface ResultRowProps {
@@ -10,6 +13,7 @@ interface ResultRowProps {
 
 // Fix #13: detail renders inline, not detached. Whole row is one semantic block.
 export function ResultRow({ label, value, unit, highlight = false, detail }: ResultRowProps) {
+  const t = useT();
   return (
     <div
       className={`py-2.5 ${
@@ -17,20 +21,20 @@ export function ResultRow({ label, value, unit, highlight = false, detail }: Res
       }`}
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5">
-        <span className="text-sm text-smoke-600">{label}</span>
+        <span className="text-sm text-smoke-600">{t(label)}</span>
         <div className="flex items-baseline gap-1.5">
           <span
             className={`font-mono font-medium ${
               highlight ? 'text-xl text-honey-800' : 'text-base text-smoke-800'
             }`}
           >
-            {value}
+            {t(value)}
           </span>
-          {unit && <span className="text-sm text-smoke-500">{unit}</span>}
+          {unit && <span className="text-sm text-smoke-500">{t.unit(unit, value)}</span>}
         </div>
       </div>
       {detail && (
-        <p className="text-xs text-smoke-400 mt-0.5">{detail}</p>
+        <p className="text-xs text-smoke-400 mt-0.5">{t(detail)}</p>
       )}
     </div>
   );

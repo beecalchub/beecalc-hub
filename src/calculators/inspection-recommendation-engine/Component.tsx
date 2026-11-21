@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Card } from '@/components/ui/Card';
@@ -33,10 +34,10 @@ export function InspectionRecommendationEngineCalculator() {
       <ResultPanel>
         <ResultRow label="Inspect now?" value={result.shouldInspect ? 'Yes' : 'No'} highlight />
         <ResultRow label="Priority" value={fmt(result.priority)} highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
-      {result.checklist.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Focus on</h3>
-        <ul className="space-y-2" role="list">{result.checklist.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.checklist.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Focus on"} /></h3>
+        <ul className="space-y-2" role="list">{result.checklist.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

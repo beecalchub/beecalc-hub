@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -42,7 +43,7 @@ export function HivePopulationEstimatorCalculator() {
         <ResultRow label="Bees emerging soon" value={formatInteger(result.emergingBees)} unit="bees" />
         <ResultRow label="Projected peak" value={formatInteger(result.projectedPeakPop)} unit="bees" />
         <div className={`mt-3 p-3 rounded-lg ${strengthColors[result.strength]}`}>
-          <p className="text-sm font-medium">{result.strengthLabel}</p>
+          <p className="text-sm font-medium">{<T v={result.strengthLabel} />}</p>
         </div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[

@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/i18n/runtime';
 import React, { useCallback } from 'react';
 
 interface NumberInputProps {
@@ -29,6 +30,7 @@ export function NumberInput({
   helpText,
   id,
 }: NumberInputProps) {
+  const t = useT();
   const inputId = id || `input-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   // Don't coerce intermediate typing states like "3." or "" to 0
@@ -50,8 +52,8 @@ export function NumberInput({
   return (
     <div>
       <label htmlFor={inputId} className="label-field">
-        {label}
-        {unit && <span className="text-smoke-400 font-normal ml-1">({unit})</span>}
+        {t(label)}
+        {unit && <span className="text-smoke-400 font-normal ml-1">({t(unit)})</span>}
       </label>
       <input
         id={inputId}
@@ -62,13 +64,13 @@ export function NumberInput({
         min={min}
         max={max}
         step={step}
-        placeholder={placeholder}
+        placeholder={t(placeholder)}
         aria-invalid={error ? 'true' : undefined}
         aria-describedby={error ? `${inputId}-error` : helpText ? `${inputId}-help` : undefined}
         className={`input-field ${error ? 'border-red-400 focus:ring-red-400' : ''}`}
       />
-      {error && <p id={`${inputId}-error`} className="mt-1 text-xs text-red-600" role="alert">{error}</p>}
-      {helpText && !error && <p id={`${inputId}-help`} className="mt-1 text-xs text-smoke-400">{helpText}</p>}
+      {error && <p id={`${inputId}-error`} className="mt-1 text-xs text-red-600" role="alert">{t(error)}</p>}
+      {helpText && !error && <p id={`${inputId}-help`} className="mt-1 text-xs text-smoke-400">{t(helpText)}</p>}
     </div>
   );
 }

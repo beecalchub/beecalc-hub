@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -125,8 +126,8 @@ export function WinterStoresCalculator() {
         )}
 
         <div className={`mt-4 p-4 rounded-lg border ${statusColors[result.status]}`}>
-          <p className="font-medium capitalize mb-1">Status: {result.status}</p>
-          <p className="text-sm">{result.statusMessage}</p>
+          <p className="font-medium capitalize mb-1"><T v={"Status: "} />{<T v={result.status} />}</p>
+          <p className="text-sm">{<T v={result.statusMessage} />}</p>
         </div>
       </ResultPanel>
 

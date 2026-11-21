@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -82,7 +83,7 @@ export function WaterRequirementEstimatorCalculator() {
         <ResultRow label="Refill every" value={result.refillFrequencyDays} unit="days" />
 
         <div className={`mt-3 p-4 rounded-lg border ${result.needsSupplementalWater ? 'bg-orange-50 border-orange-200 text-orange-700' : 'bg-meadow-50 border-meadow-200 text-meadow-700'}`}>
-          <p className="text-sm">{result.recommendation}</p>
+          <p className="text-sm">{<T v={result.recommendation} />}</p>
         </div>
       </ResultPanel>
 

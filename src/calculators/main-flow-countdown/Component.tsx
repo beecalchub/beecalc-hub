@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -21,9 +22,9 @@ export function MainFlowCountdownCalculator() {
     <div className="space-y-6">
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div><label htmlFor="date-todayDate" className="label-field">Today</label><input id="date-todayDate" type="date" value={inputs.todayDate} onChange={(e) => updateInputs({ todayDate: e.target.value })} className="input-field" /></div>
-          <div><label htmlFor="date-flowStartDate" className="label-field">Flow Start</label><input id="date-flowStartDate" type="date" value={inputs.flowStartDate} onChange={(e) => updateInputs({ flowStartDate: e.target.value })} className="input-field" /></div>
-          <div><label htmlFor="date-flowEndDate" className="label-field">Flow End</label><input id="date-flowEndDate" type="date" value={inputs.flowEndDate} onChange={(e) => updateInputs({ flowEndDate: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-todayDate" className="label-field"><T v={"Today"} /></label><input id="date-todayDate" type="date" value={inputs.todayDate} onChange={(e) => updateInputs({ todayDate: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-flowStartDate" className="label-field"><T v={"Flow Start"} /></label><input id="date-flowStartDate" type="date" value={inputs.flowStartDate} onChange={(e) => updateInputs({ flowStartDate: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-flowEndDate" className="label-field"><T v={"Flow End"} /></label><input id="date-flowEndDate" type="date" value={inputs.flowEndDate} onChange={(e) => updateInputs({ flowEndDate: e.target.value })} className="input-field" /></div>
           <NumberInput label="Current Supers On" value={inputs.superCount} onChange={(v) => updateInputs({ superCount: v })} min={0} max={10} step={1} />
         </div>
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
@@ -33,7 +34,7 @@ export function MainFlowCountdownCalculator() {
         <ResultRow label="Flow length" value={fmt(result.daysOfFlow)} unit="days" />
         <ResultRow label="Current phase" value={fmt(result.phase)} highlight />
         <ResultRow label="Supers needed now" value={fmt(result.supersNeededNow)} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -32,8 +33,8 @@ export function GraftAcceptanceRateCalculator() {
         <ResultRow label="Acceptance rate" value={fmt(result.acceptancePercent)} unit="%" highlight />
         <ResultRow label="Grade" value={fmt(result.grade)} highlight />
       </ResultPanel>
-      {result.tips.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Improvement Tips</h3>
-        <ul className="space-y-2" role="list">{result.tips.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.tips.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Improvement Tips"} /></h3>
+        <ul className="space-y-2" role="list">{result.tips.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

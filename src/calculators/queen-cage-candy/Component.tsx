@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -28,7 +29,7 @@ export function QueenCageCandyCalculator() {
         <ResultRow label="Powdered sugar needed" value={fmt(result.powderedSugarOz)} unit="oz" highlight />
         <ResultRow label="Honey needed" value={fmt(result.honeyOz)} unit="oz" />
         <ResultRow label="Total candy weight" value={fmt(result.total)} unit="oz" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.instructions}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.instructions} />}</div>
       </ResultPanel>
     </div>
   );

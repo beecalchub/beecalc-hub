@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -26,14 +27,14 @@ export function LocalBloomCalendarCalculator() {
       </Card>
       <ResultPanel>
         <ResultRow label="Main flow period" value={fmt(result.mainFlow)} highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.note} />}</div>
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Bloom Calendar</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Bloom Calendar"} /></h3>
         <div className="space-y-1 max-h-80 overflow-y-auto">{result.blooms.map((row: Record<string, unknown>, i: number) => (
           <div key={i} className="flex justify-between text-sm py-1.5 border-b border-smoke-100">
-            <span className="text-smoke-700 font-medium">{String(row.plant)}</span>
-            <span className="text-smoke-500">Starts: {String(row.start)}</span>
-            <span className="text-smoke-500">Peak: {String(row.peak)}</span>
+            <span className="text-smoke-700 font-medium">{<T v={String(row.plant)} />}</span>
+            <span className="text-smoke-500"><T v={"Starts: "} />{<T v={String(row.start)} />}</span>
+            <span className="text-smoke-500"><T v={"Peak: "} />{<T v={String(row.peak)} />}</span>
           </div>
         ))}</div>
       </Card>

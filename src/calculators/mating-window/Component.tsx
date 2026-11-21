@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -21,7 +22,7 @@ export function MatingWindowCalculator() {
     <div className="space-y-6">
       <Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div><label htmlFor="date-emergeDate" className="label-field">Queen Emerge Date</label><input id="date-emergeDate" type="date" value={inputs.emergeDate} onChange={(e) => updateInputs({ emergeDate: e.target.value })} className="input-field" /></div>
+          <div><label htmlFor="date-emergeDate" className="label-field"><T v={"Queen Emerge Date"} /></label><input id="date-emergeDate" type="date" value={inputs.emergeDate} onChange={(e) => updateInputs({ emergeDate: e.target.value })} className="input-field" /></div>
           <NumberInput label="Your Latitude" value={inputs.latitudeDegrees} onChange={(v) => updateInputs({ latitudeDegrees: v })} unit="°" min={15} max={60} step={1} />
         </div>
         <div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div>
@@ -30,7 +31,7 @@ export function MatingWindowCalculator() {
         <ResultRow label="Mating window opens" value={fmt(result.openingDay)} highlight />
         <ResultRow label="Optimal mating day" value={fmt(result.optimalDay)} highlight />
         <ResultRow label="Window closes" value={fmt(result.closingDay)} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.note} />}</div>
       </ResultPanel>
     </div>
   );

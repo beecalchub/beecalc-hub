@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -32,7 +33,7 @@ export function PollenHarvestCalculator() {
         <ResultRow label="Total season yield" value={result.totalLbsSeason} unit="lbs" highlight />
         <ResultRow label="Total kilograms" value={result.totalKgSeason} unit="kg" />
         <ResultRow label="Estimated value" value={formatCurrency(result.estimatedValue)} highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.warning}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.warning} />}</div>
       </ResultPanel>
     </div>
   );

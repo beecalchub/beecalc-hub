@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -39,7 +40,7 @@ export function HoneyMoistureCorrectionCalculator() {
       </Card>
       <ResultPanel>
         <div className={`p-3 rounded-lg border mb-3 ${result.isAcceptable ? 'bg-meadow-50 border-meadow-200 text-meadow-700' : 'bg-orange-50 border-orange-200 text-orange-700'}`}>
-          <p className="text-sm font-medium">{result.status}</p>
+          <p className="text-sm font-medium">{<T v={result.status} />}</p>
         </div>
         {result.needsDrying && (
           <>

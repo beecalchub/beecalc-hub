@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -32,7 +33,7 @@ export function NectarPotentialCalculator() {
         <ResultRow label="Nectar per acre" value={formatInteger(result.nectarLbsPerAcre)} unit="lbs" />
         <ResultRow label="Total nectar" value={formatInteger(result.totalNectarLbs)} unit="lbs" />
         <ResultRow label="Hives supportable" value={result.hivesSupported} unit="hives" highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.qualityNote}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.qualityNote} />}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[{ label: 'Nectar to honey', value: '~4 lbs nectar → 1 lb honey' }, { label: 'Surplus per hive', value: '~60 lbs (above bees\' own needs)' }, { label: 'Canola', value: 'Highest nectar producer (~300 lbs/acre)' }, { label: 'Clover', value: '~200 lbs nectar/acre' }]} />
     </div>

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo, useState, useCallback } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -24,9 +25,9 @@ export function ApiaryWideMiteDashboardCalculator() {
         <NumberInput label="Number of Hives" value={hiveCount} onChange={adjustCount} min={1} max={30} step={1} />
         <div className="space-y-2 mt-4 max-h-80 overflow-y-auto pr-1">{hives.map((h, i) => (
           <div key={i} className="flex flex-col sm:flex-row gap-2 p-3 bg-smoke-50 rounded-lg">
-            <div className="flex-1"><label className="text-xs text-smoke-500">Name</label><input type="text" value={h.name} onChange={(e) => updateHive(i, 'name', e.target.value)} className="input-field text-sm" /></div>
-            <div className="w-24"><label className="text-xs text-smoke-500">Mites/100</label><input type="number" value={h.mitesPerHundred} onChange={(e) => updateHive(i, 'mitesPerHundred', parseFloat(e.target.value) || 0)} className="input-field text-sm" min="0" step="0.5" /></div>
-            <div className="w-36"><label className="text-xs text-smoke-500">Last test</label><input type="date" value={h.lastTestDate} onChange={(e) => updateHive(i, 'lastTestDate', e.target.value)} className="input-field text-sm" /></div>
+            <div className="flex-1"><label className="text-xs text-smoke-500"><T v={"Name"} /></label><input type="text" value={h.name} onChange={(e) => updateHive(i, 'name', e.target.value)} className="input-field text-sm" /></div>
+            <div className="w-24"><label className="text-xs text-smoke-500"><T v={"Mites/100"} /></label><input type="number" value={h.mitesPerHundred} onChange={(e) => updateHive(i, 'mitesPerHundred', parseFloat(e.target.value) || 0)} className="input-field text-sm" min="0" step="0.5" /></div>
+            <div className="w-36"><label className="text-xs text-smoke-500"><T v={"Last test"} /></label><input type="date" value={h.lastTestDate} onChange={(e) => updateHive(i, 'lastTestDate', e.target.value)} className="input-field text-sm" /></div>
           </div>
         ))}</div>
         <div className="flex gap-2 mt-4"><ResetButton onReset={reset} /><CopyResultButton getText={copyText} /></div>
@@ -36,15 +37,15 @@ export function ApiaryWideMiteDashboardCalculator() {
         <ResultRow label="Highest level" value={formatPercent(result.maxMiteLevel)} />
         <ResultRow label="Hives above threshold" value={`${result.hivesAboveThreshold} of ${hiveCount}`} highlight={result.hivesAboveThreshold > 0} />
         <ResultRow label="Hives needing retest (>30 days)" value={result.hivesNeedingTest} />
-        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{result.overallRisk}</div>
+        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{<T v={result.overallRisk} />}</div>
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Per-Hive Breakdown</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Per-Hive Breakdown"} /></h3>
         <div className="space-y-1">{result.perHive.map((h) => (
           <div key={h.name} className="flex items-center justify-between text-sm py-2 border-b border-smoke-100 last:border-0">
-            <span className="text-smoke-700 font-medium">{h.name}</span>
+            <span className="text-smoke-700 font-medium">{<T v={h.name} />}</span>
             <div className="flex items-center gap-3">
-              {h.daysSinceTest > 30 && <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded">Retest due</span>}
-              <span className={`font-mono font-medium ${riskColors[h.risk]}`}>{formatPercent(h.level)} - {h.risk}</span>
+              {h.daysSinceTest > 30 && <span className="text-xs bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded"><T v={"Retest due"} /></span>}
+              <span className={`font-mono font-medium ${riskColors[h.risk]}`}>{<T v={formatPercent(h.level)} />} - {<T v={h.risk} />}</span>
             </div>
           </div>
         ))}</div>

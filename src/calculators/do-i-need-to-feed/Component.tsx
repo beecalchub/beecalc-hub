@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -44,8 +45,8 @@ export function DoINeedToFeedCalculator() {
 
       <ResultPanel>
         <div className={`p-5 rounded-xl border-2 mb-4 text-center ${answerColors[result.answer]}`}>
-          <p className="text-2xl font-display mb-1">{result.answerLabel}</p>
-          <p className="text-sm mt-1">{result.explanation}</p>
+          <p className="text-2xl font-display mb-1">{<T v={result.answerLabel} />}</p>
+          <p className="text-sm mt-1">{<T v={result.explanation} />}</p>
         </div>
         <ResultRow label="Urgency" value={result.urgency} />
         <ResultRow label="What to feed" value={result.whatToFeed} />

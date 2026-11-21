@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -61,7 +62,7 @@ export function DateIntervalCalculator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <div>
             <label htmlFor="di-start" className="label-field">
-              {mode === 'between' ? 'Start Date' : 'Date'}
+              {<T v={mode === 'between' ? 'Start Date' : 'Date'} />}
             </label>
             <input
               id="di-start"
@@ -74,7 +75,7 @@ export function DateIntervalCalculator() {
 
           {mode === 'between' ? (
             <div>
-              <label htmlFor="di-end" className="label-field">End Date</label>
+              <label htmlFor="di-end" className="label-field"><T v={"End Date"} /></label>
               <input
                 id="di-end"
                 type="date"
@@ -97,7 +98,7 @@ export function DateIntervalCalculator() {
 
         {mode !== 'between' && (
           <div className="mt-4">
-            <p className="text-sm text-smoke-600 mb-2">Quick beekeeping intervals:</p>
+            <p className="text-sm text-smoke-600 mb-2"><T v={"Quick beekeeping intervals:"} /></p>
             <div className="flex flex-wrap gap-2">
               {QUICK_INTERVALS.map((qi) => (
                 <button
@@ -111,7 +112,7 @@ export function DateIntervalCalculator() {
                   }`}
                   style={{ minHeight: 40 }}
                 >
-                  {qi.label}
+                  {<T v={qi.label} />}
                 </button>
               ))}
             </div>
@@ -143,14 +144,14 @@ export function DateIntervalCalculator() {
 
         {result.beekeepingContext && (
           <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800 font-medium">
-            🐝 {result.beekeepingContext}
+            🐝 {<T v={result.beekeepingContext} />}
           </div>
         )}
       </ResultPanel>
 
       <div className="text-sm text-smoke-500 bg-smoke-50 rounded-lg p-4">
-        <p className="font-medium text-smoke-700 mb-1">Example usage:</p>
-        <p>Grafted queen cells on April 10? Use &quot;Add days&quot; mode with 16 days to see emergence date, or 28 days to know when to check for eggs. The quick-interval buttons cover common beekeeping timelines.</p>
+        <p className="font-medium text-smoke-700 mb-1"><T v={"Example usage:"} /></p>
+        <p><T v={"Grafted queen cells on April 10? Use \"Add days\" mode with 16 days to see emergence date, or 28 days to know when to check for eggs. The quick-interval buttons cover common beekeeping timelines."} /></p>
       </div>
     </div>
   );

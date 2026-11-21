@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -31,11 +32,11 @@ export function ExpansionPlanningCalculator() {
         <ResultRow label="Hives to add" value={formatInteger(result.hivesNeeded)} highlight />
         <ResultRow label="Years to reach target" value={result.yearsToTarget} unit="years" highlight />
         <ResultRow label="Total expansion cost" value={formatCurrency(result.totalCost)} highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Year-by-Year Plan</h3>
-        <div className="overflow-x-auto -mx-4 sm:-mx-6"><table className="w-full text-sm min-w-[400px]"><thead><tr className="border-b border-smoke-200 text-left"><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium">Year</th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right">Start</th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right">Added</th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right">End</th><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium text-right">Cost</th></tr></thead>
-          <tbody>{result.yearlyPlan.map(y => (<tr key={y.year} className="border-b border-smoke-50"><td className="py-2 px-4 sm:px-6 text-smoke-700">Year {y.year}</td><td className="py-2 px-2 text-right text-smoke-600">{y.startHives}</td><td className="py-2 px-2 text-right text-meadow-600 font-medium">+{y.added}</td><td className="py-2 px-2 text-right text-smoke-800 font-medium">{y.endHives}</td><td className="py-2 px-4 sm:px-6 text-right text-smoke-800">{formatCurrency(y.cost)}</td></tr>))}</tbody>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Year-by-Year Plan"} /></h3>
+        <div className="overflow-x-auto -mx-4 sm:-mx-6"><table className="w-full text-sm min-w-[400px]"><thead><tr className="border-b border-smoke-200 text-left"><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium"><T v={"Year"} /></th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right"><T v={"Start"} /></th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right"><T v={"Added"} /></th><th scope="col" className="py-2 px-2 text-smoke-500 font-medium text-right"><T v={"End"} /></th><th scope="col" className="py-2 px-4 sm:px-6 text-smoke-500 font-medium text-right"><T v={"Cost"} /></th></tr></thead>
+          <tbody>{result.yearlyPlan.map(y => (<tr key={y.year} className="border-b border-smoke-50"><td className="py-2 px-4 sm:px-6 text-smoke-700"><T v={"Year "} />{y.year}</td><td className="py-2 px-2 text-right text-smoke-600">{y.startHives}</td><td className="py-2 px-2 text-right text-meadow-600 font-medium">+{y.added}</td><td className="py-2 px-2 text-right text-smoke-800 font-medium">{y.endHives}</td><td className="py-2 px-4 sm:px-6 text-right text-smoke-800">{<T v={formatCurrency(y.cost)} />}</td></tr>))}</tbody>
         </table></div>
       </Card>
     </div>

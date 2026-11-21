@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { categories, getCategoryBySlug } from '@/data/categories';
+import { SITE_URL } from '@/data/constants';
 import { getCalculatorsByCategory } from '@/data/registry';
 import { CalculatorCard } from '@/components/calculator/CalculatorCard';
 import { Breadcrumb } from '@/components/layout/Breadcrumb';
@@ -21,6 +22,13 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   return {
     title: cat.title,
     description: cat.description,
+    alternates: {
+      canonical: `${SITE_URL}/category/${slug}`,
+      languages: {
+        en: `${SITE_URL}/category/${slug}`,
+        ru: `${SITE_URL}/ru/category/${slug}`,
+      },
+    },
   };
 }
 

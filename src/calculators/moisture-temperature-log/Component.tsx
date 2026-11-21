@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -30,8 +31,8 @@ export function MoistureTemperatureLogCalculator() {
         <ResultRow label="Bottling ready?" value={result.bottlingReady ? 'Yes' : 'No'} highlight />
         <ResultRow label="Status" value={fmt(result.status)} highlight />
       </ResultPanel>
-      {result.concerns.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3">Concerns</h3>
-        <ul className="space-y-2" role="list">{result.concerns.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{x}</li>)}</ul>
+      {result.concerns.length > 0 && <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Concerns"} /></h3>
+        <ul className="space-y-2" role="list">{result.concerns.map((x: string, i: number) => <li key={i} className="text-sm text-smoke-700 flex gap-2"><span className="text-honey-500" aria-hidden="true">•</span>{<T v={x} />}</li>)}</ul>
       </Card>}
     </div>
   );

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -43,7 +44,7 @@ export function ProteinNeedEstimatorCalculator() {
         <ResultRow label="Patties needed (8 oz)" value={formatInteger(result.pattyCount8oz)} highlight />
         <ResultRow label="Pollen substitute" value={isMetric ? formatNumber(result.pollenSubKg) : formatNumber(result.pollenSubLbs)} unit={isMetric ? 'kg' : 'lbs'} />
         <ResultRow label="Estimated cost" value={formatCurrency(result.estimatedCost)} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[
         { label: 'Weekly need per hive', value: '~0.06 lbs per brood frame (when no pollen)' },

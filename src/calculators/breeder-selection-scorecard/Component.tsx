@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -32,7 +33,7 @@ export function BreederSelectionScorecardCalculator() {
         <ResultRow label="Breeder score" value={fmt(result.score)} highlight />
         <ResultRow label="Grade" value={fmt(result.grade)} highlight />
         <ResultRow label="Breeder-worthy?" value={result.breederWorthy ? 'Yes' : 'No'} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

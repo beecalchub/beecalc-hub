@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -30,7 +31,7 @@ export function InbreedingRiskLineageCalculator() {
       <ResultPanel>
         <ResultRow label="Inbreeding risk" value={fmt(result.inbreedingRiskPercent)} unit="%" highlight />
         <ResultRow label="Risk level" value={fmt(result.riskLevel)} highlight />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.recommendation}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.recommendation} />}</div>
       </ResultPanel>
     </div>
   );

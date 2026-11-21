@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -42,7 +43,7 @@ export function RetailPricingCalculator() {
         <ResultRow label="Price per oz" value={formatCurrency(result.pricePerOz)} />
         <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm">
           <p className="text-smoke-600">
-            <strong>Local comparison:</strong> At {formatCurrency(result.priceAtLocalAvg)}, your margin would be {formatPercent(result.marginAtLocalAvg)}.
+            <strong><T v={"Local comparison:"} /></strong> <T v={"At "} />{<T v={formatCurrency(result.priceAtLocalAvg)} />}<T v={", your margin would be "} />{<T v={formatPercent(result.marginAtLocalAvg)} />}.
           </p>
         </div>
       </ResultPanel>

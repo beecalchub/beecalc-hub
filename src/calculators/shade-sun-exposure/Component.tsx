@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -23,10 +24,10 @@ export function ShadeSunExposureCalculator() {
         <SelectInput label="Hive Entrance Faces" value={inputs.hiveFacing} onChange={(v) => updateInputs({ hiveFacing: v as ShadeInputs['hiveFacing'] })} options={[{ value: 'south', label: 'South' }, { value: 'east', label: 'East' }, { value: 'west', label: 'West' }, { value: 'north', label: 'North' }]} />
       </div><div className="flex gap-2 mt-4"><ResetButton onReset={resetInputs} /><CopyResultButton getText={copyText} /></div></Card>
       <ResultPanel title="Sun Exposure Assessment">
-        <div className="text-center mb-4"><p className="text-3xl font-mono font-bold text-smoke-800">{result.score}/100</p><span className={`inline-block mt-1 px-3 py-1 rounded-full text-sm font-medium ${ratingColors[result.rating]}`}>{result.rating}</span></div>
-        <div className="p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600 mb-3">{result.recommendation}</div>
-        {result.benefits.length > 0 && <div className="mb-2">{result.benefits.map((b, i) => <p key={i} className="text-sm text-meadow-700 flex gap-2 py-0.5"><span aria-hidden="true">✓</span>{b}</p>)}</div>}
-        {result.concerns.length > 0 && <div>{result.concerns.map((c, i) => <p key={i} className="text-sm text-orange-600 flex gap-2 py-0.5"><span aria-hidden="true">⚠</span>{c}</p>)}</div>}
+        <div className="text-center mb-4"><p className="text-3xl font-mono font-bold text-smoke-800">{result.score}/100</p><span className={`inline-block mt-1 px-3 py-1 rounded-full text-sm font-medium ${ratingColors[result.rating]}`}>{<T v={result.rating} />}</span></div>
+        <div className="p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600 mb-3">{<T v={result.recommendation} />}</div>
+        {result.benefits.length > 0 && <div className="mb-2">{result.benefits.map((b, i) => <p key={i} className="text-sm text-meadow-700 flex gap-2 py-0.5"><span aria-hidden="true">✓</span>{<T v={b} />}</p>)}</div>}
+        {result.concerns.length > 0 && <div>{result.concerns.map((c, i) => <p key={i} className="text-sm text-orange-600 flex gap-2 py-0.5"><span aria-hidden="true">⚠</span>{<T v={c} />}</p>)}</div>}
       </ResultPanel>
     </div>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -39,7 +40,7 @@ export function ApiaryProfitCalculator() {
       <ResultPanel>
         <ResultRow label="Net Profit" value={formatCurrency(result.netProfit)} highlight />
         <div className={`p-3 rounded-lg ${result.isProfitable ? 'bg-meadow-50 text-meadow-700' : 'bg-red-50 text-red-700'} text-sm font-medium mb-2`}>
-          {result.isProfitable ? '✓ Profitable' : '✗ Operating at a loss'}
+          {<T v={result.isProfitable ? '✓ Profitable' : '✗ Operating at a loss'} />}
         </div>
         <ResultRow label="Total revenue" value={formatCurrency(result.totalRevenue)} />
         <ResultRow label="Total costs" value={formatCurrency(result.totalCosts)} />

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -31,7 +32,7 @@ export function TrailerCapacityCalculator() {
         <ResultRow label="Hives per layer" value={fmt(result.hivesPerLayer)} />
         <ResultRow label="Total hives" value={fmt(result.totalHives)} highlight />
         <ResultRow label="Loaded weight" value={fmt(result.weightLbs)} unit="lbs" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.note} />}</div>
       </ResultPanel>
     </div>
   );

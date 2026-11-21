@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -28,13 +29,13 @@ export function NucBuildUpCalculator() {
       <ResultPanel>
         <ResultRow label="Final frames" value={result.finalFrames} unit="frames" highlight />
         <ResultRow label="Ready for full hive at week" value={result.readyAt} />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.note} />}</div>
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Projection</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Projection"} /></h3>
         <div className="space-y-1 max-h-64 overflow-y-auto">{result.weekly.map((row: Record<string, number>, i: number) => (
           <div key={i} className="flex justify-between text-sm py-1 border-b border-smoke-50">
-            <span className="text-smoke-600">Week: {row.week}</span>
-            <span className="text-smoke-600">Frames: {row.frames}</span>
+            <span className="text-smoke-600"><T v={"Week: "} />{row.week}</span>
+            <span className="text-smoke-600"><T v={"Frames: "} />{row.frames}</span>
           </div>
         ))}</div>
       </Card>

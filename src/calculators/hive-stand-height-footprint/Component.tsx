@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -31,7 +32,7 @@ export function HiveStandHeightFootprintCalculator() {
         <ResultRow label="Recommended stand height" value={fmt(result.recommendedHeightInches)} unit="in" highlight />
         <ResultRow label="Hive footprint" value={fmt(result.footprintSqIn)} unit="sq in" />
         <ResultRow label="Space between hives" value={fmt(result.spaceBetweenInches)} unit="in" />
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.note}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.note} />}</div>
       </ResultPanel>
     </div>
   );

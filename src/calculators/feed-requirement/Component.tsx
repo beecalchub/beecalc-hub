@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -50,7 +51,7 @@ export function FeedRequirementCalculator() {
           <ResultRow label="Syrup to make" value={isMetric ? formatNumber(result.syrupLiters) : result.syrupGallons} unit={isMetric ? 'liters' : 'gallons'} highlight />
           <ResultRow label="Sugar to buy" value={isMetric ? formatNumber(result.sugarKg) : formatNumber(result.sugarLbs)} unit={isMetric ? 'kg' : 'lbs'} />
         </>)}
-        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{result.feedingSchedule}</div>
+        <div className="mt-3 p-3 bg-honey-50 rounded-lg text-sm text-honey-800">{<T v={result.feedingSchedule} />}</div>
       </ResultPanel>
       <AssumptionsPanel assumptions={[
         { label: 'Spring consumption', value: '~0.15 lbs/frame/day' },

@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Card } from '@/components/ui/Card';
@@ -29,12 +30,12 @@ export function ColonyGrowthProjectionCalculator() {
       <ResultPanel>
         <ResultRow label="Final population" value={result.finalBees} unit="bees" highlight />
       </ResultPanel>
-      <Card><h3 className="font-display text-base text-smoke-800 mb-3">Projection</h3>
+      <Card><h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Projection"} /></h3>
         <div className="space-y-1 max-h-64 overflow-y-auto">{result.weeks.map((row: Record<string, number>, i: number) => (
           <div key={i} className="flex justify-between text-sm py-1 border-b border-smoke-50">
-            <span className="text-smoke-600">Week: {row.week}</span>
-            <span className="text-smoke-600">Bees: {row.bees}</span>
-            <span className="text-smoke-600">Brood: {row.brood}</span>
+            <span className="text-smoke-600"><T v={"Week: "} />{row.week}</span>
+            <span className="text-smoke-600"><T v={"Bees: "} />{row.bees}</span>
+            <span className="text-smoke-600"><T v={"Brood: "} />{row.brood}</span>
           </div>
         ))}</div>
       </Card>

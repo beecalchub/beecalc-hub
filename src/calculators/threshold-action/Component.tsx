@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { SelectInput } from '@/components/ui/SelectInput';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -62,23 +63,23 @@ export function ThresholdActionCalculator() {
         <ResultRow label="Your mite level" value={formatNumber(inputs.mitesPerHundred)} unit="per 100 bees" />
         <ResultRow label="Seasonal threshold" value={formatNumber(result.threshold)} unit="per 100 bees" />
         <div className={`mt-3 p-4 rounded-lg border ${urgencyColors[result.urgency]}`}>
-          <p className="font-medium text-base mb-1">{result.urgencyLabel}</p>
-          <p className="text-sm">{result.recommendation}</p>
+          <p className="font-medium text-base mb-1">{<T v={result.urgencyLabel} />}</p>
+          <p className="text-sm">{<T v={result.recommendation} />}</p>
         </div>
-        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{result.timeframeMessage}</div>
+        <div className="mt-3 p-3 bg-smoke-50 rounded-lg text-sm text-smoke-600">{<T v={result.timeframeMessage} />}</div>
       </ResultPanel>
 
       <Card>
-        <h3 className="font-display text-base text-smoke-800 mb-3">Treatment Options</h3>
+        <h3 className="font-display text-base text-smoke-800 mb-3"><T v={"Treatment Options"} /></h3>
         <div className="space-y-2">
           {result.treatmentOptions.map((opt) => (
             <div key={opt.name} className={`flex items-start gap-3 p-3 rounded-lg ${opt.suitable ? 'bg-meadow-50' : 'bg-smoke-50'}`}>
               <span className={`flex-shrink-0 mt-0.5 text-sm ${opt.suitable ? 'text-meadow-600' : 'text-smoke-400'}`}>
-                {opt.suitable ? '✓' : '✗'}
+                {<T v={opt.suitable ? '✓' : '✗'} />}
               </span>
               <div>
-                <p className={`text-sm font-medium ${opt.suitable ? 'text-smoke-800' : 'text-smoke-500'}`}>{opt.name}</p>
-                <p className="text-xs text-smoke-500">{opt.reason}</p>
+                <p className={`text-sm font-medium ${opt.suitable ? 'text-smoke-800' : 'text-smoke-500'}`}>{<T v={opt.name} />}</p>
+                <p className="text-xs text-smoke-500">{<T v={opt.reason} />}</p>
               </div>
             </div>
           ))}

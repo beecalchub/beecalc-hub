@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import { T } from '@/i18n/runtime';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { Card } from '@/components/ui/Card';
 import { ResultPanel } from '@/components/calculator/ResultPanel';
@@ -42,7 +43,7 @@ export function BreakEvenCalculator() {
         <ResultRow label="Contribution margin" value={formatCurrency(result.contributionMargin)} unit="per unit" />
         <ResultRow label="Margin %" value={formatPercent(result.contributionMarginPercent)} />
         <div className={`mt-3 p-4 rounded-lg border ${result.isProfitablePerUnit ? 'bg-meadow-50 border-meadow-200 text-meadow-700' : 'bg-red-50 border-red-200 text-red-700'}`}>
-          <p className="text-sm">{result.message}</p>
+          <p className="text-sm">{<T v={result.message} />}</p>
         </div>
       </ResultPanel>
 
@@ -54,8 +55,8 @@ export function BreakEvenCalculator() {
       ]} />
 
       <div className="text-sm text-smoke-500 bg-smoke-50 rounded-lg p-4">
-        <p className="font-medium text-smoke-700 mb-1">Example usage:</p>
-        <p>With $3,000 in annual fixed costs, $4.50 variable cost per jar, and $12 selling price, you need to sell 400 jars to break even. Every jar after that earns $7.50 in profit.</p>
+        <p className="font-medium text-smoke-700 mb-1"><T v={"Example usage:"} /></p>
+        <p><T v={"With $3,000 in annual fixed costs, $4.50 variable cost per jar, and $12 selling price, you need to sell 400 jars to break even. Every jar after that earns $7.50 in profit."} /></p>
       </div>
     </div>
   );
